@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>浏览周报 · 切换时间自动对比</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='rgb(79,70,229)'/><rect x='7' y='17' width='4' height='8' rx='1' fill='white'/><rect x='14' y='11' width='4' height='14' rx='1' fill='white'/><rect x='21' y='7' width='4' height='18' rx='1' fill='white'/></svg>">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#F1F5F9;color:#0F172A;
+font-family:system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;
+-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{display:flex;flex-direction:column;height:100vh}
+header{flex:0 0 auto;padding:18px 20px 0;background:linear-gradient(180deg,#F8FAFC 0%,#F1F5F9 100%);
+border-bottom:1px solid #E2E8F0}
+h1{font-size:20px;margin:0 0 2px;letter-spacing:.3px}
+.sub{color:#64748B;font-size:12.5px;margin-bottom:12px}
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.metric{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:10px 12px;min-width:0}
+.m-label{font-size:11.5px;color:#64748B;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-val{font-size:22px;font-weight:800;line-height:1.25;letter-spacing:-.3px;margin-top:2px}
+.m-delta{font-size:11.5px;font-weight:700;margin-top:3px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.m-delta .m-prev{color:#94A3B8;font-weight:500}
+.m-delta.up{color:#10B981}
+.m-delta.down{color:#EF4444}
+.m-delta.flat{color:#94A3B8}
+.m-delta.none{color:#94A3B8;font-weight:500}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:14px;align-items:center}
+.tab{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;
+border-radius:999px;border:1px solid #CBD5E1;background:#fff;color:#334155;
+font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s;
+white-space:nowrap}
+.tab:hover{border-color:#4F46E5;color:#4F46E5}
+.tab.active{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
+border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(79,70,229,.25)}
+.view-meta{margin-left:auto;font-size:11.5px;color:#94A3B8;font-weight:500}
+.view-meta b{color:#4F46E5;font-weight:700}
+.viewer{flex:1 1 auto;background:#fff;border-top:1px solid #E2E8F0;width:100%;border:none;display:block}
+footer{flex:0 0 auto;text-align:center;color:#94A3B8;font-size:11.5px;padding:8px 0 10px;background:#F1F5F9}
+@media(max-width:640px){
+  header{padding:14px 14px 0}
+  h1{font-size:17px}
+  .compare{grid-template-columns:repeat(2,1fr);gap:8px}
+  .m-val{font-size:19px}
+  .tab{height:30px;padding:0 11px;font-size:12px}
+  .view-meta{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>浏览周报</h1>
+    <div class="sub">顶部切换不同周 · 自动与上一周对比（总访问 / 站点数 / 日均 / 活跃天数）</div>
+    <div class="compare" id="compare">
+      <div class="metric"><div class="m-label">总访问次数</div><div class="m-val">—</div><div class="m-delta none">加载中…</div></div>
+      <div class="metric"><div class="m-label">站点数</div><div class="m-val">—</div><div class="m-delta none">加载中…</div></div>
+      <div class="metric"><div class="m-label">日均访问</div><div class="m-val">—</div><div class="m-delta none">加载中…</div></div>
+      <div class="metric"><div class="m-label">活跃天数</div><div class="m-val">—</div><div class="m-delta none">加载中…</div></div>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist">
+      <a class="tab" href="weekly-2026-08-31.html" data-src="weekly-2026-08-31.html" data-json="weekly-2026-08-31.json" data-prev="weekly-2026-08-24.json" data-range="2026-08-31 ~ 2026-09-06">2026-08-31 – 2026-09-06</a>
+      <a class="tab" href="weekly-2026-08-24.html" data-src="weekly-2026-08-24.html" data-json="weekly-2026-08-24.json" data-prev="weekly-2026-08-17.json" data-range="2026-08-24 ~ 2026-08-30">2026-08-24 – 2026-08-30</a>
+      <a class="tab" href="weekly-2026-08-17.html" data-src="weekly-2026-08-17.html" data-json="weekly-2026-08-17.json" data-prev="" data-range="2026-08-17 ~ 2026-08-23">2026-08-17 – 2026-08-23</a>
+      <span class="view-meta" id="meta">对比基准：<b id="metaLabel">2026-08-24 ~ 2026-08-30</b></span>
+    </nav>
+  </header>
+  <iframe id="viewer" class="viewer" title="周报预览"
+          src="weekly-2026-08-31.html"
+          sandbox="allow-same-origin allow-scripts allow-popups"></iframe>
+  <footer>素材库站点 · 浏览周报</footer>
+</div>
+<script>
+(function(){
+  var tabs = document.querySelectorAll('#tabs .tab');
+  var viewer = document.getElementById('viewer');
+  var metaLabel = document.getElementById('metaLabel');
+  var compare = document.getElementById('compare');
+  function fmt(n){ return Number(n).toLocaleString('zh-CN'); }
+  function deltaCard(cur, prev){
+    if(prev === '' || prev == null || isNaN(prev)){
+      return '<div class="m-delta none">无上一周对比</div>';
+    }
+    var c = Number(cur), p = Number(prev);
+    var d = (c - p) / p * 100;
+    var dir = d > 0.05 ? 'up' : (d < -0.05 ? 'down' : 'flat');
+    var arrow = d > 0.05 ? '▲' : (d < -0.05 ? '▼' : '—');
+    return '<div class="m-delta ' + dir + '">' + arrow + ' ' + Math.abs(d).toFixed(1) + '%'
+         + ' <span class="m-prev">vs 上周 ' + fmt(p) + '</span></div>';
+  }
+  function renderCompare(cur, prevData){
+    var prev = prevData || {};
+    var dailyCur = cur.active_days ? Math.round(cur.total / cur.active_days) : 0;
+    var dailyPrev = (prev.active_days && prev.total) ? Math.round(prev.total / prev.active_days) : '';
+    compare.innerHTML =
+      '<div class="metric"><div class="m-label">总访问次数</div><div class="m-val">' + fmt(cur.total) + '</div>'
+        + deltaCard(cur.total, prev.total) + '</div>'
+    + '<div class="metric"><div class="m-label">站点数</div><div class="m-val">' + fmt(cur.sites) + '</div>'
+        + deltaCard(cur.sites, prev.sites) + '</div>'
+    + '<div class="metric"><div class="m-label">日均访问</div><div class="m-val">' + fmt(dailyCur) + '</div>'
+        + deltaCard(dailyCur, dailyPrev) + '</div>'
+    + '<div class="metric"><div class="m-label">活跃天数</div><div class="m-val">' + fmt(cur.active_days) + '</div>'
+        + deltaCard(cur.active_days, prev.active_days) + '</div>';
+  }
+  function renderError(msg){
+    compare.querySelectorAll('.m-delta').forEach(function(el){ el.className='m-delta none'; el.textContent=msg; });
+  }
+  function loadCompare(tab){
+    var curUrl = tab.getAttribute('data-json');
+    var prevUrl = tab.getAttribute('data-prev');
+    var prevRange = '';
+    if(prevUrl){
+      var pt = Array.prototype.find.call(tabs, function(t){ return t.getAttribute('data-json') === prevUrl; });
+      if(pt) prevRange = pt.getAttribute('data-range');
+    }
+    if(metaLabel) metaLabel.textContent = prevRange ? prevRange : '（最旧一周，无对比）';
+    Promise.all([
+      fetch(curUrl).then(function(r){ return r.ok ? r.json() : Promise.reject('cur'); }),
+      prevUrl ? fetch(prevUrl).then(function(r){ return r.ok ? r.json() : Promise.reject('prev'); })
+              : Promise.resolve(null)
+    ]).then(function(res){
+      renderCompare(res[0], res[1] || {});
+    }).catch(function(){
+      renderError('数据加载失败');
+    });
+  }
+  function activate(tab){
+    tabs.forEach(function(t){ t.classList.remove('active'); t.removeAttribute('aria-selected'); });
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected','true');
+    var src = tab.getAttribute('data-src');
+    if(viewer.getAttribute('src') !== src) viewer.setAttribute('src', src);
+    loadCompare(tab);
+    try { history.replaceState(null,'','#'+encodeURIComponent(src)); } catch(e){}
+  }
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(e){
+      if(e.ctrlKey || e.metaKey || e.button === 1) return;
+      e.preventDefault();
+      activate(tab);
+    });
+  });
+  var init = null;
+  var hash = (location.hash||'').replace(/^#/,'');
+  if(hash) init = Array.prototype.find.call(tabs, function(t){ return t.getAttribute('data-src') === decodeURIComponent(hash); });
+  if(!init) init = tabs[0];
+  activate(init);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='rgb(79,70,229)'/><rect x='7' y='17' width='4' height='8' rx='1' fill='white'/><rect x='14' y='11' width='4' height='14' rx='1' fill='white'/><rect x='21' y='7' width='4' height='18' rx='1' fill='white'/></svg>">
+<title>设计学习引导 · 视觉传达自学导航</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2937; --muted:#6b7280;
+    --line:#e5e7eb; --blue:#185FA5; --purple:#534AB7; --teal:#0F6E56; --amber:#854F0B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;padding:0 20px 60px}
+  .wrap{max-width:880px;margin:0 auto}
+  .topnav{position:sticky;top:0;z-index:50;background:rgba(247,248,250,.92);backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid var(--line);margin:0 -20px 8px;padding:12px 20px}
+  .topnav a{font-size:13px;color:var(--blue);text-decoration:none;font-weight:600}
+  .topnav a:hover{text-decoration:underline}
+  header{margin:20px 0 28px}
+  h1{font-size:24px;font-weight:700;letter-spacing:.5px}
+  .sub{color:var(--muted);margin-top:6px;font-size:14px}
+  .path{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0 36px}
+  .step{border-radius:12px;padding:14px 12px;border:1px solid var(--line);background:var(--card)}
+  .step b{display:block;font-size:14px;margin-bottom:2px}
+  .step span{font-size:12px;color:var(--muted)}
+  .step small{display:block;font-size:12px;color:#374151;margin-top:6px}
+  section{margin-bottom:34px}
+  h2{font-size:18px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  h2 .tag{font-size:11px;font-weight:500;color:#fff;background:var(--blue);padding:2px 8px;border-radius:20px}
+  .note{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .item{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);transition:.15s}
+  .item:hover{border-color:#9ca3af;transform:translateY(-1px)}
+  .item a{font-weight:600;color:var(--ink);text-decoration:none;font-size:14px}
+  .item a:hover{color:var(--blue)}
+  .item .url{font-size:11px;color:var(--muted);word-break:break-all;margin:2px 0 4px}
+  .item p{font-size:12.5px;color:#4b5563}
+  .books{columns:2;column-gap:16px}
+  .book{break-inside:avoid;border-left:3px solid var(--purple);background:var(--card);
+    border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:12px}
+  .book b{font-size:13.5px}
+  .book span{font-size:12px;color:var(--muted);display:block;margin-top:2px}
+  .plan{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .plan li{list-style:none;padding:8px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+  .plan li:last-child{border-bottom:none}
+  .plan b{color:var(--teal)}
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px}
+  @media(max-width:640px){.path,.grid,.books{grid-template-columns:1fr;columns:1}}
+  #toTop{position:fixed;right:20px;bottom:24px;z-index:60;width:44px;height:44px;padding:0;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;
+    box-shadow:0 1px 2px rgba(31,41,55,.06),0 6px 18px rgba(31,41,55,.10);
+    opacity:0.45;transition:opacity .2s,border-color .15s,color .15s,transform .15s}
+  #toTop:hover{opacity:1;border-color:var(--blue);color:var(--blue);transform:scale(1.06)}
+  @media(max-width:640px){#toTop{right:14px;bottom:18px;width:40px;height:40px;opacity:0.5}}
+</style>
+</head>
+<body>
+<div class="topnav"><div class="wrap"><a href="index.html">← 返回素材库</a></div></div>
+<div class="wrap">
+  <header>
+    <h1>设计学习引导 · 视觉传达自学导航</h1>
+    <div class="sub">面向视觉传达专业 · 从 0 到能拿出作品集，按路线图走，别跳步</div>
+  </header>
+
+  <div class="path">
+    <div class="step" style="border-color:var(--blue)"><b style="color:var(--blue)">① 打基础</b><span>第 1–2 个月</span><small>排版四原则 · 色彩+网格 · PS/AI/Figma · 看书打底</small></div>
+    <div class="step" style="border-color:var(--purple)"><b style="color:var(--purple)">② 开眼界</b><span>持续每天</span><small>站酷/Behance · Dribbble 临摹 · Awwwards · 建灵感库</small></div>
+    <div class="step" style="border-color:var(--teal)"><b style="color:var(--teal)">③ 做项目</b><span>第 3–6 个月</span><small>虚构命题 · Logo/海报/包装/字体 · 攒作品集</small></div>
+    <div class="step" style="border-color:var(--amber)"><b style="color:var(--amber)">④ 建品牌</b><span>长期</span><small>个人作品站 · 简历投递 · 接单 · 迭代风格</small></div>
+  </div>
+
+  <section>
+    <h2><span class="tag">每天看</span>一、灵感采集（训练审美）</h2>
+    <p class="note">不用全看，挑 2–3 个固定刷，关键是「存下来 + 想清楚为什么好」。</p>
+    <div class="grid">
+      <div class="item"><a href="https://www.zcool.com.cn" target="_blank" rel="noopener">站酷 ZCOOL</a><div class="url">zcool.com.cn</div><p>国内最大设计师社区，作品+文章+招聘一体，中文友好。</p></div>
+      <div class="item"><a href="https://huaban.com" target="_blank" rel="noopener">花瓣网</a><div class="url">huaban.com</div><p>瀑布流灵感采集，建画板分类存图最方便。</p></div>
+      <div class="item"><a href="https://www.behance.net" target="_blank" rel="noopener">Behance</a><div class="url">behance.net</div><p>Adobe 全球作品集，看完整项目案例与排版思路。</p></div>
+      <div class="item"><a href="https://dribbble.com" target="_blank" rel="noopener">Dribbble</a><div class="url">dribbble.com</div><p>精致 UI/图标/插画 shots，适合临摹小元素。</p></div>
+      <div class="item"><a href="https://www.pinterest.com" target="_blank" rel="noopener">Pinterest</a><div class="url">pinterest.com</div><p>兴趣瀑布流，训练算法给你推高质量设计。</p></div>
+      <div class="item"><a href="https://www.awwwards.com" target="_blank" rel="noopener">Awwwards</a><div class="url">awwwards.com</div><p>全球最佳网页设计日榜，学交互与动效。</p></div>
+      <div class="item"><a href="https://www.siteinspire.com" target="_blank" rel="noopener">SiteInspire</a><div class="url">siteinspire.com</div><p>网页设计灵感，按行业/风格分类检索。</p></div>
+      <div class="item"><a href="https://www.uisdc.com" target="_blank" rel="noopener">优设网 UISDC</a><div class="url">uisdc.com</div><p>设计文章+教程+免费资源，中文干货多。</p></div>
+      <div class="item"><a href="https://www.ui.cn" target="_blank" rel="noopener">UI中国</a><div class="url">ui.cn</div><p>专注 UI 设计，作品/文章/比赛集合。</p></div>
+      <div class="item"><a href="https://designspiration.com" target="_blank" rel="noopener">Designspiration</a><div class="url">designspiration.com</div><p>设计灵感搜索引擎，可按色板检索。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">系统学</span>二、系统学习（课程）</h2>
+    <p class="note">工具靠练、理论靠书。课程用来「跟一遍形成体系」，别收藏了不学。</p>
+    <div class="grid">
+      <div class="item"><a href="https://www.bilibili.com" target="_blank" rel="noopener">Bilibili</a><div class="url">bilibili.com</div><p>搜「平面设计教程 / PS 入门 / 字体设计」，免费中文最全。</p></div>
+      <div class="item"><a href="https://huke88.com" target="_blank" rel="noopener">虎课网</a><div class="url">huke88.com</div><p>PS/AI 实战微课，跟着做项目上手快。</p></div>
+      <div class="item"><a href="https://uiiiui.com" target="_blank" rel="noopener">优优教程网</a><div class="url">uiiiui.com</div><p>优设旗下，大量免费中文设计教程。</p></div>
+      <div class="item"><a href="https://www.imooc.com" target="_blank" rel="noopener">慕课网</a><div class="url">imooc.com</div><p>体系化课程，适合补前端/网页基础。</p></div>
+      <div class="item"><a href="https://www.coursera.org" target="_blank" rel="noopener">Coursera · CalArts</a><div class="url">coursera.org</div><p>加州艺术学院平面设计专项，可旁听免费。</p></div>
+      <div class="item"><a href="https://tutsplus.com" target="_blank" rel="noopener">Envato Tuts+</a><div class="url">tutsplus.com</div><p>英文 PS/AI 入门课，步骤清晰。</p></div>
+      <div class="item"><a href="https://www.youtube.com/@thefutur" target="_blank" rel="noopener">The Futur</a><div class="url">youtube.com/@thefutur</div><p>Chris Do 讲设计商业与品牌，提升认知。</p></div>
+      <div class="item"><a href="https://ke.qq.com" target="_blank" rel="noopener">腾讯课堂 / 网易云课堂</a><div class="url">ke.qq.com</div><p>国内付费体系课，挑选评分高的机构。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">提效</span>三、工具平台</h2>
+    <p class="note">先精通一个（推荐 Figma 或 即时设计），AI 工具当辅助出概念，别本末倒置。</p>
+    <div class="grid">
+      <div class="item"><a href="https://www.figma.com" target="_blank" rel="noopener">Figma</a><div class="url">figma.com</div><p>主流 UI/协作工具，免费版够用，必学。</p></div>
+      <div class="item"><a href="https://js.design" target="_blank" rel="noopener">即时设计</a><div class="url">js.design</div><p>国产 Figma 平替，中文界面、本地化好。</p></div>
+      <div class="item"><a href="https://www.gaoding.com" target="_blank" rel="noopener">稿定设计</a><div class="url">gaoding.com</div><p>模板化快速出海报/社媒图，应急利器。</p></div>
+      <div class="item"><a href="https://www.canva.com" target="_blank" rel="noopener">Canva</a><div class="url">canva.com</div><p>海量模板，做演示/封面很快。</p></div>
+      <div class="item"><a href="https://www.adobe.com" target="_blank" rel="noopener">Adobe CC</a><div class="url">adobe.com</div><p>行业标配 PS/AI/ID，求职硬通货。</p></div>
+      <div class="item"><a href="https://jimeng.jianying.com" target="_blank" rel="noopener">即梦 AI</a><div class="url">jimeng.jianying.com</div><p>字节 AI 出图/视频，做概念稿很快。</p></div>
+      <div class="item"><a href="https://tongyi.aliyun.com" target="_blank" rel="noopener">通义万相</a><div class="url">tongyi.aliyun.com</div><p>阿里 AI 绘画，中文提示词友好。</p></div>
+      <div class="item"><a href="https://www.midjourney.com" target="_blank" rel="noopener">Midjourney</a><div class="url">midjourney.com</div><p>高质量概念图，需订阅，英文提示词。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">交流</span>四、设计社区 / 拿反馈</h2>
+    <p class="note">一个人练进步慢，把作品丢出去要反馈，才知道问题在哪。</p>
+    <div class="grid">
+      <div class="item"><a href="https://www.zcool.com.cn" target="_blank" rel="noopener">站酷 / UI中国</a><div class="url">zcool.com.cn · ui.cn</div><p>发作品、看同行、参与比赛，积累曝光。</p></div>
+      <div class="item"><a href="https://www.reddit.com/r/graphic_design" target="_blank" rel="noopener">Reddit r/graphic_design</a><div class="url">reddit.com/r/graphic_design</div><p>英文社区，每周反馈帖，练批判性眼光。</p></div>
+      <div class="item"><a href="https://discord.com" target="_blank" rel="noopener">Design Buddies (Discord)</a><div class="url">discord.com</div><p>设计互助 Discord，随时问问题、晒图。</p></div>
+      <div class="item"><a href="https://www.uisdc.com" target="_blank" rel="noopener">优设网公众号</a><div class="url">微信搜「优设」</div><p>每日设计干货、趋势解读、免费资源包。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">读书</span>五、书籍与阅读网站</h2>
+    <p class="note">书比视频更系统。电子书优先正版，支持作者。</p>
+    <div class="grid">
+      <div class="item"><a href="https://weread.qq.com" target="_blank" rel="noopener">微信读书</a><div class="url">weread.qq.com</div><p>电子书库大，设计书多，可划线笔记。</p></div>
+      <div class="item"><a href="https://book.douban.com" target="_blank" rel="noopener">豆瓣读书</a><div class="url">book.douban.com</div><p>找书/评分/书单，选书前先查评价。</p></div>
+      <div class="item"><a href="https://e.jd.com" target="_blank" rel="noopener">京东读书</a><div class="url">e.jd.com</div><p>正版电子书，活动多。</p></div>
+      <div class="item"><a href="https://www.duokan.com" target="_blank" rel="noopener">多看阅读</a><div class="url">duokan.com</div><p>排版精致，阅读体验好。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">书单</span>六、必看书单（按方向）</h2>
+    <div class="books">
+      <div class="book"><b>《写给大家看的设计书》</b><span>Robin Williams · 排版四原则入门经典，第一本就看它</span></div>
+      <div class="book"><b>《设计中的设计》</b><span>原研哉 · 设计哲学，建立审美底层</span></div>
+      <div class="book"><b>《平面设计中的网格系统》</b><span>Josef Müller-Brockmann · 版式圣经，必读</span></div>
+      <div class="book"><b>《设计元素》</b><span>Alex White · 空间/统一/层级讲透</span></div>
+      <div class="book"><b>《品牌设计法则》</b><span>徐适 · 国内品牌实战，接地气</span></div>
+      <div class="book"><b>《色彩设计的原理》</b><span>伊达千代 · 配色不再靠直觉</span></div>
+      <div class="book"><b>《简约至上》</b><span>Giles Colborne · 交互/信息精简四策略</span></div>
+      <div class="book"><b>《Don't Make Me Think》</b><span>Steve Krug · 可用性常识必读</span></div>
+      <div class="book"><b>《设计心理学》</b><span>唐纳德·诺曼 · 理解人与产品的关系</span></div>
+      <div class="book"><b>《IDEO，设计改变一切》</b><span>Tim Brown · 设计思维方法实践</span></div>
+      <div class="book"><b>《西文字体》</b><span>小林章 · 字体入门，排版更讲究</span></div>
+      <div class="book"><b>《创意，是一笔灵魂交易》</b><span>Julia Cameron · 对抗创作枯竭</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="tag">节奏</span>七、每周学习计划（可直接照做）</h2>
+    <div class="plan">
+      <ul>
+        <li><b>周一~周五</b>：每天 30 分钟逛站酷/Behance，存 3 张灵感到画板，写一句「好在哪」。</li>
+        <li><b>周二 / 周四</b>：跟一节 B站或虎课的工具课（PS/AI/Figma 各练一遍）。</li>
+        <li><b>周六</b>：做 1 个虚构命题（例：「给一家咖啡馆做 Logo + 名片」），完整走一遍。</li>
+        <li><b>周日</b>：整理本周作品进作品集，看 1 章书，写 3 条复盘。</li>
+        <li><b>每月</b>：挑 1 个完整项目（海报/包装/字体）打磨到能放简历。</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>为视觉传达自学整理 · 链接均指向官方网站 · 离线可用</footer>
+</div>
+  <button id="toTop" aria-label="返回顶部" title="返回顶部">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+  </button>
+  <script>
+    (function(){
+      var btn = document.getElementById('toTop');
+      if(!btn) return;
+      btn.onclick = function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); };
+    })();
+  </script>
+</body>
+</html>

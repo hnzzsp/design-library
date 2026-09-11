@@ -1,0 +1,13 @@
+{
+  "name": "素材库 · 设计素材速查站",
+  "short_name": "素材库",
+  "description": "聚合字体、图标、配色、样机、AI 工具、灵感等精选设计资源",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F7",
+  "theme_color": "#FF7A45",
+  "icons": [
+    { "src": "icons/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
