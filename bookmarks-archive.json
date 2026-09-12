@@ -330,7 +330,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 338,
+   "visits": 340,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -374,7 +374,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 240,
+   "visits": 239,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -408,7 +408,7 @@
    "folder": "收藏夹栏",
    "title": "视觉传达 · 大二成长规划器",
    "url": "https://05dc241f85d341f2a0764a7dd413a880.app.workbuddy.link/",
-   "visits": 31,
+   "visits": 32,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -644,7 +644,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 2152,
+   "visits": 2170,
    "category": "📺 社媒与日常",
    "is_local": false
   },
@@ -662,7 +662,7 @@
    "folder": "收藏夹栏",
    "title": "素材库 · 设计素材速查站",
    "url": "https://3000-0b963c2bb19c4203ad89457c6e318652.e2b.bj10.sandbox.cloudstudio.club/",
-   "visits": 84,
+   "visits": 90,
    "category": "📦 软件与工具站",
    "is_local": false
   },
@@ -678,7 +678,15 @@
    "folder": "收藏夹栏",
    "title": "大二上动态规划表 · 课程×周计划并线",
    "url": "https://hnzzsp.github.io/sophomore-planner/#week",
-   "visits": 55,
+   "visits": 73,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "素材库 · 设计素材速查站",
+   "url": "https://hnzzsp.github.io/design-library/",
+   "visits": 73,
    "category": "📦 软件与工具站",
    "is_local": false
   },
