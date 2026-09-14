@@ -633,6 +633,35 @@ TEMPLATE = '''<!DOCTYPE html>
     }
     #toTop:hover { opacity: 1; border-color: var(--accent); color: var(--accent); transform: scale(1.06); }
     @media (max-width: 520px) { #toTop { right: 14px; bottom: 18px; width: 40px; height: 40px; opacity: 0.5; } }
+    /* 悬停预览小窗：鼠标停在卡片上约 0.45 秒后弹出目标站的实时预览 */
+    #peek {
+      position: fixed; z-index: 70; width: 340px; height: 250px; left: 0; top: 0;
+      border-radius: 14px; overflow: hidden; pointer-events: none;
+      background: var(--card); border: 1px solid var(--border);
+      box-shadow: 0 2px 6px rgba(31,29,26,0.08), 0 18px 44px rgba(31,29,26,0.20);
+      visibility: hidden; opacity: 0; transform: translateY(6px) scale(0.98);
+      transition: opacity .16s ease, transform .16s ease;
+    }
+    #peek.show { visibility: visible; opacity: 1; transform: translateY(0) scale(1); }
+    .peek-head { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    .peek-fav { width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; }
+    .peek-txt { flex: 1; min-width: 0; }
+    .peek-title { font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .peek-host { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .peek-hint { font-size: 10px; color: var(--muted); flex-shrink: 0; padding: 2px 7px; border: 1px solid var(--border); border-radius: 999px; }
+    .peek-body { position: relative; width: 100%; height: calc(100% - 37px); background: #fff; }
+    .peek-frame { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+    .peek-mask {
+      position: absolute; inset: 0; display: grid; place-items: center; align-content: center;
+      background: var(--card); text-align: center; padding: 18px;
+      font-size: 12px; line-height: 1.6; color: var(--muted);
+    }
+    .peek-mask[hidden] { display: none; }
+    .peek-mask b { display: block; font-size: 13px; color: var(--text); margin-bottom: 4px; }
+    .peek-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); margin: 0 auto 10px; animation: peekpulse 1s infinite ease-in-out; }
+    @keyframes peekpulse { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+    /* 触屏/窄屏没有真实 hover，直接不启用预览 */
+    @media (hover: none), (max-width: 720px) { #peek { display: none !important; } }
     .hero { padding: 48px 0 28px; }
     .hero h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; }
     .hero h2 span { color: var(--accent); }
@@ -992,12 +1021,132 @@ TEMPLATE = '''<!DOCTYPE html>
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initToTop);
     else initToTop();
 
+    // 悬停预览小窗：鼠标停在卡片上约 0.45 秒后，在卡片旁弹出目标站的实时预览
+    (function () {
+      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const peek = document.getElementById('peek');
+      if (!canHover || !peek) return;
+      const frame = peek.querySelector('.peek-frame');
+      const mask = peek.querySelector('.peek-mask');
+      const fav = peek.querySelector('.peek-fav');
+      const titleEl = peek.querySelector('.peek-title');
+      const hostEl = peek.querySelector('.peek-host');
+      const W = 340, H = 250, GAP = 12, DELAY = 450;
+      let timer = null, loadTimer = null, currentUrl = '';
+
+      function setMask(html) { mask.innerHTML = html; mask.hidden = false; }
+      function clearMask() { mask.hidden = true; mask.innerHTML = ''; }
+
+      function place(card) {
+        const r = card.getBoundingClientRect();
+        let left = r.right + GAP;
+        if (left + W > window.innerWidth - 8) left = r.left - GAP - W;
+        if (left < 8) left = Math.max(8, Math.min(r.left, window.innerWidth - W - 8));
+        let top = r.top - 24;
+        const maxTop = window.innerHeight - H - 8;
+        if (top > maxTop) top = maxTop;
+        if (top < 8) top = 8;
+        peek.style.left = left + 'px';
+        peek.style.top = top + 'px';
+      }
+
+      function show(card) {
+        const url = card.dataset.url || '';
+        const t = card.querySelector('.title');
+        const h = card.querySelector('.host');
+        titleEl.textContent = t ? t.textContent.trim() : '';
+        hostEl.textContent = h ? h.textContent.trim() : '';
+        fav.style.visibility = 'hidden';
+        fav.removeAttribute('src');
+        currentUrl = url;
+        place(card);
+        peek.classList.add('show');
+
+        if (!/^https?:/i.test(url)) {
+          frame.removeAttribute('src');
+          setMask('<div><b>无法预览</b>本地文件或特殊协议，点击卡片打开</div>');
+          return;
+        }
+        if (location.protocol === 'https:' && url.indexOf('http://') === 0) {
+          frame.removeAttribute('src');
+          setMask('<div><b>该站不支持 HTTPS</b>浏览器会拦截不安全的嵌入内容，点击卡片在新标签打开</div>');
+          return;
+        }
+        setMask('<div><div class="peek-dot"></div>正在加载预览…</div>');
+        clearTimeout(loadTimer);
+        loadTimer = setTimeout(function () {
+          if (!mask.hidden) setMask('<div><b>预览加载超时</b>该站响应较慢或不允许嵌入，点击卡片在新标签打开</div>');
+        }, 6000);
+        frame.onload = function () {
+          clearTimeout(loadTimer);
+          let blocked = false;
+          try {
+            const href = frame.contentWindow.location.href;
+            if (!href || href === 'about:blank') blocked = true;
+          } catch (e) { blocked = false; }
+          if (blocked) {
+            setMask('<div><b>该站禁止嵌入预览</b>对方设了 X-Frame-Options / CSP 安全策略<br>点击卡片在新标签打开</div>');
+          } else {
+            clearMask();
+          }
+        };
+        frame.src = url;
+        try {
+          const u = new URL(url);
+          fav.onload = function () { fav.style.visibility = 'visible'; };
+          fav.onerror = function () { fav.style.visibility = 'hidden'; };
+          fav.src = u.origin + '/favicon.ico';
+        } catch (e) {}
+      }
+
+      function hide() {
+        clearTimeout(timer);
+        clearTimeout(loadTimer);
+        currentUrl = '';
+        peek.classList.remove('show');
+        setTimeout(function () {
+          if (!peek.classList.contains('show')) { frame.onload = null; frame.removeAttribute('src'); }
+        }, 220);
+      }
+
+      const results = document.getElementById('results');
+      results.addEventListener('mouseover', function (e) {
+        const card = e.target.closest && e.target.closest('a.card');
+        if (!card || !card.dataset.url) return;
+        if (card.dataset.url === currentUrl && peek.classList.contains('show')) return;
+        clearTimeout(timer);
+        timer = setTimeout(function () { show(card); }, DELAY);
+      });
+      results.addEventListener('mouseout', function (e) {
+        const card = e.target.closest && e.target.closest('a.card');
+        if (!card) return;
+        if (e.relatedTarget && card.contains(e.relatedTarget)) return;
+        clearTimeout(timer);
+        hide();
+      });
+      window.addEventListener('scroll', hide, { passive: true });
+    })();
+
     renderChips();
     render();
   </script>
   <button id="toTop" aria-label="返回顶部" title="返回顶部">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
   </button>
+  <div id="peek" aria-hidden="true">
+    <div class="peek-head">
+      <img class="peek-fav" alt="" src="">
+      <div class="peek-txt">
+        <div class="peek-title"></div>
+        <div class="peek-host"></div>
+      </div>
+      <span class="peek-hint">新标签打开</span>
+    </div>
+    <div class="peek-body">
+      <iframe class="peek-frame" title="站点预览" referrerpolicy="no-referrer"></iframe>
+      <div class="peek-mask" hidden></div>
+    </div>
+  </div>
 </body>
 </html>
 '''
