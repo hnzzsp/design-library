@@ -43,57 +43,39 @@ UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like 
 
 # ---------------- 归类规则 ----------------
 CATEGORIES = [
-    ('🎨 设计社区', ['www.topys.cn', '500px.com.cn', 'superopc.app', 'www.tuxuai.com',
-                    'www.ignoredone.space', 'yybs100.com', 'huaban.com',
-                    'www.zcool.com.cn', 'www.5iidea.com', 'www.gtn9.com']),
-    ('✨ 设计灵感', ['dribbble.com', 'a1.gallery', 'navbar.gallery', 'deck.gallery',
-                    'onepagelove.com', 'brandguidelines.net', 'supahero.io',
-                    'posts.design', 'recent.design', 'logobook.com',
-                    'bigbigwork.com', 'component.gallery']),
+    ('🎨 设计灵感与创意社区', ['www.topys.cn', '500px.com.cn', 'superopc.app', 'www.tuxuai.com',
+                              'www.ignoredone.space', 'yybs100.com', 'huaban.com']),
     ('🔤 字体资源', ['www.mianfeiziti.com', 'www.creativefabrica.com']),
-    ('✍️ 字体设计', ['typographicposters.com', 'www.youworkforthem.com',
-                    'typewolf.com', 'fontsarena.com', 'www.dafont.com']),
     ('⭐ 图标与矢量素材', ['freesvgicons.com', 'blog.csdn.net', 'iconmonstr.com', 'resourceboy.com',
                           'www.svgrepo.com', 'www.flaticon.com']),
     ('🖼 样机与印刷定制', ['www.free-mockup.com', 'rouzao.com']),
     ('🌈 配色工具', ['zhongguose.com', 'colorhunt.co', 'uigradients.com', 'colordrop.io']),
-    ('🧩 UI 纹理', ['grainient.supply', 'transparenttextures.com', 'www.heropatterns.com',
-                   'www.toptal.com/designers/subtlepatterns', 'patterninja.com',
-                   'www.transparentpng.com']),
-    ('🛠 在线设计工具', ['www.figma.com', 'www.photopea.com', 'ant.design']),
+    ('🛠 在线设计工具', ['www.figma.com', 'www.photopea.com']),
     ('🤖 AI 创作与生成工具', ['www.runninghub.cn', 'bytedance.larkoffice.com', 'pv.pixjam.cn',
                              'github.com/op7418', 'gezhe.com', 'www.koukoutu.com',
                              'vincentwei1021.github.io', 'github.com/Vincentwei1021',
-                             'tripo3d.com', 'hyper3d.ai', 'pixian.ai']),
+                             'tripo3d.com', 'hyper3d.ai']),
     ('⚡ AI 助手与生产力', ['www.workbuddy.cn', 'www.codebuddy.cn', 'www.trae.cn',
                            'chatgpt.com', 'claude.ai', 'www.doubao.com', 'kimi.moonshot.cn',
                            'chat.deepseek.com']),
-    ('🎬 视频与动效资源', ['aescripts.com', 'www.lookae.com', 'bilibili.dyqvideo.com',
-                          '60fps.design', 'dova-s.jp']),
-    ('📷 图片与素材', ['www.aigei.com', 'cn.bing.com', 'wallpaperbat.com',
-                      'www.pexels.com', 'pixabay.com', 'www.magnific.com',
-                      'contributor.hellorf.com']),
+    ('🎬 视频与动效资源', ['aescripts.com', 'www.lookae.com', 'bilibili.dyqvideo.com']),
+    ('📷 图片与素材', ['www.aigei.com', 'cn.bing.com', 'wallpaperbat.com']),
     ('🎓 学习规划与个人项目', ['share.traecontent.cn', 'q1zinp5jszz.feishu.cn',
-                              'acnbwxnqyofc.feishu.cn', 'www.canva.cn', 'app.workbuddy.link',
-                              'i.chaoxing.com', 'www.uxbaike.com', 'hnzzsp.github.io']),
+                              'acnbwxnqyofc.feishu.cn', 'www.canva.cn', 'app.workbuddy.link']),
     ('🎮 游戏与二次元', ['mzh.moegirl.org.cn', 'gfwiki.org', 'prts.wiki', 'www.acgice.com',
                         'www.twitch.tv', 'www.xiaoheihe.cn', 'www.gamemodels3d.com',
-                        'wtliker.com', 'steamcard.varegame.com', 'bandori.party', 'www.titaike.cn',
-                        'picrew.me', 'booth.pm']),
+                        'wtliker.com', 'steamcard.varegame.com', 'bandori.party', 'www.titaike.cn']),
     ('📺 社媒与日常', ['www.bilibili.com', 'www.xiaohongshu.com']),
     ('📦 软件与工具站', ['getr.top']),
 ]
 
 CAT_ACCENT = {
     '🔥 高频实测': '#E11D48',
-    '🎨 设计社区': '#FF7A45',
-    '✨ 设计灵感': '#FB7185',
+    '🎨 设计灵感与创意社区': '#FF7A45',
     '🔤 字体资源': '#8B5CF6',
-    '✍️ 字体设计': '#A855F7',
     '⭐ 图标与矢量素材': '#14B8A6',
     '🖼 样机与印刷定制': '#F59E0B',
     '🌈 配色工具': '#EC4899',
-    '🧩 UI 纹理': '#2DD4BF',
     '🛠 在线设计工具': '#3B82F6',
     '🤖 AI 创作与生成工具': '#10B981',
     '⚡ AI 助手与生产力': '#7C3AED',
@@ -395,14 +377,6 @@ def save_archive(groups):
 
 
 # ---------------- 无效链接检测与黑名单 ----------------
-# 只在特定浏览器/本机有效的地址：发布到线上（尤其手机端）必然是死链，同步时直接排除。
-UNUSABLE_PREFIXES = (
-    'edge://', 'chrome://', 'chrome-extension://', 'edge-extension://',
-    'about:', 'view-source:', 'data:', 'javascript:', 'blob:',
-)
-UNUSABLE_HOSTS = ('localhost', '127.0.0.1', '0.0.0.0', '[::1]')
-
-
 def load_dead_links():
     """返回 (url集合, 域名集合)。两个维度都记，合并时任一命中即排除。"""
     if os.path.exists(DEAD_PATH):
@@ -429,31 +403,13 @@ def add_dead_links(dead_urls):
               open(DEAD_PATH, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 
-def is_unusable(bm):
-    """判断是否为「线上必然打不开」的地址：浏览器内部页 / 本机地址。
-
-    这类书签（edge://newtab、chrome-extension://…、localhost:4321）在 PC 端看着正常，
-    发布到站点后（尤其手机端）点开必是死链。必须在合并阶段就排除，
-    否则并集模式每次同步都会把它从收藏夹里重新拉回来。
-    """
-    u = (bm.get('url') or '').strip()
-    low = u.lower()
-    if any(low.startswith(p) for p in UNUSABLE_PREFIXES):
-        return True
-    try:
-        host = (urlparse(u).hostname or '').lower()
-    except ValueError:
-        return False
-    return host in UNUSABLE_HOSTS
-
-
 def filter_blacklist(bookmarks):
-    """排除已知无效链接（URL / 域名命中黑名单）与浏览器内部页、本机地址。"""
+    """排除已知无效链接（URL 或域名命中黑名单的跳过）。"""
     du, dd = load_dead_links()
     out = []
     for bm in bookmarks:
         u = bm.get('url', '').rstrip('/')
-        if (u in du) or is_unusable(bm):
+        if u in du:
             continue
         try:
             host = (urlparse(bm.get('url', '')).hostname or '').lower().replace('www.', '')

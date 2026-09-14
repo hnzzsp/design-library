@@ -1,35 +1,11 @@
 {
- "🎨 设计社区": [
+ "🎨 设计灵感与创意社区": [
   {
    "folder": "收藏夹栏",
    "title": "花瓣网 · 设计灵感采集",
    "url": "https://huaban.com/discovery",
    "visits": 175,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站酷ZCOOL - 设计师们都在站酷",
-   "url": "https://www.zcool.com.cn/",
-   "visits": 122,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站酷挑战赛_设计赛事聚合页-站酷ZCOOL",
-   "url": "https://www.zcool.com.cn/events/challenge",
-   "visits": 122,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "创意星球 - 首页",
-   "url": "https://www.5iidea.com/",
-   "visits": 79,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -37,7 +13,7 @@
    "title": "图叙 · TUXU-一站式AI设计创作服务平台|所想即所得，所得即Skill",
    "url": "https://www.tuxuai.com/inspiration",
    "visits": 15,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -45,7 +21,7 @@
    "title": "图叙 · TUXU-一站式AI设计创作服务平台|所想即所得，所得即Skill",
    "url": "https://www.tuxuai.com/workspace",
    "visits": 15,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -53,7 +29,7 @@
    "title": "ignoredone · 明日方舟设计资源",
    "url": "https://www.ignoredone.space/index.php/arknights_design",
    "visits": 12,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -61,7 +37,7 @@
    "title": "ignoredone's space 设计网站",
    "url": "https://www.ignoredone.space/",
    "visits": 12,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -69,7 +45,7 @@
    "title": "灵感设计",
    "url": "https://superopc.app/work",
    "visits": 11,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -77,15 +53,7 @@
    "title": "平面设计师福利",
    "url": "https://yybs100.com/Article/design",
    "visits": 5,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "古田路9号-品牌创意/版权保护平台",
-   "url": "https://www.gtn9.com/index.aspx",
-   "visits": 1,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -93,7 +61,7 @@
    "title": "500px摄影社区-与全球摄影师交流分享",
    "url": "https://500px.com.cn/",
    "visits": 0,
-   "category": "🎨 设计社区",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   },
   {
@@ -101,113 +69,7 @@
    "title": "TOPYS | 创意内容平台 OPEN YOUR MIND",
    "url": "https://www.topys.cn/",
    "visits": 0,
-   "category": "🎨 设计社区",
-   "is_local": false
-  }
- ],
- "✨ 设计灵感": [
-  {
-   "folder": "收藏夹栏",
-   "title": "组件画廊",
-   "url": "https://component.gallery/",
-   "visits": 10,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Dribbble - 探索世界顶尖设计师与创意专业人士",
-   "url": "https://dribbble.com/",
-   "visits": 9,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "导航栏画廊——导航设计灵感",
-   "url": "https://www.navbar.gallery/",
-   "visits": 9,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "找灵感，上大作",
-   "url": "https://www.bigbigwork.com/home",
-   "visits": 9,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Website design inspiration gallery · A1",
-   "url": "https://www.a1.gallery/",
-   "visits": 6,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "大作|",
-   "url": "https://p.bigbigwork.com/searchnew.htm?siteId=198#/",
-   "visits": 6,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "标志手册——发现世界上最优秀的标志、符号和商标",
-   "url": "https://logobook.com/",
-   "visits": 4,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Deck.gallery - 精心设计的套牌，精心策划",
-   "url": "https://deck.gallery/",
-   "visits": 3,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "品牌风格指南文档展示",
-   "url": "https://www.brandguidelines.net/",
-   "visits": 3,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Supahero - Website hero section library",
-   "url": "https://supahero.io/",
-   "visits": 2,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "一页爱情——一页网站灵感与模板",
-   "url": "https://onepagelove.com/",
-   "visits": 2,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "社交帖子设计灵感——posts.design",
-   "url": "https://posts.design/",
-   "visits": 2,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "近期 — 设计灵感",
-   "url": "https://recent.design/",
-   "visits": 2,
-   "category": "✨ 设计灵感",
+   "category": "🎨 设计灵感与创意社区",
    "is_local": false
   }
  ],
@@ -226,24 +88,6 @@
    "url": "https://www.creativefabrica.com/freebies/free-fonts/ref/777922/",
    "visits": 0,
    "category": "🔤 字体资源",
-   "is_local": false
-  }
- ],
- "✍️ 字体设计": [
-  {
-   "folder": "收藏夹栏",
-   "title": "设计师字体与图形 - YouWorkForThem",
-   "url": "https://www.youworkforthem.com/",
-   "visits": 5,
-   "category": "✍️ 字体设计",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "拼写/图形海报",
-   "url": "https://www.typographicposters.com/",
-   "visits": 1,
-   "category": "✍️ 字体设计",
    "is_local": false
   }
  ],
@@ -365,16 +209,6 @@
    "is_local": false
   }
  ],
- "🧩 UI 纹理": [
-  {
-   "folder": "收藏夹栏",
-   "title": "无限渐变、动画渐变和AI生成背景",
-   "url": "https://grainient.supply/",
-   "visits": 2,
-   "category": "🧩 UI 纹理",
-   "is_local": false
-  }
- ],
  "🛠 在线设计工具": [
   {
    "folder": "收藏夹栏",
@@ -389,14 +223,6 @@
    "title": "Recents – Figma",
    "url": "https://www.figma.com/files/team/1565890566045474060/recents-and-sharing/recently-viewed?fuid=1565890562113726675",
    "visits": 115,
-   "category": "🛠 在线设计工具",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Ant Design - 一套企业级 UI 设计语言和 React 组件库",
-   "url": "https://ant.design/index-cn",
-   "visits": 11,
    "category": "🛠 在线设计工具",
    "is_local": false
   },
@@ -483,14 +309,6 @@
    "is_local": false
   },
   {
-   "folder": "收藏夹栏",
-   "title": "从图片中移除背景，免费，无需注册 - Pixian.AI",
-   "url": "https://pixian.ai/",
-   "visits": 2,
-   "category": "🤖 AI 创作与生成工具",
-   "is_local": false
-  },
-  {
    "folder": "收藏夹栏 / AI时代",
    "title": "PV Tool - 日式PV Visual生成",
    "url": "https://pv.pixjam.cn/",
@@ -535,26 +353,10 @@
  ],
  "🎬 视频与动效资源": [
   {
-   "folder": "收藏夹栏",
-   "title": "60fps - UI/UX animation inspiration for mobile & web apps",
-   "url": "https://60fps.design/",
-   "visits": 11,
-   "category": "🎬 视频与动效资源",
-   "is_local": false
-  },
-  {
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "After Effects 插件 - aescripts.com",
    "url": "https://aescripts.com/",
    "visits": 9,
-   "category": "🎬 视频与动效资源",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "免费背景音乐（音乐资料）19,202首歌曲免费下载|免费BGM DOVA-综合征",
-   "url": "https://dova-s.jp/",
-   "visits": 5,
    "category": "🎬 视频与动效资源",
    "is_local": false
   },
@@ -585,50 +387,10 @@
    "is_local": false
   },
   {
-   "folder": "收藏夹栏",
-   "title": "免费素材图片",
-   "url": "https://www.pexels.com/zh-cn/",
-   "visits": 10,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "海洛供稿平台",
-   "url": "https://contributor.hellorf.com/home",
-   "visits": 9,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "噪点 免扣PNG_元素素材 免费下载 - 爱给网",
    "url": "https://www.aigei.com/element/element/zao_dian_1/",
    "visits": 5,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Freepik 现已是 Magnific",
-   "url": "https://www.magnific.com/cn/freepik",
-   "visits": 4,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "高质量免费图片下载 | Magnific（前身为 Freepik）",
-   "url": "https://www.magnific.com/cn/%E5%9B%BE%E7%89%87#from_element=mainmenu",
-   "visits": 4,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "630万+张惊艳免费图片，随处使用——Pixabay",
-   "url": "https://pixabay.com/",
-   "visits": 3,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -644,54 +406,6 @@
  "🎓 学习规划与个人项目": [
   {
    "folder": "收藏夹栏",
-   "title": "SUN · 简历",
-   "url": "https://hnzzsp.github.io/portfolio/resume.html",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "SUN · 视觉传达设计 / 品牌视觉 · UI · 设计工程 — 个人作品集",
-   "url": "https://hnzzsp.github.io/portfolio/",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "后台管理 · 个人作品集",
-   "url": "https://hnzzsp.github.io/portfolio/admin.html",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "大二上动态规划表 · 课程×周计划并线",
-   "url": "https://hnzzsp.github.io/sophomore-planner/#week",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站点生成与预览工具 · Portfolio Builder",
-   "url": "https://hnzzsp.github.io/portfolio/builder.html",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "素材库 · 设计素材速查站",
-   "url": "https://hnzzsp.github.io/design-library/",
-   "visits": 246,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
    "title": "素材库 · 设计素材速查站",
    "url": "https://4121493668bc4ed28c901a947fe2a331.app.workbuddy.link/",
    "visits": 58,
@@ -700,41 +414,9 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "个人空间",
-   "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 35,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "个人空间",
-   "url": "https://i.chaoxing.com/base?ws=2&t=1788838594263",
-   "visits": 35,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
    "title": "视觉传达 · 大二成长规划器",
    "url": "https://05dc241f85d341f2a0764a7dd413a880.app.workbuddy.link/",
    "visits": 34,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Figma的基本认识 - 2026Figma学习笔记 - UX百科网 - 学设计上UX百科",
-   "url": "https://www.uxbaike.com/post/33878/33881",
-   "visits": 23,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "使用Figma设计界面 - 2026Figma学习笔记 - UX百科网 - 学设计上UX百科",
-   "url": "https://www.uxbaike.com/post/33878/33956",
-   "visits": 23,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -885,22 +567,6 @@
    "is_local": false
   },
   {
-   "folder": "收藏夹栏",
-   "title": "Picrew | つくってあそべる画像メーカー",
-   "url": "https://picrew.me/ja",
-   "visits": 11,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "BOOTH - The International Indie Art Marketplace",
-   "url": "https://booth.pm/zh-cn",
-   "visits": 9,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "萌百娘 - 萌娘百科 万物皆可萌的百科全书",
    "url": "https://mzh.moegirl.org.cn/%E8%90%8C%E7%99%BE%E5%A8%98",
@@ -1001,9 +667,369 @@
  ],
  "📦 软件与工具站": [
   {
+   "folder": "收藏夹栏",
+   "title": "SUN · 简历",
+   "url": "https://hnzzsp.github.io/portfolio/resume.html",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "SUN · 视觉传达设计 / 品牌视觉 · UI · 设计工程 — 个人作品集",
+   "url": "https://hnzzsp.github.io/portfolio/",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "后台管理 · 个人作品集",
+   "url": "https://hnzzsp.github.io/portfolio/admin.html",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "大二上动态规划表 · 课程×周计划并线",
+   "url": "https://hnzzsp.github.io/sophomore-planner/#week",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站点生成与预览工具 · Portfolio Builder",
+   "url": "https://hnzzsp.github.io/portfolio/builder.html",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "素材库 · 设计素材速查站",
+   "url": "https://hnzzsp.github.io/design-library/",
+   "visits": 246,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站酷ZCOOL - 设计师们都在站酷",
+   "url": "https://www.zcool.com.cn/",
+   "visits": 122,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站酷挑战赛_设计赛事聚合页-站酷ZCOOL",
+   "url": "https://www.zcool.com.cn/events/challenge",
+   "visits": 122,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "素材库 · 设计素材速查站",
+   "url": "https://3000-0b963c2bb19c4203ad89457c6e318652.e2b.bj10.sandbox.cloudstudio.club/",
+   "visits": 90,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "创意星球 - 首页",
+   "url": "https://www.5iidea.com/",
+   "visits": 79,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "个人空间",
+   "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
+   "visits": 35,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "个人空间",
+   "url": "https://i.chaoxing.com/base?ws=2&t=1788838594263",
+   "visits": 35,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Figma的基本认识 - 2026Figma学习笔记 - UX百科网 - 学设计上UX百科",
+   "url": "https://www.uxbaike.com/post/33878/33881",
+   "visits": 23,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "使用Figma设计界面 - 2026Figma学习笔记 - UX百科网 - 学设计上UX百科",
+   "url": "https://www.uxbaike.com/post/33878/33956",
+   "visits": 23,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "60fps - UI/UX animation inspiration for mobile & web apps",
+   "url": "https://60fps.design/",
+   "visits": 11,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Ant Design - 一套企业级 UI 设计语言和 React 组件库",
+   "url": "https://ant.design/index-cn",
+   "visits": 11,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Picrew | つくってあそべる画像メーカー",
+   "url": "https://picrew.me/ja",
+   "visits": 11,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "免费素材图片",
+   "url": "https://www.pexels.com/zh-cn/",
+   "visits": 10,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "组件画廊",
+   "url": "https://component.gallery/",
+   "visits": 10,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "BOOTH - The International Indie Art Marketplace",
+   "url": "https://booth.pm/zh-cn",
+   "visits": 9,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Dribbble - 探索世界顶尖设计师与创意专业人士",
+   "url": "https://dribbble.com/",
+   "visits": 9,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "导航栏画廊——导航设计灵感",
+   "url": "https://www.navbar.gallery/",
+   "visits": 9,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "找灵感，上大作",
+   "url": "https://www.bigbigwork.com/home",
+   "visits": 9,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "海洛供稿平台",
+   "url": "https://contributor.hellorf.com/home",
+   "visits": 9,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Website design inspiration gallery · A1",
+   "url": "https://www.a1.gallery/",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "大作|",
+   "url": "https://p.bigbigwork.com/searchnew.htm?siteId=198#/",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "免费背景音乐（音乐资料）19,202首歌曲免费下载|免费BGM DOVA-综合征",
+   "url": "https://dova-s.jp/",
+   "visits": 5,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "设计师字体与图形 - YouWorkForThem",
+   "url": "https://www.youworkforthem.com/",
+   "visits": 5,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Freepik 现已是 Magnific",
+   "url": "https://www.magnific.com/cn/freepik",
+   "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "你的名字 · 视觉传达 × 前端",
+   "url": "http://localhost:4321/",
+   "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "标志手册——发现世界上最优秀的标志、符号和商标",
+   "url": "https://logobook.com/",
+   "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "高质量免费图片下载 | Magnific（前身为 Freepik）",
+   "url": "https://www.magnific.com/cn/%E5%9B%BE%E7%89%87#from_element=mainmenu",
+   "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "630万+张惊艳免费图片，随处使用——Pixabay",
+   "url": "https://pixabay.com/",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Deck.gallery - 精心设计的套牌，精心策划",
+   "url": "https://deck.gallery/",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "品牌风格指南文档展示",
+   "url": "https://www.brandguidelines.net/",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Supahero - Website hero section library",
+   "url": "https://supahero.io/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "一页爱情——一页网站灵感与模板",
+   "url": "https://onepagelove.com/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "从图片中移除背景，免费，无需注册 - Pixian.AI",
+   "url": "https://pixian.ai/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "新标签页",
+   "url": "chrome-extension://ojliknkghkfaflcdckdfaebdnchahihb/index.html?login=1788829833741#",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "无限渐变、动画渐变和AI生成背景",
+   "url": "https://grainient.supply/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "社交帖子设计灵感——posts.design",
+   "url": "https://posts.design/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "近期 — 设计灵感",
+   "url": "https://recent.design/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "古田路9号-品牌创意/版权保护平台",
+   "url": "https://www.gtn9.com/index.aspx",
+   "visits": 1,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "拼写/图形海报",
+   "url": "https://www.typographicposters.com/",
+   "visits": 1,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
    "folder": "其他收藏夹",
    "title": "Get软件库 - Get软件库",
    "url": "https://getr.top/",
+   "visits": 0,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "新建标签页",
+   "url": "edge://newtab/",
    "visits": 0,
    "category": "📦 软件与工具站",
    "is_local": false
