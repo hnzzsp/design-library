@@ -869,6 +869,14 @@
  ],
  "🎮 游戏与二次元": [
   {
+   "folder": "收藏夹栏",
+   "title": "BOOTH - The International Indie Art Marketplace",
+   "url": "https://booth.pm/zh-cn",
+   "visits": 21,
+   "category": "🎮 游戏与二次元",
+   "is_local": false
+  },
+  {
    "folder": "其他收藏夹",
    "title": "高能玩家聚集地 - 小黑盒",
    "url": "https://www.xiaoheihe.cn/app/user/profile/78690646",
@@ -881,14 +889,6 @@
    "title": "战雷涂装中文网-四川嘉裕锦科技",
    "url": "https://wtliker.com/",
    "visits": 14,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "BOOTH - The International Indie Art Marketplace",
-   "url": "https://booth.pm/zh-cn",
-   "visits": 12,
    "category": "🎮 游戏与二次元",
    "is_local": false
   },
@@ -986,7 +986,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 2284,
+   "visits": 2290,
    "category": "📺 社媒与日常",
    "is_local": false
   },
