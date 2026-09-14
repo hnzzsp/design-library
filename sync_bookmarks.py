@@ -1003,7 +1003,9 @@ TEMPLATE = '''<!DOCTYPE html>
         .then(t => {
           const m = t.match(/<meta name="build" content="([^"]+)"/);
           if (m && m[1] && m[1] !== MY_BUILD) {
-            document.getElementById('updatebar').classList.add('show');
+            // 发现新版本：自动刷新以加载最新修复（例如悬停预览），避免被旧缓存卡住
+            try { sessionStorage.setItem('__reloaded_for_update__', m[1]); } catch (e) {}
+            location.reload(true);
           }
         })
         .catch(() => {});
@@ -1023,9 +1025,12 @@ TEMPLATE = '''<!DOCTYPE html>
 
     // 悬停预览小窗：鼠标停在卡片上约 0.45 秒后，在卡片旁弹出目标站的实时预览
     (function () {
-      const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
       const peek = document.getElementById('peek');
-      if (!canHover || !peek) return;
+      if (!peek) return;
+      // 只在“有 hover 能力”的设备启用；触屏由 CSS 的 @media (hover: none) 直接隐藏。
+      // 注意：旧版用 (hover: hover) and (pointer: fine)，部分桌面环境会把 pointer 报成 coarse 而被误杀，这里放宽。
+      const canHover = !window.matchMedia('(hover: none)').matches;
+      if (!canHover) return;
       const frame = peek.querySelector('.peek-frame');
       const mask = peek.querySelector('.peek-mask');
       const fav = peek.querySelector('.peek-fav');
@@ -1110,17 +1115,21 @@ TEMPLATE = '''<!DOCTYPE html>
       }
 
       const results = document.getElementById('results');
+      let hoverCard = null;
       results.addEventListener('mouseover', function (e) {
         const card = e.target.closest && e.target.closest('a.card');
         if (!card || !card.dataset.url) return;
-        if (card.dataset.url === currentUrl && peek.classList.contains('show')) return;
+        if (card === hoverCard) return;          // 同一张卡片内部移动：不重置计时器，否则延迟永远凑不满
+        hoverCard = card;
         clearTimeout(timer);
         timer = setTimeout(function () { show(card); }, DELAY);
       });
       results.addEventListener('mouseout', function (e) {
         const card = e.target.closest && e.target.closest('a.card');
         if (!card) return;
-        if (e.relatedTarget && card.contains(e.relatedTarget)) return;
+        if (e.relatedTarget && card.contains(e.relatedTarget)) return;   // 仍在卡片内部
+        if (card !== hoverCard) return;        // 离开的不是当前悬停卡片（切换时序），忽略以免误清
+        hoverCard = null;
         clearTimeout(timer);
         hide();
       });
