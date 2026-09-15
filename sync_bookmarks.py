@@ -690,9 +690,13 @@ TEMPLATE = '''<!DOCTYPE html>
     .chip .count { margin-left: 6px; opacity: .7; font-size: 11px; }
     /* 左侧竖排分类导航（圆点 + 文字，选中高亮），参考站点截图样式 */
     #sideNav {
-      position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
-      z-index: 60; display: none; flex-direction: column; gap: 2px;
+      position: fixed; left: 14px; top: 50%; transform: translateY(-50%);
+      z-index: 60; display: none; flex-direction: column; gap: 1px;
+      max-height: 86vh; overflow-y: auto; overscroll-behavior: contain;
+      padding: 6px 4px; border-radius: 14px;
+      scrollbar-width: none;
     }
+    #sideNav::-webkit-scrollbar { display: none; }
     @media (min-width: 1280px) { #sideNav { display: flex; } }
     .snav {
       display: flex; align-items: center; gap: 9px;
@@ -705,16 +709,18 @@ TEMPLATE = '''<!DOCTYPE html>
     }
     .snav span {
       font-size: 12px; line-height: 1; white-space: nowrap;
-      opacity: 0; transform: translateX(-4px); transition: opacity .15s ease, transform .15s ease;
+      max-width: 172px; overflow: hidden; text-overflow: ellipsis;
+      opacity: 0; transform: translateX(-4px);
+      transition: opacity .16s ease, transform .16s ease;
       background: var(--card); border: 1px solid var(--border); border-radius: 999px;
-      padding: 4px 10px; box-shadow: 0 2px 8px rgba(31,29,26,0.08);
+      padding: 4px 10px; box-shadow: 0 2px 8px rgba(31,29,26,0.10);
     }
+    /* 鼠标进到左栏：一次性展开全部文字，方便扫一眼找分类 */
+    #sideNav:hover .snav span { opacity: 1; transform: none; }
+    #sideNav:hover { background: var(--bg); box-shadow: 0 4px 18px rgba(31,29,26,0.06); }
     .snav:hover i { background: var(--muted); }
-    .snav:hover span, .snav.active span { opacity: 1; transform: none; }
-    .snav.active i { background: var(--accent); transform: scale(1.35); }
-    .snav.active span { color: var(--accent); font-weight: 700; border-color: var(--accent); }
-    /* 超宽屏左缘空间足够，文字常显 */
-    @media (min-width: 1560px) { .snav span { opacity: 1; transform: none; } }
+    .snav.active i { background: var(--accent); transform: scale(1.4); }
+    .snav.active span { opacity: 1; transform: none; color: var(--accent); font-weight: 700; border-color: var(--accent); }
     .section { margin-bottom: 40px; }
     .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
     .section-head h3 { font-size: 18px; font-weight: 700; }
@@ -925,6 +931,7 @@ TEMPLATE = '''<!DOCTYPE html>
 
         const sec = document.createElement('section');
         sec.className = 'section';
+        sec.dataset.cat = cat;   // 供左侧导航定位
         const color = catColor[cat] || hashColor(cat);
         const note = cat === '__HOT__'
           ? '<p class="hot-note">按真实访问次数排序（Edge 浏览历史 + 你在站内的点击）。存了不看的收藏已在各自分类里沉底并淡化显示。</p>'
@@ -948,7 +955,48 @@ TEMPLATE = '''<!DOCTYPE html>
       if (!container.children.length) {
         container.innerHTML = '<div class="empty">没有找到匹配的资源</div>';
       }
+      syncNavByScroll();   // 重渲染后刷新左侧导航高亮
     }
+
+    // ---- 左侧竖排导航：点击滚到对应分类 + 随滚动自动高亮（scroll spy）----
+    function navSections() {
+      return [].slice.call(document.querySelectorAll('#results .section[data-cat]'));
+    }
+    function scrollToCat(cat) {
+      if (cat === '全部') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        syncNavActive('全部');
+        return;
+      }
+      // 当前若被 chips 筛成了单分类，先恢复「全部」，保证目标区块存在再滚
+      if (activeCat !== '全部') { activeCat = '全部'; renderChips(); render(); }
+      const target = navSections().filter(function (s) { return s.dataset.cat === cat; })[0];
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.pageYOffset - 16;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+      syncNavActive(cat);
+    }
+    function syncNavActive(cat) {
+      const snav = document.getElementById('sideNav');
+      if (!snav) return;
+      snav.querySelectorAll('button').forEach(function (b) {
+        b.classList.toggle('active', b.dataset.cat === cat);
+      });
+    }
+    function syncNavByScroll() {
+      const secs = navSections();
+      if (!secs.length) return;
+      let cur = null;
+      secs.forEach(function (s) {
+        if (s.getBoundingClientRect().top <= 120) cur = s.dataset.cat;
+      });
+      syncNavActive(cur || '全部');
+    }
+    window.addEventListener('scroll', function () {
+      clearTimeout(window.__spy);
+      window.__spy = setTimeout(syncNavByScroll, 60);
+    }, { passive: true });
 
     function renderChips() {
       const all = Object.values(RAW).flat();
@@ -963,7 +1011,7 @@ TEMPLATE = '''<!DOCTYPE html>
       chips.querySelectorAll('button').forEach(btn => {
         btn.onclick = () => { activeCat = btn.dataset.cat; renderChips(); render(); };
       });
-      // 左侧竖排导航与 chips 同源同行为：选中态、点击过滤完全一致
+      // 左侧竖排导航：不再筛选，而是滚动到对应分类（浏览不被打断）
       const snav = document.getElementById('sideNav');
       if (snav) {
         snav.innerHTML = list.map(pair =>
@@ -972,7 +1020,7 @@ TEMPLATE = '''<!DOCTYPE html>
           '"><i></i><span>' + escapeHtml(pair[0]) + '</span></button>'
         ).join('');
         snav.querySelectorAll('button').forEach(btn => {
-          btn.onclick = () => { activeCat = btn.dataset.cat; renderChips(); render(); };
+          btn.onclick = () => scrollToCat(btn.dataset.cat);
         });
       }
     }
