@@ -580,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 272,
+   "visits": 273,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -947,38 +947,6 @@
    "visits": 0,
    "category": "🎮 游戏与二次元",
    "is_local": false
-  },
-  {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "少前百科GFwiki",
-   "url": "https://gfwiki.org/w/%E9%A6%96%E9%A1%B5",
-   "visits": 0,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
-   "folder": "其他收藏夹",
-   "title": "背包 - Twitch",
-   "url": "https://www.twitch.tv/drops/inventory",
-   "visits": 0,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
-   "folder": "其他收藏夹",
-   "title": "追风蜗牛小工具",
-   "url": "https://steamcard.varegame.com/twitchdrop",
-   "visits": 0,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
-  },
-  {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "首页 - PRTS - 玩家共同构筑的明日方舟中文Wiki",
-   "url": "https://prts.wiki/w/%E9%A6%96%E9%A1%B5",
-   "visits": 0,
-   "category": "🎮 游戏与二次元",
-   "is_local": false
   }
  ],
  "📺 社媒与日常": [
@@ -986,28 +954,12 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 2301,
-   "category": "📺 社媒与日常",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "小红书",
-   "url": "https://www.xiaohongshu.com/explore",
-   "visits": 560,
+   "visits": 2321,
    "category": "📺 社媒与日常",
    "is_local": false
   }
  ],
  "📦 软件与工具站": [
-  {
-   "folder": "收藏夹栏",
-   "title": "iconfont-阿里巴巴矢量图标库",
-   "url": "https://www.iconfont.cn/",
-   "visits": 8,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
   {
    "folder": "其他收藏夹",
    "title": "Get软件库 - Get软件库",

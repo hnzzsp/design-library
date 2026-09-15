@@ -1,6 +1,19 @@
 {
  "urls": [
-  "https://3000-0b963c2bb19c4203ad89457c6e318652.e2b.bj10.sandbox.cloudstudio.club"
+  "https://3000-0b963c2bb19c4203ad89457c6e318652.e2b.bj10.sandbox.cloudstudio.club",
+  "https://gfwiki.org/w/%E9%A6%96%E9%A1%B5",
+  "https://prts.wiki/w/%E9%A6%96%E9%A1%B5",
+  "https://steamcard.varegame.com/twitchdrop",
+  "https://www.iconfont.cn",
+  "https://www.twitch.tv/drops/inventory",
+  "https://www.xiaohongshu.com/explore"
  ],
- "domains": []
+ "domains": [
+  "gfwiki.org",
+  "iconfont.cn",
+  "prts.wiki",
+  "steamcard.varegame.com",
+  "twitch.tv",
+  "xiaohongshu.com"
+ ]
 }
