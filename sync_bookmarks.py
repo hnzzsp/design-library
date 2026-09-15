@@ -688,6 +688,33 @@ TEMPLATE = '''<!DOCTYPE html>
     .chip:hover { border-color: var(--accent); }
     .chip.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
     .chip .count { margin-left: 6px; opacity: .7; font-size: 11px; }
+    /* 左侧竖排分类导航（圆点 + 文字，选中高亮），参考站点截图样式 */
+    #sideNav {
+      position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+      z-index: 60; display: none; flex-direction: column; gap: 2px;
+    }
+    @media (min-width: 1280px) { #sideNav { display: flex; } }
+    .snav {
+      display: flex; align-items: center; gap: 9px;
+      background: none; border: 0; cursor: pointer; padding: 4px 2px;
+      font: inherit; color: var(--muted); text-align: left;
+    }
+    .snav i {
+      width: 9px; height: 9px; border-radius: 50%; background: var(--border);
+      flex-shrink: 0; transition: background .15s ease, transform .15s ease;
+    }
+    .snav span {
+      font-size: 12px; line-height: 1; white-space: nowrap;
+      opacity: 0; transform: translateX(-4px); transition: opacity .15s ease, transform .15s ease;
+      background: var(--card); border: 1px solid var(--border); border-radius: 999px;
+      padding: 4px 10px; box-shadow: 0 2px 8px rgba(31,29,26,0.08);
+    }
+    .snav:hover i { background: var(--muted); }
+    .snav:hover span, .snav.active span { opacity: 1; transform: none; }
+    .snav.active i { background: var(--accent); transform: scale(1.35); }
+    .snav.active span { color: var(--accent); font-weight: 700; border-color: var(--accent); }
+    /* 超宽屏左缘空间足够，文字常显 */
+    @media (min-width: 1560px) { .snav span { opacity: 1; transform: none; } }
     .section { margin-bottom: 40px; }
     .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
     .section-head h3 { font-size: 18px; font-weight: 700; }
@@ -936,6 +963,18 @@ TEMPLATE = '''<!DOCTYPE html>
       chips.querySelectorAll('button').forEach(btn => {
         btn.onclick = () => { activeCat = btn.dataset.cat; renderChips(); render(); };
       });
+      // 左侧竖排导航与 chips 同源同行为：选中态、点击过滤完全一致
+      const snav = document.getElementById('sideNav');
+      if (snav) {
+        snav.innerHTML = list.map(pair =>
+          '<button class="snav' + (activeCat === pair[0] ? ' active' : '') +
+          '" data-cat="' + escapeHtml(pair[0]) + '" title="' + escapeHtml(pair[0]) +
+          '"><i></i><span>' + escapeHtml(pair[0]) + '</span></button>'
+        ).join('');
+        snav.querySelectorAll('button').forEach(btn => {
+          btn.onclick = () => { activeCat = btn.dataset.cat; renderChips(); render(); };
+        });
+      }
     }
 
     document.getElementById('search').addEventListener('input', render);
@@ -1139,6 +1178,7 @@ TEMPLATE = '''<!DOCTYPE html>
     renderChips();
     render();
   </script>
+  <nav id="sideNav" aria-label="分类导航"></nav>
   <button id="toTop" aria-label="返回顶部" title="返回顶部">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
   </button>
