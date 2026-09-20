@@ -535,18 +535,18 @@
  ],
  "🎬 视频与动效资源": [
   {
-   "folder": "收藏夹栏",
-   "title": "60fps - UI/UX animation inspiration for mobile & web apps",
-   "url": "https://60fps.design/",
-   "visits": 11,
+   "folder": "其他收藏夹 / 新建文件夹",
+   "title": "After Effects 插件 - aescripts.com",
+   "url": "https://aescripts.com/",
+   "visits": 12,
    "category": "🎬 视频与动效资源",
    "is_local": false
   },
   {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "After Effects 插件 - aescripts.com",
-   "url": "https://aescripts.com/",
-   "visits": 9,
+   "folder": "收藏夹栏",
+   "title": "60fps - UI/UX animation inspiration for mobile & web apps",
+   "url": "https://60fps.design/",
+   "visits": 11,
    "category": "🎬 视频与动效资源",
    "is_local": false
   },
@@ -580,7 +580,23 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 272,
+   "visits": 296,
+   "category": "📷 图片与素材",
+   "is_local": false
+  },
+  {
+   "folder": "其他收藏夹 / 新建文件夹",
+   "title": "噪点 免扣PNG_元素素材 免费下载 - 爱给网",
+   "url": "https://www.aigei.com/element/element/zao_dian_1/",
+   "visits": 11,
+   "category": "📷 图片与素材",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "爱给网_音效配乐_3D模型_视频素材_免费下载",
+   "url": "https://www.aigei.com/?wd=%E7%88%B1%E7%BB%99%E7%BD%91%2C&msclkid=6eb44781ced51fabe6592d2d7d9a5d8d",
+   "visits": 11,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -597,14 +613,6 @@
    "title": "海洛供稿平台",
    "url": "https://contributor.hellorf.com/home",
    "visits": 9,
-   "category": "📷 图片与素材",
-   "is_local": false
-  },
-  {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "噪点 免扣PNG_元素素材 免费下载 - 爱给网",
-   "url": "https://www.aigei.com/element/element/zao_dian_1/",
-   "visits": 5,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -694,7 +702,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 66,
+   "visits": 72,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -702,7 +710,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=2&t=1788838594263",
-   "visits": 66,
+   "visits": 72,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -954,7 +962,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 2414,
+   "visits": 2438,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -962,8 +970,40 @@
  "📦 软件与工具站": [
   {
    "folder": "收藏夹栏",
+   "title": "小森平的免费下载音效",
+   "url": "https://taira-komori.net/freesoundcn.html",
+   "visits": 5,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "生活上的动作1～小森平的免费下载音效",
+   "url": "https://taira-komori.net/daily01cn.html",
+   "visits": 5,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Docin.com豆丁网-分享文档 发现价值",
+   "url": "https://www.docin.com/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "BEI-AeCreativeAssistance Tool （BEI-Ae创作辅助工具）",
    "url": "https://bei-ae-creative-assistane-tool.pages.dev/",
+   "visits": 1,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "免费音效库 - SoundDino",
+   "url": "https://sounddino.com/zh/effects/",
    "visits": 1,
    "category": "📦 软件与工具站",
    "is_local": false
