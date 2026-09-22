@@ -697,7 +697,14 @@ TEMPLATE = '''<!DOCTYPE html>
       scrollbar-width: none;
     }
     #sideNav::-webkit-scrollbar { display: none; }
-    @media (min-width: 1280px) { #sideNav { display: flex; } }
+    @media (min-width: 1024px) { #sideNav { display: flex; } }
+    /* 1024~1279px：内容容器给左侧导航让位。
+       注意 .wrap 是 max-width:1200 + margin auto，视口 1280 时内容左边缘在 x=40，
+       圆点占 x=14~31 刚好不压卡片；一旦低于 1280，内容左缘退到 x=20 就会被压住，
+       所以这个区间必须把左内边距推到 46px。改阈值时这两条要一起改。 */
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .wrap { padding-left: 46px; }
+    }
     .snav {
       display: flex; align-items: center; gap: 9px;
       background: none; border: 0; cursor: pointer; padding: 4px 2px;
