@@ -158,5 +158,29 @@ table.detail tbody tr:hover{background:var(--card2)}
 @media(max-width:640px){
   .vhero h1{font-size:34px}
   .wrap,.topbar,.vhero{padding-left:18px;padding-right:18px}
-  .pool{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 }
+
+/* ===== UP 按钮综合对比（实时预览模式） ===== */
+button.up-card{font-family:inherit}
+.up-card:active{transform:translateY(-1px) scale(.98)}
+.up-card.on .vc{color:var(--pink);font-weight:700}
+.up-card .tick{border:none;outline:none}
+
+/* 实时预览徽标 */
+.live-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--green);
+  background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.4);padding:3px 10px;border-radius:999px;margin-right:10px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:livePulse 1.2s ease-in-out infinite}
+@keyframes livePulse{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(63,185,80,.5)}
+  50%{opacity:.55;box-shadow:0 0 0 5px rgba(63,185,80,0)}
+}
+
+/* 柱状行内 UP 头像 */
+.bar-row .ml{display:flex;align-items:center;gap:6px}
+.bar-row .ml img{width:20px;height:20px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.legend-av{width:16px;height:16px;border-radius:50%;object-fit:cover}
+
+/* 明细表：合计 + 均值副行 */
+table.detail td b{color:var(--text)}
+td .avg{display:block;font-size:11px;color:var(--text3);font-weight:400;margin-top:2px;font-family:"SF Mono",ui-monospace,Consolas,monospace}
+.owner-th{justify-content:flex-start}

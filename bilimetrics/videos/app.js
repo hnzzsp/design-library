@@ -133,18 +133,20 @@ function renderInteractionCharts(items) {
   }).join('');
   document.getElementById('interBars').innerHTML = charts;
 
-  // 分类统计对比表：行＝统计项，列＝UP
+  // 分类统计对比表：行＝统计项（对所选 UP 聚合），列＝分类
   const statRows = [
-    { label: '合计', pick: it => it.metrics[m_].sum },
-    { label: '单视频均值', pick: it => it.metrics[m_].avg },
-    { label: '最高单视频', pick: it => it.metrics[m_].max },
+    { label: '合计', calc: ms => ms.reduce((a, b) => a + b, 0) },
+    { label: 'UP 均值', calc: ms => Math.round(ms.reduce((a, b) => a + b, 0) / ms.length) },
+    { label: '最高单视频', calc: ms => Math.max(...ms) },
   ];
+  const metricsOf = (key, field) => items.map(it => it.metrics[key][field]);
   const head = `<thead><tr><th>统计项</th>${INTER_METRICS.map(m =>
     `<th>${m.label}</th>`).join('')}<th>总互动</th></tr></thead>`;
-  const body = statRows.map(r => `<tr><td>${r.label}</td>${INTER_METRICS.map(m => {
-    const m_ = m.key;
-    return `<td>${fmtInt(r.pick(items[0]))}</td>`;
-  }).join('')}<td><b>${fmtInt(r.pickT ? 0 : items.reduce((a, it) => a + it.metrics._total.sum, 0))}</b></td></tr>`).join('');
+  const body = statRows.map(r => {
+    const cells = INTER_METRICS.map(m =>
+      `<td>${fmtInt(r.calc(metricsOf(m.key, 'sum')))}</td>`).join('');
+    return `<tr><td>${r.label}</td>${cells}<td><b>${fmtInt(r.calc(metricsOf('_total', 'sum')))}</b></td></tr>`;
+  }).join('');
   document.getElementById('interTable').innerHTML = head + '<tbody>' + body + '</tbody>';
 
   // 图例
