@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="6dYuOWYclN4Q2KHpwMAOGM">
+<head data-page-node-id="mXASDIpLuGIs3Bgw1RoDLT">
+<meta charset="UTF-8" data-page-node-id="edp8pZV6KjQt1vGHvNJAvt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="8Tprdv9FWQCU49sDk0Ygln">
 <title>数据总览仪表盘 · BiliMetrics 哔哩大数据</title>
-<meta name="description" content="B站大数据实时监控仪表盘：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区内容分布。支持时间范围切换、关键词检索、多列排序与自动刷新。">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<meta name="description" content="B站大数据实时监控仪表盘：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区内容分布。支持时间范围切换、关键词检索、多列排序与自动刷新。" data-page-node-id="GWrkzxrW9F15vFp4UJyeQU">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml" data-page-node-id="DydKs8WRo7cgLMLR3jWX2c">
 <style>
   :root{
     --bg:#0D1117; --card:#161B22; --card-2:#1C2230; --card-3:#212936;
@@ -197,159 +197,159 @@
   }
 </style>
 </head>
-<body>
+<body data-page-node-id="KuVZz2I0LSBGhKm1VHTXA5">
 
 <!-- ================= 顶部工具条 ================= -->
-<header class="topbar">
-  <div class="wrap">
-    <a class="brand" href="./index.html">
-      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="3" y="7" width="22" height="15" rx="4" stroke="#FB7299" stroke-width="2"/>
-        <path d="M10.5 11l6 3-6 3v-6z" fill="#FB7299"/>
-        <path d="M7 3.5l3 3.5M21 3.5l-3 3.5" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/>
+<header class="topbar" data-page-node-id="N8Kd7TSPOjTDc1mxIAkipw">
+  <div class="wrap" data-page-node-id="rFqI5WJv86pIBY2HmDdziG">
+    <a class="brand" href="./index.html" data-page-node-id="nSN09ev8XbwKaNQDolayIw">
+      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-page-node-id="IMEp1p9RuB813qz8ocikoS">
+        <rect x="3" y="7" width="22" height="15" rx="4" stroke="#FB7299" stroke-width="2" data-page-node-id="QwNFFJHiXapGkHY2zF4I0p"/>
+        <path d="M10.5 11l6 3-6 3v-6z" fill="#FB7299" data-page-node-id="m6Y1pMq2CyiQG5rySqRsMb"/>
+        <path d="M7 3.5l3 3.5M21 3.5l-3 3.5" stroke="#FB7299" stroke-width="2" stroke-linecap="round" data-page-node-id="uviPGpIlZCRjhcP0X60K7b"/>
       </svg>
-      <div>
-        <h1>BiliMetrics 哔哩大数据</h1>
-        <div class="sub">实时数据监控中心 · 爆款话题洞察</div>
+      <div data-page-node-id="SKMGZooei0RnYZXzasOehX">
+        <h1 data-page-node-id="dDOSKw1HqFuDcHDN48mnj7">BiliMetrics 哔哩大数据</h1>
+        <div class="sub" data-page-node-id="HYFj10oxnRTPuBv92aMwVD">实时数据监控中心 · 爆款话题洞察</div>
       </div>
     </a>
 
-    <div class="tools">
-      <div class="search" id="searchBox">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="q" type="text" placeholder="搜索热门视频 / 话题 / UP主" autocomplete="off" spellcheck="false">
-        <span class="kbd">/</span>
-        <button class="clr" id="clrQ" title="清空" aria-label="清空搜索">×</button>
+    <div class="tools" data-page-node-id="IFyx3wKP1orGN9tQYfqye6">
+      <div class="search" id="searchBox" data-page-node-id="Z1SoYfuwmbr0ZrAVAEMFdn">
+        <svg viewBox="0 0 24 24" fill="none" data-page-node-id="bwOH50t5WPFetqK83qjtFv"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" data-page-node-id="Ns3K6IfAPON6tSpfLpF86m"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="bqHKGkXkMcKRA1dn7zaz5X"/></svg>
+        <input id="q" type="text" placeholder="搜索热门视频 / 话题 / UP主" autocomplete="off" spellcheck="false" data-page-node-id="htypujffrtuoQ9Kg5qDGCj">
+        <span class="kbd" data-page-node-id="ZYUjM3hJdYF8jwxvyApx52">/</span>
+        <button class="clr" id="clrQ" title="清空" aria-label="清空搜索" data-page-node-id="icP1nwGPbsHbGvreTMkWco">×</button>
       </div>
 
-      <div class="seg" role="group" aria-label="时间范围">
-        <button data-range="today">今日</button>
-        <button data-range="week" class="on">近7天</button>
-        <button data-range="month">近30天</button>
+      <div class="seg" role="group" aria-label="时间范围" data-page-node-id="LA2jpdTPvh0Oluh3hpt4Am">
+        <button data-range="today" data-page-node-id="riyb9Q9LF8KrT2d5grecKh">今日</button>
+        <button data-range="week" class="on" data-page-node-id="kdDE2gKhJfEeMDGBROKqp7">近7天</button>
+        <button data-range="month" data-page-node-id="FIhi2BDZj00Y5oAQVBR4Kp">近30天</button>
       </div>
 
-      <div class="live" id="liveBtn" title="点击暂停 / 继续自动刷新">
-        <span class="dot"></span><span>实时</span><span class="t" id="clock">--:--</span>
+      <div class="live" id="liveBtn" title="点击暂停 / 继续自动刷新" data-page-node-id="LETJ409paiKTUXn8ywqkBr">
+        <span class="dot" data-page-node-id="HXBEABgrNPApoyaNvEWGzw"></span><span data-page-node-id="lWYjkuaQUEArRoYdK71pGE">实时</span><span class="t" id="clock" data-page-node-id="EmXf0ozSFUXvbBkemAurIr">--:--</span>
       </div>
     </div>
   </div>
 </header>
 
-<div class="wrap">
+<div class="wrap" data-page-node-id="PQGrjb3xjf1pZocvsVJB4I">
 
   <!-- ================= KPI ================= -->
-  <section class="kpi-row" id="kpiRow" aria-label="核心指标概览"></section>
+  <section class="kpi-row" id="kpiRow" aria-label="核心指标概览" data-page-node-id="vHzNBMaH1EMbYLx8dHSKNQ"></section>
 
   <!-- ================= 三大榜单 ================= -->
-  <section class="board-row">
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299"/></svg>
-        <h2>实时热门视频榜</h2>
-        <span class="tag">TOP 10 · 按播放量</span>
+  <section class="board-row" data-page-node-id="6jcQCaEE5pLOKPzNWHNDpI">
+    <div class="card" data-page-node-id="pAZg6zTtAQOHbalxlhwrqO">
+      <div class="card-head" data-page-node-id="iPwyz54bBzcSORt2JxtFGk">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="NPIe6qqdAk9ZjuF27H1qdU"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2" data-page-node-id="vCZeBHWS11TZlTvlY2SzoU"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299" data-page-node-id="co6UhJbRM25ZIDDnxG8vfV"/></svg>
+        <h2 data-page-node-id="ytAgOj8af5hNwfcf5mTDri">实时热门视频榜</h2>
+        <span class="tag" data-page-node-id="xlHXmJFs1fEqC2t8jQqAdn">TOP 10 · 按播放量</span>
       </div>
-      <div class="list" id="videoList"></div>
+      <div class="list" id="videoList" data-page-node-id="DTQVCNyzKIu5FQnIDlm78O"></div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round"/></svg>
-        <h2>爆款话题榜</h2>
-        <span class="tag">热度值</span>
+    <div class="card" data-page-node-id="D8tBXv1h4t8VMfxErvMGug">
+      <div class="card-head" data-page-node-id="fxXPrP5OuZcCtEJEFWGOs5">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="0ZgR7qZv6GG5qPbG7zKy1B"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round" data-page-node-id="vMFh1kjstcopQxmDaG5S5z"/></svg>
+        <h2 data-page-node-id="XFlRkdYKL6ZGSaTrCBYUEH">爆款话题榜</h2>
+        <span class="tag" data-page-node-id="07ap29kgUZKaZHMpKWEEq7">热度值</span>
       </div>
-      <div class="list" id="topicList"></div>
+      <div class="list" id="topicList" data-page-node-id="b3SGAT9lSxAoBoLAIVn44s"></div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h2>上升热点榜</h2>
-        <span class="tag">24h 飙升</span>
+    <div class="card" data-page-node-id="D3uAVCTtzTECCCeztYEs2r">
+      <div class="card-head" data-page-node-id="OrR7i5Jhos4GCqCqYAz8qV">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="j3KMUnDAdfdwhyOGUUvHiD"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="jZP8QAojBqhc6udvpNOYFU"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="sgtzguNdg1mHvvC4fgMcfB"/></svg>
+        <h2 data-page-node-id="WJXcraGtE2781G3BFcDxBa">上升热点榜</h2>
+        <span class="tag" data-page-node-id="bPIKmvrzxPRLPOb2aJZPb9">24h 飙升</span>
       </div>
-      <div class="list" id="risingList"></div>
+      <div class="list" id="risingList" data-page-node-id="L65RXO5VEEf9PRb0O4gg0d"></div>
     </div>
   </section>
 
   <!-- ================= 核心互动数据表 ================= -->
-  <section class="card table-card">
-    <div class="card-head">
-      <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="3.5" width="18" height="17" rx="3" stroke="#00AEEC" stroke-width="2"/><path d="M8.5 20.5v-17M3 9.5h18M3 15h18" stroke="#00AEEC" stroke-width="1.6"/></svg>
-      <h2>实时热门视频 · 核心互动数据</h2>
-      <span class="badge-live" id="refreshBadge">● 每 30 秒自动刷新</span>
+  <section class="card table-card" data-page-node-id="cn22n8qulvh1rUGKOvCakQ">
+    <div class="card-head" data-page-node-id="7jHPmd5AihcRFFbkCzXAQO">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="VItlMdUwMuE3T4Xwxiti4E"><rect x="3" y="3.5" width="18" height="17" rx="3" stroke="#00AEEC" stroke-width="2" data-page-node-id="TGCl6mJkZiZ8MXMZr4HW7i"/><path d="M8.5 20.5v-17M3 9.5h18M3 15h18" stroke="#00AEEC" stroke-width="1.6" data-page-node-id="91zdwrJTrakFYb3gZP5rCz"/></svg>
+      <h2 data-page-node-id="mmN4jaltQBypqCa8pZVN6X">实时热门视频 · 核心互动数据</h2>
+      <span class="badge-live" id="refreshBadge" data-page-node-id="nT3F2ipMrElvY8J1EDEbjZ">● 每 30 秒自动刷新</span>
     </div>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th class="l" style="width:64px">排名</th>
-            <th class="l">视频标题</th>
-            <th class="l" style="width:132px">UP主</th>
-            <th class="sortable" data-key="play">播放<span class="arw">▾</span></th>
-            <th class="sortable" data-key="like">点赞<span class="arw">▾</span></th>
-            <th class="sortable" data-key="coin">投币<span class="arw">▾</span></th>
-            <th class="sortable" data-key="fav">收藏<span class="arw">▾</span></th>
-            <th class="sortable" data-key="danmaku">弹幕<span class="arw">▾</span></th>
-            <th class="sortable" data-key="comment">评论<span class="arw">▾</span></th>
+    <div class="table-scroll" data-page-node-id="1RHq22AFspsHR5NJIUZI22">
+      <table data-page-node-id="3LOMOEUPJrSrM8wHPAmM0h">
+        <thead data-page-node-id="LuTxuV39zRfPDJKXGaIMJ2">
+          <tr data-page-node-id="hMoWXdjRG5oSYyeM5h9PH0">
+            <th class="l" style="width:64px" data-page-node-id="WAi4qHgVhdkJaaWHu2d9XC">排名</th>
+            <th class="l" data-page-node-id="HAekkT2zy3pspShfYZ6B4G">视频标题</th>
+            <th class="l" style="width:132px" data-page-node-id="VNkkbCVwUq6pqmnUpUeiDL">UP主</th>
+            <th class="sortable" data-key="play" data-page-node-id="K94e3FaoCzwyRV12MO59BI">播放<span class="arw" data-page-node-id="K83JieKdpVRexRU7oOUHex">▾</span></th>
+            <th class="sortable" data-key="like" data-page-node-id="YNKQQNadCuLgErf1hF3GK7">点赞<span class="arw" data-page-node-id="1DejRdsyXOgcwuI37Fl6DF">▾</span></th>
+            <th class="sortable" data-key="coin" data-page-node-id="OIsDlMmIPQrTztfRry9tF6">投币<span class="arw" data-page-node-id="wMtplAAOprW95yPOalb4yB">▾</span></th>
+            <th class="sortable" data-key="fav" data-page-node-id="mQAMwp10gfSYrEZLrRM7jd">收藏<span class="arw" data-page-node-id="HThCC95v5Jn2IzCpSMjT4H">▾</span></th>
+            <th class="sortable" data-key="danmaku" data-page-node-id="Jk1a1IClniJ7o4T4G8VCVr">弹幕<span class="arw" data-page-node-id="kkAtm2lNK1CHDuSxOYLJ56">▾</span></th>
+            <th class="sortable" data-key="comment" data-page-node-id="04bvUflKwKM7CENSR3s5Xh">评论<span class="arw" data-page-node-id="9aK6HqaaFZfDzNXmIavIQG">▾</span></th>
           </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tbody" data-page-node-id="TkYpLRDVdkEqDsLIMAAW6r"></tbody>
       </table>
     </div>
   </section>
 
   <!-- ================= 底部三图 ================= -->
-  <section class="chart-row">
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/><path d="M7 15l4-4 3 3 5-6" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h2>话题热度趋势</h2>
-        <span class="tag" id="trendTag">近7天</span>
+  <section class="chart-row" data-page-node-id="fxtq4hV97uEE3YUxRS7R5H">
+    <div class="card" data-page-node-id="1FBC6IRpg6GUX8y0ZLBEsz">
+      <div class="card-head" data-page-node-id="Lcu5UUalE2C6eaqPF0OK8R">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="8RFEBa91EQUgkI8TLEtXmP"><path d="M4 19V5M4 19h16" stroke="#FB7299" stroke-width="2" stroke-linecap="round" data-page-node-id="doiRp4Wa6MJQUTxI7mUNTG"/><path d="M7 15l4-4 3 3 5-6" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="LBTAQWGFi6XLjvZBHbMHX9"/></svg>
+        <h2 data-page-node-id="UP78ipH3F5WNiOWZC5sc4b">话题热度趋势</h2>
+        <span class="tag" id="trendTag" data-page-node-id="aGHFZgC5oOZgE3CDHtWcLU">近7天</span>
       </div>
-      <div class="chart-body">
-        <svg id="trendChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题热度趋势折线图"></svg>
+      <div class="chart-body" data-page-node-id="56wNJm0UL8fDaXBN07BlzA">
+        <svg id="trendChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题热度趋势折线图" data-page-node-id="Tn353tUWsqgpDufFszDUce"></svg>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 18c3 0 4.5-14 8-14s5.5 14 8 14" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>
-        <h2>爆款话题生命周期</h2>
-        <span class="tag">模型预测</span>
+    <div class="card" data-page-node-id="lIpWXhCuBsUEF50QUZuauW">
+      <div class="card-head" data-page-node-id="cru3QPiAFHeWDLewo1mZNt">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="SmI8TIfW1PU8N9r1FJbxYq"><path d="M3 18c3 0 4.5-14 8-14s5.5 14 8 14" stroke="#00AEEC" stroke-width="2" stroke-linecap="round" data-page-node-id="59Fch8fmJOYVBsnua8GMF4"/></svg>
+        <h2 data-page-node-id="hRuG8dKvoB4TO2k5SqzRbR">爆款话题生命周期</h2>
+        <span class="tag" data-page-node-id="myrjSc2DNaRlUNHn9etsxk">模型预测</span>
       </div>
-      <div class="chart-body">
-        <svg id="lifeChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题生命周期曲线"></svg>
-        <div class="stage-legend">
-          <span><i style="background:var(--faint)"></i>萌芽</span>
-          <span><i style="background:var(--blue)"></i>爆发</span>
-          <span><i style="background:var(--pink)"></i>平台</span>
-          <span><i style="background:var(--green)"></i>衰退</span>
+      <div class="chart-body" data-page-node-id="VElB3ce8iOmLRwQiOWYxLB">
+        <svg id="lifeChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题生命周期曲线" data-page-node-id="DIecNK2m5pK2kF7ih4Fc4I"></svg>
+        <div class="stage-legend" data-page-node-id="KegxbLBfibkelz5GOjdHIa">
+          <span data-page-node-id="M0dvmzDm7UhZ0QrvMDDZLz"><i style="background:var(--faint)" data-page-node-id="ZVf6bXME9OcESvv16DYbhM"></i>萌芽</span>
+          <span data-page-node-id="a9QJkH5E66ngqibQNCAHDF"><i style="background:var(--blue)" data-page-node-id="I6IuBlpaWWCWEdmqVa1jxv"></i>爆发</span>
+          <span data-page-node-id="IGMCbgQGyLE3bFMctJGXlM"><i style="background:var(--pink)" data-page-node-id="4Stv4eBzxKqrIWSTcywZUI"></i>平台</span>
+          <span data-page-node-id="Y0grcXx2AgcmxFaIAkrZPR"><i style="background:var(--green)" data-page-node-id="5dIRSKRhCG3GXDwiRSVX5G"></i>衰退</span>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-head">
-        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 20V11M12 20V5M19 20v-6" stroke="#A371F7" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <h2>分区内容分布</h2>
-        <span class="tag">占比 TOP5</span>
+    <div class="card" data-page-node-id="cAuO4Q674zc0yIGYHPQfqG">
+      <div class="card-head" data-page-node-id="CUDMVXBF8fRnkb2RXA0GF6">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="E2IrbaJFQdiMKBkX3CViL4"><path d="M5 20V11M12 20V5M19 20v-6" stroke="#A371F7" stroke-width="2.2" stroke-linecap="round" data-page-node-id="fINpQExBA8w9MMsnhx9BPg"/></svg>
+        <h2 data-page-node-id="sJqnBYzH9beyjGgYgHgamN">分区内容分布</h2>
+        <span class="tag" data-page-node-id="uNQYVVXUYztzaFglDlP3HX">占比 TOP5</span>
       </div>
-      <div class="chart-body" id="partBars"></div>
+      <div class="chart-body" id="partBars" data-page-node-id="G6ToLleP2WK8ZTfzTeqtW9"></div>
     </div>
   </section>
 
-  <div class="foot">
-    <span>数据为演示用合成样本，接入 B 站开放接口后可直接替换 <code style="font-family:var(--mono);color:var(--muted)">DATA</code> 数据源 · 更新于 <span id="stamp">--</span></span>
-    <span class="nav-mini">
-      <a href="./index.html">BiliMetrics 首页</a>
-      <a href="./dashboard.html" class="on">数据总览</a>
-      <a href="./videos/">我的视频</a>
-      <a href="./analysis.html">选题分析</a>
-      <a href="../bilimetrics-compare/">UP 对比</a>
+  <div class="foot" data-page-node-id="l7mHQLVVEb7IDu4iY3EH2t">
+    <span data-page-node-id="xAHHfcE9WLa3iBekYS76kP">数据为演示用合成样本，接入 B 站开放接口后可直接替换 <code style="font-family:var(--mono);color:var(--muted)" data-page-node-id="6fGX4borUfAUCVRyBaHSP2">DATA</code> 数据源 · 更新于 <span id="stamp" data-page-node-id="3DCNLJNxA9URQGpNj9RL3z">--</span></span>
+    <span class="nav-mini" data-page-node-id="sjeH60yUCvenHDwoF3POTw">
+      <a href="./index.html" data-page-node-id="xFaGHKdnjKz3ga5q1Hph4H">BiliMetrics 首页</a>
+      <a href="./dashboard.html" class="on" data-page-node-id="O7uGAokes0R4OBvT59SmkM">数据总览</a>
+      <a href="./videos/" data-page-node-id="obmeaObyBjKEquJCxpAbkK">我的视频</a>
+      <a href="./analysis.html" data-page-node-id="BvFN64Dlytgqiy6BUB9LtN">选题分析</a>
+      <a href="../bilimetrics-compare/" data-page-node-id="iiiUXdO8pdvjItdaZQsUhu">UP 对比</a>
     </span>
   </div>
 </div>
 
-<div class="tip" id="tip"></div>
+<div class="tip" id="tip" data-page-node-id="QYFQ01ceJRmcubvdkv4Uia"></div>
 
 <script>
 /* =========================================================

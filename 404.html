@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · 页面不存在 | 设计素材速查站</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/design-library/favicon.svg">
+<style>
+  :root{
+    --bg:#FAF9F7;--card:#FFFFFF;--text:#1F1D1A;--muted:#6F6C67;--faint:#9B9892;
+    --border:#EBE8E2;--accent:#FF7A45;--accent-soft:#FFF1EB;--code-bg:#F4F2EE;
+    --shadow:0 1px 2px rgba(31,29,26,.04),0 6px 18px rgba(31,29,26,.06);
+    --r:16px;
+  }
+  [data-theme="dark"]{
+    --bg:#151413;--card:#1F1D1B;--text:#F2F0ED;--muted:#9B9892;--faint:#7C7973;
+    --border:#33302C;--accent:#FF8A5C;--accent-soft:#2C2019;--code-bg:#26241F;
+    --shadow:0 1px 2px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,
+      "PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;
+    min-height:100vh;display:flex;flex-direction:column;
+  }
+  a{color:inherit;text-decoration:none}
+  header{
+    position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);
+    backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--border);
+  }
+  .hin{max-width:980px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:12px}
+  .logo{width:28px;height:28px;border-radius:8px;flex-shrink:0}
+  .htitle{font-size:15px;font-weight:700;letter-spacing:.3px}
+  .hsub{font-size:12px;color:var(--faint);margin-left:auto;white-space:nowrap}
+  main{flex:1;max-width:980px;width:100%;margin:0 auto;padding:56px 20px 72px}
+  .code{
+    font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    font-size:clamp(76px,15vw,132px);font-weight:800;letter-spacing:-4px;line-height:1;
+    color:var(--accent);opacity:.92;
+  }
+  h1{font-size:clamp(21px,3.4vw,27px);font-weight:700;margin-top:14px;letter-spacing:.2px}
+  .lead{color:var(--muted);font-size:14.5px;margin-top:10px;max-width:620px}
+  .pathline{
+    margin-top:24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;box-shadow:var(--shadow);
+  }
+  .pathline .lbl{font-size:12px;color:var(--faint);white-space:nowrap}
+  .pathline code{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;
+    background:var(--code-bg);padding:4px 9px;border-radius:7px;word-break:break-all;flex:1;min-width:180px;
+  }
+  .copy{
+    flex-shrink:0;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--border);
+    background:var(--card);color:var(--text);font-size:12.5px;font-weight:600;cursor:pointer;
+    transition:border-color .15s,transform .15s,color .15s;
+  }
+  .copy:hover{border-color:var(--accent);color:var(--accent)}
+  .copy:active{transform:scale(.96)}
+  h2{font-size:13px;font-weight:700;letter-spacing:.6px;color:var(--faint);
+    text-transform:uppercase;margin:38px 0 14px}
+  .guess{display:flex;flex-direction:column;gap:9px}
+  .gue{
+    display:flex;align-items:center;gap:12px;background:var(--accent-soft);
+    border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);
+    border-radius:12px;padding:13px 15px;transition:transform .15s,box-shadow .15s;
+  }
+  .gue:hover{transform:translateX(3px);box-shadow:var(--shadow)}
+  .gue .arrow{color:var(--accent);font-weight:800;flex-shrink:0}
+  .gue .t{font-size:14px;font-weight:600}
+  .gue .u{font-size:12px;color:var(--muted);font-family:ui-monospace,Menlo,Consolas,monospace;
+    margin-left:auto;word-break:break-all;text-align:right}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+    padding:15px 16px;box-shadow:var(--shadow);transition:transform .16s,border-color .16s;
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .card .cn{font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .card .cd{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .dot.b{background:#FB7299}
+  .dot.c{background:#4EA8DE}
+  .dot.g{background:#5CB85C}
+  .tips{margin-top:34px;padding:16px 18px;border-left:3px solid var(--border);
+    background:var(--card);border-radius:0 12px 12px 0}
+  .tips p{font-size:13px;color:var(--muted)}
+  .tips b{color:var(--text)}
+  ul{margin:8px 0 0 18px}
+  li{font-size:13px;color:var(--muted);margin-top:5px}
+  footer{border-top:1px solid var(--border);padding:18px 20px;text-align:center;
+    font-size:12px;color:var(--faint)}
+  footer a{color:var(--muted);border-bottom:1px dotted var(--border)}
+  footer a:hover{color:var(--accent)}
+  @media (max-width:640px){
+    main{padding:38px 18px 56px}
+    .code{letter-spacing:-2px}
+    .gue .u{display:none}
+    .hsub{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="hin">
+    <svg class="logo" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#FF7A45"/><path d="M9 8.5h3l2 6 2-6h3l-3.6 11h-2.8L9 8.5Z" fill="#fff"/></svg>
+    <span class="htitle">设计素材速查站</span>
+    <span class="hsub" id="hsub"></span>
+  </div>
+</header>
+
+<main>
+  <div class="code">404</div>
+  <h1>这个页面不存在</h1>
+  <p class="lead">
+    地址是通的，但路径下没有对应的文件。最常见的原因是<strong>链接少了个 <code style="font-family:ui-monospace,Menlo,monospace">.html</code></strong>，
+    或者拷贝地址时<strong>漏掉了 <code style="font-family:ui-monospace,Menlo,monospace">/design-library/</code> 这一段</strong>。
+  </p>
+
+  <div class="pathline">
+    <span class="lbl">当前请求路径</span>
+    <code id="badPath">/</code>
+    <button class="copy" id="copyBtn">复制</button>
+  </div>
+
+  <div id="guessWrap" hidden>
+    <h2>是不是想找这个</h2>
+    <div class="guess" id="guess"></div>
+  </div>
+
+  <h2>站内直达</h2>
+  <div class="grid">
+    <a class="card" href="/design-library/">
+      <div class="cn"><span class="dot"></span>素材库首页</div>
+      <div class="cd">字体 / 图标 / 配色 / 样机 / 灵感聚合</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics/">
+      <div class="cn"><span class="dot b"></span>BiliMetrics 首页</div>
+      <div class="cd">B 站创作数据洞察</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics/dashboard.html">
+      <div class="cn"><span class="dot b"></span>数据总览仪表盘</div>
+      <div class="cd">KPI / 榜单 / 趋势 / 生命周期曲线</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics-compare/">
+      <div class="cn"><span class="dot c"></span>UP 主对比</div>
+      <div class="cd">两个 UP 主横向数据对照</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics/videos/">
+      <div class="cn"><span class="dot c"></span>我的视频</div>
+      <div class="cd">单稿件数据明细</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics/analysis.html">
+      <div class="cn"><span class="dot g"></span>选题分析</div>
+      <div class="cd">话题热度与选题建议</div>
+    </a>
+    <a class="card" href="/design-library/study.html">
+      <div class="cn"><span class="dot g"></span>学习笔记</div>
+      <div class="cd">设计与前端知识整理</div>
+    </a>
+    <a class="card" href="/design-library/bilimetrics.html">
+      <div class="cn"><span class="dot"></span>界面设计记录</div>
+      <div class="cd">静态设计稿与交互版对照</div>
+    </a>
+  </div>
+
+  <div class="tips">
+    <p><b>还是找不到？</b>把你刚才点进来的那个页面发我（或者按 F12 → Console 截图），我对着改。</p>
+    <ul>
+      <li>页面被重命名过？旧链接就会失效 —— 说一声，我加一条跳转。</li>
+      <li>确定路径没错？注意 GitHub Pages <b>区分大小写</b>，<code>Dashboard.HTML</code> 和 <code>dashboard.html</code> 不是同一个文件。</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  静态站由 GitHub Pages 托管 · <a href="/design-library/">回素材库首页</a>
+</footer>
+
+<script>
+(function () {
+  var BASE = '/design-library/';
+  var path = location.pathname;
+  document.getElementById('badPath').textContent = path + location.search;
+  document.getElementById('hsub').textContent = location.host;
+
+  var saved = localStorage.getItem('theme');
+  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) document.documentElement.dataset.theme = 'dark';
+
+  document.getElementById('copyBtn').onclick = function () {
+    var btn = this, txt = location.href;
+    var done = function () { btn.textContent = '已复制'; setTimeout(function () { btn.textContent = '复制'; }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) { btn.textContent = '复制失败'; }
+      document.body.removeChild(ta);
+    }
+  };
+
+  // 猜测正确地址：只试几种最可能的拼写，命中就给出直达入口
+  var cands = [];
+  var q = path.indexOf('?') > -1 ? path.slice(0, path.indexOf('?')) : path;
+  if (/\.html?$/i.test(q)) {
+    cands.push([q.replace(/\.html?$/i, ''), '去掉 .html 后缀']);
+  } else {
+    cands.push([q + '.html', '补上 .html']);
+    cands.push([q.replace(/\/?$/, '/') + 'index.html', '补上 index.html']);
+  }
+  if (/\/$/.test(q) && q !== '/') {
+    var up = q.replace(/[^\/]+\/$/, '');
+    cands.push([up, '回到上一级目录']);
+  }
+  if (q.indexOf(BASE) !== 0 && q.length > 1) {
+    cands.push([BASE + q.replace(/^\//, ''), '补上 /design-library/ 前缀']);
+  }
+  var lower = q.toLowerCase();
+  if (lower !== q) cands.push([lower, '改成全小写']);
+
+  var clean = [];
+  cands.forEach(function (c) {
+    if (c[0] && c[0] !== q && clean.every(function (x) { return x[0] !== c[0]; })) clean.push(c);
+  });
+
+  var hits = [];
+  (function next(i) {
+    if (i >= clean.length || hits.length >= 3) return render();
+    var cand = clean[i];
+    fetch(cand[0], { method: 'HEAD', cache: 'no-store' })
+      .then(function (r) { if (r.ok) hits.push(cand); next(i + 1); })
+      .catch(function () { next(i + 1); });
+  })(0);
+
+  function render() {
+    if (!hits.length) return;
+    var box = document.getElementById('guess');
+    hits.forEach(function (h) {
+      var a = document.createElement('a');
+      a.className = 'gue';
+      a.href = h[0];
+      a.innerHTML = '<span class="arrow">→</span><span class="t">' +
+        escapeHtml(h[1]) + '</span><span class="u">' + escapeHtml(h[0]) + '</span>';
+      box.appendChild(a);
+    });
+    document.getElementById('guessWrap').hidden = false;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+})();
+</script>
+</body>
+</html>
