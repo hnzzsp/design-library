@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>我的视频 · 同分区横向对比 | BiliMetrics</title>
+<title>我的视频 · UP 综合对比 | BiliMetrics</title>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <!-- 返回条 -->
 <div class="topbar">
   <a class="back" href="../index.html">← BiliMetrics 首页</a>
-  <span class="topbar-tag">我的视频 · 同分区对比</span>
+  <span class="topbar-tag">我的视频 · UP 综合对比</span>
 </div>
 
 <!-- 标题区 -->
@@ -19,8 +19,8 @@
   <div class="vhero-glow g2"></div>
   <div class="vhero-inner">
     <span class="badge"><i class="dot"></i>游戏分区 · GMOD 创作者数据</span>
-    <h1>我的视频<span class="accent"> · </span>同分区横向对比</h1>
-    <p class="lede">真实抓取你与同分区 UP 主的视频表现，按播放 / 评论 / 弹幕多指标横向对比，看清内容竞争力与爆款规律。</p>
+    <h1>我的视频<span class="accent"> · </span>UP 综合对比</h1>
+    <p class="lede">不堆视频素材，只看数据。点击下方 UP 按钮即可触发综合对比，对比结果以图表实时预览，操作即刻生效。</p>
     <div class="hero-meta">
       <span class="chip" id="snapshotChip">快照时间 —</span>
       <span class="chip ghost">数据源 · B 站公开接口（服务端真实抓取）</span>
@@ -31,83 +31,54 @@
 
 <main class="wrap">
 
-  <!-- 模块一：同分区 UP 主阵容 -->
+  <!-- 模块一：UP 按钮阵容（点击触发综合对比） -->
   <section class="block">
     <div class="block-head">
-      <h2>同分区 UP 主阵容</h2>
-      <p class="block-sub">点击头像可将该 UP 主的视频纳入 / 移出「对比候选池」。你的视频默认常驻。</p>
-    </div>
-    <div class="roster" id="roster"></div>
-  </section>
-
-  <!-- 模块二：视频候选池 + 对比工作台 -->
-  <section class="block">
-    <div class="block-head">
-      <h2>视频横向对比工作台</h2>
-      <p class="block-sub">从候选池勾选 2–6 条视频加入对比，下方实时生成多维对比视图。</p>
+      <h2>UP 阵容 · 点击触发对比</h2>
+      <p class="block-sub">点击 UP 按钮将该 UP 主纳入 / 移出综合对比，下方结果实时刷新。你的账号默认参与且不可移除。</p>
     </div>
 
     <div class="pool-bar">
       <div class="pool-info">
-        已选 <b id="poolCount">0</b> / 6 条 · 对比候选池来自 <b id="poolUpCount">1</b> 位 UP 主
+        <span class="live-chip"><i class="live-dot"></i>实时预览</span>
+        已选 <b id="upCount">1</b> / 6 位 UP · <span id="liveClock">--:--:--</span>
       </div>
       <div class="pool-actions">
-        <button class="btn ghost" id="clearPool">清空对比</button>
-        <div class="seg" id="poolFilter">
-          <button data-sort="play" class="active">按播放</button>
-          <button data-sort="comment">按评论</button>
-          <button data-sort="danmaku">按弹幕</button>
-        </div>
+        <button class="btn ghost" id="selectAllUps">全部纳入</button>
+        <button class="btn ghost" id="resetUps">仅本人</button>
       </div>
     </div>
 
-    <div class="pool" id="pool"></div>
+    <div class="roster" id="roster"></div>
   </section>
 
-  <!-- 模块三：对比结果（两部分：互动分类 / 汇总分类） -->
-  <section class="block" id="resultBlock" hidden>
+  <!-- 模块二：综合对比结果（常驻实时预览） -->
+  <section class="block" id="resultBlock">
     <div class="block-head">
-      <h2>横向对比结果</h2>
-      <p class="block-sub">以数据图表呈现，不堆视频素材 —— 互动分类对比 + 汇总分类统计两大部分。</p>
+      <h2>综合对比结果</h2>
+      <p class="block-sub">UP 级别聚合统计，随 UP 按钮操作即时更新 —— 互动分类对比 + 汇总分类统计两大部分。</p>
     </div>
 
     <!-- 第一部分：互动分类对比（弹幕 / 点赞 / 收藏） -->
     <div class="panel">
-      <div class="panel-head"><h3>互动分类对比 · 弹幕 / 点赞 / 收藏</h3><span class="panel-note">各分类独立柱状对比 + 分类统计</span></div>
+      <div class="panel-head"><h3>互动分类对比 · 弹幕 / 点赞 / 收藏</h3><span class="panel-note">柱状＝单视频均值 · 统计行含合计 / 均值 / 最高单视频</span></div>
       <div class="bars" id="interBars"></div>
       <div class="legend" id="interLegend"></div>
     </div>
     <div class="panel">
-      <div class="panel-head"><h3>互动分类统计对比</h3><span class="panel-note">所选视频按分类汇总的统计结果</span></div>
+      <div class="panel-head"><h3>互动分类统计对比</h3><span class="panel-note">所选 UP 按分类汇总的统计结果</span></div>
       <div class="table-scroll"><table class="detail" id="interTable"></table></div>
     </div>
 
     <!-- 第二部分：汇总分类对比（综合统计） -->
     <div class="panel">
-      <div class="panel-head"><h3>汇总分类对比 · 综合统计</h3><span class="panel-note">总互动量柱状图 + 全指标明细</span></div>
+      <div class="panel-head"><h3>汇总分类对比 · 综合统计</h3><span class="panel-note">总互动量柱状图 + 全指标明细（括号内为单视频均值）</span></div>
       <div class="bars" id="sumBars"></div>
     </div>
     <div class="panel">
       <div class="panel-head"><h3>汇总数据明细</h3><span class="panel-note">绿色标签＝接口真实值</span></div>
       <div class="table-scroll"><table class="detail" id="detailTable"></table></div>
     </div>
-  </section>
-
-  <!-- 模块四：我的视频库 -->
-  <section class="block">
-    <div class="block-head">
-      <h2>我的视频库</h2>
-      <p class="block-sub">你已发布的全部视频，按指标排序快速定位代表作。</p>
-    </div>
-    <div class="pool-bar">
-      <div class="pool-info">共 <b id="libCount">0</b> 条视频</div>
-      <div class="seg" id="libFilter">
-        <button data-sort="play" class="active">按播放</button>
-        <button data-sort="comment">按评论</button>
-        <button data-sort="danmaku">按弹幕</button>
-      </div>
-    </div>
-    <div class="gallery" id="gallery"></div>
   </section>
 
 </main>
