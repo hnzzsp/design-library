@@ -53,6 +53,8 @@ body {
 .brand-name { font-size: 19px; font-weight: 700; color: var(--text); letter-spacing: .2px; }
 .brand-sub { font-size: 12px; color: var(--text-3); padding-left: 10px; border-left: 1px solid var(--line-strong); }
 .topbar-right { display: flex; align-items: center; gap: 14px; }
+.nav-link { font-size: 13px; font-weight: 600; color: var(--text-2); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line-strong); transition: all .18s ease; }
+.nav-link:hover { color: var(--pink); border-color: var(--pink); }
 
 .snapshot-chip {
   display: flex; align-items: center; gap: 8px;

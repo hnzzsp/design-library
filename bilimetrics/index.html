@@ -95,6 +95,26 @@
   .entry p{font-size:14px;color:var(--muted);line-height:1.65;flex:1}
   .entry .arrow{display:flex;align-items:center;gap:6px;color:var(--pink);font-size:14px;font-weight:600}
 
+  /* ===== 同分区创作者阵容 ===== */
+  .partition{padding:80px 0;background:linear-gradient(180deg,#0B0E14,#0D1117)}
+  .part-head{text-align:center;margin-bottom:38px}
+  .part-head h2{font-size:32px;font-weight:700}
+  .part-head p{font-size:16px;color:var(--muted);margin-top:10px}
+  .part-grid{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+  .part-card{flex:1;min-width:170px;max-width:185px;display:flex;flex-direction:column;align-items:center;gap:10px;
+    padding:22px 18px;border-radius:16px;background:var(--card);border:1px solid var(--border);
+    transition:border-color .22s,transform .22s,box-shadow .22s;text-align:center}
+  .part-card:hover{border-color:rgba(251,114,153,.45);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .part-card.self{border-color:rgba(0,174,236,.5);background:linear-gradient(180deg,rgba(0,174,236,.08),var(--card))}
+  .part-card img{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid var(--border-strong)}
+  .part-card.self img{border-color:var(--blue)}
+  .part-card .pn{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .part-card .pf{font-size:13px;color:var(--muted)}
+  .part-card .pf b{font-family:var(--mono);color:var(--text);font-size:15px}
+  .part-card .pv{font-size:12px;color:var(--faint)}
+  .part-card .pgo{margin-top:4px;font-size:13px;font-weight:600;color:var(--pink)}
+  .part-foot{text-align:center;margin-top:30px;font-size:13px;color:var(--faint)}
+
   /* ===== Capabilities ===== */
   .capabilities{padding:80px 0;background:var(--bg)}
   .cap-head{text-align:center;margin-bottom:40px}
@@ -141,6 +161,7 @@
     </a>
     <nav class="nav-links">
       <a href="../bilimetrics.html">数据总览</a>
+      <a href="./videos/">我的视频</a>
       <a href="../bilimetrics.html#analysis">选题分析</a>
       <a href="../bilimetrics-compare/">UP 对比</a>
       <a href="#about">关于</a>
@@ -209,7 +230,68 @@
         <p>真实粉丝数据 × 9 项指标雷达 / 柱状 / 折线对比，看清你与头部 UP 主的差距。</p>
         <span class="arrow">前往 <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
+      <a class="entry" href="./videos/">
+        <svg class="ic" viewBox="0 0 32 32" fill="none"><rect x="4" y="7" width="24" height="18" rx="4" stroke="#A371F7" stroke-width="2"/><path d="M13 13l6 3-6 3V13Z" fill="#A371F7"/></svg>
+        <h3>我的视频 · 横向对比</h3>
+        <p>真实抓取你与同分区 UP 主的视频，按播放 / 评论 / 弹幕多指标横向对比，定位爆款规律。</p>
+        <span class="arrow">前往 <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
     </div>
+  </div>
+</section>
+
+<!-- 同分区创作者阵容 -->
+<section class="partition">
+  <div class="container">
+    <div class="part-head">
+      <h2>同分区创作者阵容</h2>
+      <p>游戏 · GMOD 区真实创作者，点击任意头像进入「我的视频」横向对比工作台</p>
+    </div>
+    <div class="part-grid">
+      <a class="part-card self" href="./videos/">
+        <img src="../bilimetrics-compare/assets/avatars/self.jpg" alt="张爷丨张TaMa">
+        <div class="pn">张爷丨张TaMa</div>
+        <div class="pf"><b>24.06</b> 万粉丝</div>
+        <div class="pv">30 个视频 · 本人</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+      <a class="part-card" href="./videos/">
+        <img src="./videos/assets/avatars/5970160.jpg" alt="小潮院长">
+        <div class="pn">小潮院长</div>
+        <div class="pf"><b>1559</b> 万粉丝</div>
+        <div class="pv">头部游戏创作者</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+      <a class="part-card" href="./videos/">
+        <img src="./videos/assets/avatars/2006034.jpg" alt="吊德斯DioDes">
+        <div class="pn">吊德斯DioDes</div>
+        <div class="pf"><b>359</b> 万粉丝</div>
+        <div class="pv">游戏整活博主</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+      <a class="part-card" href="./videos/">
+        <img src="./videos/assets/avatars/419121167.jpg" alt="勾魂公狒狒">
+        <div class="pn">-勾魂公狒狒-</div>
+        <div class="pf"><b>256</b> 万粉丝</div>
+        <div class="pv">GMOD 同好</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+      <a class="part-card" href="./videos/">
+        <img src="./videos/assets/avatars/53228897.jpg" alt="游戏解说艾登">
+        <div class="pn">游戏解说艾登</div>
+        <div class="pf"><b>80</b> 万粉丝</div>
+        <div class="pv">游戏解说</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+      <a class="part-card" href="./videos/">
+        <img src="./videos/assets/avatars/92177646.jpg" alt="地瓜BB">
+        <div class="pn">地瓜BB</div>
+        <div class="pf"><b>8</b> 万粉丝</div>
+        <div class="pv">成长中创作者</div>
+        <div class="pgo">查看对比 →</div>
+      </a>
+    </div>
+    <div class="part-foot">以上创作者与视频数据均经服务端 WBI 签名真实抓取，构成你的同分区竞争参照系。</div>
   </div>
 </section>
 
