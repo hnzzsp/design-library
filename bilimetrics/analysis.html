@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>分区选题辅助 · 内容方向搜索 | BiliMetrics</title>
+<meta name="description" content="基于真实抓取数据 + 分区运营知识库，搜索关键词即时获取吸粉选题方向与爆款规律。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#0B0E14; --card:#12161F; --card-2:#161B26; --border:rgba(255,255,255,.07);
+    --border-strong:rgba(255,255,255,.13);
+    --text:#E8ECF4; --muted:#98A2B3; --faint:#5B6675;
+    --pink:#FB7299; --blue:#00AEEC; --green:#3FB950; --amber:#E3B341; --purple:#A371F7;
+    --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  .container{max-width:1200px;margin:0 auto;padding:0 32px}
+  header.site{position:sticky;top:0;z-index:20;background:rgba(11,14,20,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:19px}
+  .logo{width:30px;height:30px;flex:0 0 auto}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{font-size:15px;color:var(--muted);transition:color .2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .nav-cta{padding:9px 18px;border-radius:10px;background:linear-gradient(120deg,#FB7299,#F8577F);color:#fff;font-size:14px;font-weight:600;transition:transform .18s,box-shadow .18s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(251,114,153,.32)}
+
+  .hero{position:relative;overflow:hidden;padding:72px 0 56px;
+    background:radial-gradient(1000px 500px at 50% -10%,rgba(251,114,153,.08),transparent 60%),linear-gradient(160deg,#0B0E14 0%,#0F131B 100%)}
+  .glow{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+  .glow.pink{width:520px;height:520px;left:-60px;top:-80px;background:radial-gradient(circle,rgba(251,114,153,.16),transparent 70%)}
+  .glow.blue{width:480px;height:480px;right:-40px;top:60px;background:radial-gradient(circle,rgba(0,174,236,.13),transparent 70%)}
+  .hero-inner{position:relative;z-index:1;max-width:880px;margin:0 auto;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;
+    background:rgba(251,114,153,.1);border:1px solid rgba(251,114,153,.35);color:var(--pink);font-size:13px;font-weight:600}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  h1.headline{font-size:clamp(34px,4.6vw,52px);line-height:1.2;font-weight:700;letter-spacing:-.5px;margin:20px 0 14px;
+    background:linear-gradient(108deg,#E8ECF4 25%,#FB7299 70%,#00AEEC 105%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .subhead{font-size:17px;color:var(--muted);line-height:1.75}
+  .hero-note{margin-top:16px;font-size:12.5px;color:var(--faint)}
+
+  /* 搜索窗 */
+  .search-block{max-width:760px;margin:34px auto 0}
+  .search-box{position:relative}
+  .search-box svg{position:absolute;left:18px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--muted)}
+  #q{width:100%;padding:18px 18px 18px 52px;border-radius:14px;background:var(--card);border:1px solid var(--border-strong);
+    color:var(--text);font-size:16px;font-family:var(--font);outline:none;transition:border-color .2s,box-shadow .2s}
+  #q::placeholder{color:var(--faint)}
+  #q:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(251,114,153,.14)}
+  .hot-tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+  .hot-tags .ht{font-size:13px;padding:6px 14px;border-radius:999px;background:var(--card);border:1px solid var(--border);
+    color:var(--muted);cursor:pointer;transition:.18s}
+  .hot-tags .ht:hover{border-color:var(--pink);color:var(--text)}
+  .hot-tags .ht.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+  .res-meta{text-align:center;margin-top:14px;font-size:13px;color:var(--muted)}
+  .res-meta b{color:var(--pink);font-family:var(--mono)}
+
+  /* 规律面板 */
+  .insight{margin:34px auto 0;max-width:760px;background:linear-gradient(135deg,rgba(0,174,236,.07),rgba(251,114,153,.05)),var(--card);
+    border:1px solid var(--border-strong);border-radius:16px;padding:22px 26px}
+  .insight h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .insight h3 .src{font-size:11px;color:var(--green);border:1px solid rgba(63,185,80,.4);background:rgba(63,185,80,.1);padding:1px 7px;border-radius:5px;font-weight:600}
+  .ibar{display:grid;grid-template-columns:130px 1fr 88px;align-items:center;gap:12px;margin-top:10px;font-size:12.5px}
+  .ibar .il{color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ibar .it{height:12px;background:var(--card-2);border-radius:6px;overflow:hidden}
+  .ibar .if{height:100%;border-radius:6px;background:linear-gradient(90deg,#00AEEC,#FB7299);transition:width .7s cubic-bezier(.2,.8,.2,1)}
+  .ibar .iv{font-family:var(--mono);color:var(--text);font-size:12px}
+  .ibar .iv.up{color:var(--green)}
+  .ibar .iv.down{color:var(--pink)}
+
+  /* 策略卡 */
+  .cards{padding:60px 0 30px}
+  .cards-head{text-align:center;margin-bottom:30px}
+  .cards-head h2{font-size:28px;font-weight:700}
+  .cards-head p{font-size:15px;color:var(--muted);margin-top:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}
+  .scard{display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:16px;background:var(--card);
+    border:1px solid var(--border);transition:border-color .22s,transform .22s,box-shadow .22s}
+  .scard:hover{border-color:rgba(251,114,153,.45);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .scard h4{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+  .scard h4 .rk{font-size:12px;font-family:var(--mono);color:var(--amber);border:1px solid rgba(227,179,65,.35);background:rgba(227,179,65,.1);padding:1px 7px;border-radius:6px}
+  .scard .why{font-size:13.5px;color:var(--muted);line-height:1.7}
+  .scard .ev{font-size:12.5px;color:var(--text);background:var(--card-2);border-left:3px solid var(--green);padding:10px 12px;border-radius:0 8px 8px 0;line-height:1.6}
+  .scard .ev b{color:var(--green);font-family:var(--mono)}
+  .scard .row2{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px}
+  .scard .refs{font-size:12px;color:var(--muted)}
+  .scard .refs b{color:var(--text)}
+  .scard .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .scard .tg{font-size:11px;padding:2px 9px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--faint)}
+  .scard .diff{font-size:11px;font-weight:700;padding:2px 9px;border-radius:6px}
+  .diff.low{color:var(--green);background:rgba(63,185,80,.12);border:1px solid rgba(63,185,80,.35)}
+  .diff.mid{color:var(--amber);background:rgba(227,179,65,.12);border:1px solid rgba(227,179,65,.35)}
+  .diff.high{color:var(--pink);background:rgba(251,114,153,.12);border:1px solid rgba(251,114,153,.35)}
+  mark{background:rgba(251,114,153,.32);color:#fff;padding:0 2px;border-radius:3px}
+
+  .empty{text-align:center;padding:60px 20px;color:var(--muted);font-size:15px;display:none}
+  .empty.show{display:block}
+
+  footer.site{background:#080B10;padding:48px 0 36px;border-top:1px solid var(--border);margin-top:40px}
+  .foot-top{display:flex;gap:64px;justify-content:space-between;flex-wrap:wrap;margin-bottom:30px}
+  .foot-brand{display:flex;flex-direction:column;gap:10px;max-width:300px}
+  .foot-brand .brand{font-size:18px}
+  .foot-brand p{font-size:13px;color:var(--muted);line-height:1.7}
+  .foot-cols{display:flex;gap:56px;flex-wrap:wrap}
+  .foot-col h5{font-size:13px;color:var(--text);font-weight:600;margin-bottom:12px}
+  .foot-col a{display:block;font-size:13px;color:var(--muted);margin-bottom:9px;transition:color .2s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+    padding-top:22px;border-top:1px solid var(--border);font-size:12px;color:var(--faint)}
+  .rt-note{font-size:12px;color:var(--faint);margin-top:10px}
+  .rt-note b{color:var(--amber)}
+
+  @media (max-width:900px){
+    .nav-links{display:none}
+    .ibar{grid-template-columns:96px 1fr 64px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container nav">
+    <a class="brand" href="./index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#FB7299"/><path d="M11 9.5L19 14L11 18.5V9.5Z" fill="#fff"/></svg>
+      <span>BiliMetrics</span>
+    </a>
+    <nav class="nav-links">
+      <a href="./index.html">首页</a>
+      <a href="./bilimetrics.html">数据总览</a>
+      <a href="./analysis.html" class="active">选题辅助</a>
+      <a href="./bilimetrics-compare/">UP 对比</a>
+      <a href="./videos/">我的视频</a>
+    </nav>
+    <a class="nav-cta" href="./bilimetrics.html">进入控制台</a>
+  </div>
+</header>
+
+<section class="hero">
+  <span class="glow pink"></span>
+  <span class="glow blue"></span>
+  <div class="container hero-inner">
+    <span class="badge"><span class="dot"></span>内容方向搜索 · 基于真实数据</span>
+    <h1 class="headline">分区选题辅助引擎</h1>
+    <p class="subhead">输入关键词，即时检索「游戏 · GMOD 区」可吸粉的内容方向与爆款规律。每条建议都附带你的真实互动数据佐证，帮你决定下一期拍什么。</p>
+
+    <div class="search-block">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="text" placeholder="试试：追逐、恐怖、收藏、联动、标题、更新频率…" autocomplete="off" />
+      </div>
+      <div class="hot-tags" id="hotTags">
+        <span class="ht" data-k="追逐">追逐</span>
+        <span class="ht" data-k="恐怖">恐怖</span>
+        <span class="ht" data-k="收藏">收藏率</span>
+        <span class="ht" data-k="场景">场景化</span>
+        <span class="ht" data-k="联动">联动</span>
+        <span class="ht" data-k="标题">标题</span>
+        <span class="ht" data-k="封面">封面</span>
+        <span class="ht" data-k="频率">更新频率</span>
+        <span class="ht" data-k="开头">开头钩子</span>
+      </div>
+      <div class="res-meta">命中 <b id="rc">8</b> / 8 条选题策略</div>
+    </div>
+
+    <!-- 真实数据规律面板 -->
+    <div class="insight">
+      <h3>你的真实数据规律 <span class="src">30 条视频快照</span></h3>
+      <div id="insightBars"></div>
+    </div>
+    <div class="hero-note">注：倍数＝该题材视频互动 ÷ 你全部视频均值。数据快照 2026-09-24 服务端真实抓取；本页为「离线知识库 + 真实规律」检索，非实时联网（真·实时见页脚说明）。</div>
+  </div>
+</section>
+
+<section class="cards">
+  <div class="container">
+    <div class="cards-head">
+      <h2>吸粉选题策略库</h2>
+      <p>随上方搜索框实时过滤 · 点击热词快捷检索</p>
+    </div>
+    <div class="grid" id="cardGrid"></div>
+    <div class="empty" id="emptyState">没有匹配「<span id="emptyKw"></span>」的策略 —— 换个词试试，或点热词清除筛选。</div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="brand">BiliMetrics</span>
+        <p>分区选题辅助 · 数据驱动创作决策。</p>
+        <p class="rt-note"><b>关于「真·实时」：</b>纯静态站浏览器端无法直接调 B 站实时热门/搜索接口（CORS+WBI+风控），也无法直连大模型。要做到「实时热门榜 + AI 生成建议」，需部署 Cloudflare Worker 代理（已预留 fetch 替换位）。当前为离线知识库 + 真实快照，可立即使用。</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>产品</h5>
+          <a href="./bilimetrics.html">数据总览</a>
+          <a href="./analysis.html">选题辅助</a>
+          <a href="./bilimetrics-compare/">UP 对比</a>
+          <a href="./videos/">我的视频</a>
+        </div>
+        <div class="foot-col">
+          <h5>资源</h5>
+          <a href="./index.html">返回门户</a>
+          <a href="https://space.bilibili.com/374392541" target="_blank" rel="noopener">UP 主空间</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>版权所有 2026 BiliMetrics · 数据来源于公开接口，仅供学习研究</span>
+      <span>Designed with WorkBuddy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+'use strict';
+// ===== 真实数据规律（本人 30 条视频，倍数＝题材均值 ÷ 全量均值） =====
+const INSIGHTS = [
+  { label:'追逐 / 逃杀', mult:1.80 },
+  { label:'场景化探索', mult:1.44 },
+  { label:'恐怖 / 惊悚', mult:1.28 },
+  { label:'NextBot 整活', mult:1.11 },
+  { label:'多人 / 联动', mult:1.08 },
+  { label:'节日 / 梗蹭', mult:0.96 },
+];
+// ===== 选题策略知识库 =====
+const CARDS = [
+  { rank:'①', title:'追逐 / 逃杀玩法', diff:'low', diffTxt:'低门槛', tags:['追逐','逃杀','刺激','NextBot','爆款'],
+    why:'强情绪 + 强完播——追逐天然制造紧张，算法偏爱高完播高互动。你已有稳定产出，是最该加量的方向。',
+    ev:'本人「追逐」类 7 条 总互动 ×1.80、收藏 ×2.20，远超基线。',
+    refs:'小潮院长 · 吊德斯DioDes' },
+  { rank:'②', title:'恐怖 / 惊悚氛围', diff:'mid', diffTxt:'中难度', tags:['恐怖','惊险','刺激','压迫感','黑暗','点赞'],
+    why:'情绪激昂→点赞冲动强；标题带「刺激/压迫/逃生」直接抬点击率。适合做系列化惊悚沙盒。',
+    ev:'本人恐怖向 7 条 点赞 ×1.38、总互动 ×1.28。',
+    refs:'-勾魂公狒狒-' },
+  { rank:'③', title:'高收藏率题材', diff:'mid', diffTxt:'中难度', tags:['收藏','场景化','迷宫','雪山','基地','存档'],
+    why:'收藏＝用户认为「以后有用/想重看」，算法权重高、长尾强。迷宫/基地/雪山类收藏率极高。',
+    ev:'场景化 2 条 收藏 ×2.14、总互动 ×1.44；追逐收藏 ×2.20。',
+    refs:'吊德斯DioDes' },
+  { rank:'④', title:'NextBot / 怪物整活', diff:'low', diffTxt:'低门槛', tags:['NextBot','怪物','奥巴嘎','整活','人设'],
+    why:'辨识度高→粉丝记住你，系列化可做个人 IP。奥巴嘎/魔物是你的招牌标签。',
+    ev:'怪物类收藏 ×1.20，稳定高于基线，适合长期做。',
+    refs:'-勾魂公狒狒- · 小潮院长' },
+  { rank:'⑤', title:'多人联机 / 沙雕联动', diff:'mid', diffTxt:'中难度', tags:['联动','多人','沙雕','反应','破圈'],
+    why:'多人反应素材天然有梗、易传播；联动可借对方流量互推，是破圈最快路径。',
+    ev:'多人向 3 条 总互动 ×1.08，中规中矩，做精有空间。',
+    refs:'地瓜BB（成长中，可互推）' },
+  { rank:'⑥', title:'标题与封面（点击率命门）', diff:'low', diffTxt:'改文案即可', tags:['标题','封面','点击率','句式'],
+    why:'你的「场景化+情绪词」标题收藏强；但硬蹭节日（月饼类）点赞 ×0.56 反而弱——别硬蹭，做题材。',
+    ev:'节日 / 梗类 4 条 点赞 ×0.56，明显偏弱。',
+    refs:'全部' },
+  { rank:'⑦', title:'更新频率与系列化', diff:'mid', diffTxt:'中难度', tags:['更新频率','节奏','系列化','追更'],
+    why:'稳定更新→账号活跃权重；系列化→追更留存。别断更，头部 UP 靠周更维持推荐池。',
+    ev:'本人 30 条 稳定产出；头部精选 6 条均高互动，靠更新节奏维持。',
+    refs:'小潮院长（周更） · 吊德斯DioDes' },
+  { rank:'⑧', title:'开头 3 秒钩子', diff:'low', diffTxt:'低门槛', tags:['开头','钩子','完播率','节奏'],
+    why:'完播率决定推荐量级。前 3 秒给冲突/悬念/反差，完播↑→推荐↑。追逐/恐怖的高倍数已印证。',
+    ev:'追逐 ×1.80 / 恐怖 ×1.28，高互动与高完播强相关。',
+    refs:'全部' },
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// 高亮命中词
+function hl(text, terms){
+  if (!terms.length) return esc(text);
+  const re = new RegExp('(' + terms.map(escRe).join('|') + ')', 'gi');
+  return esc(text).replace(re, '<mark>$1</mark>');
+}
+
+// 渲染规律条
+function renderInsights(){
+  const max = Math.max(...INSIGHTS.map(i => i.mult)) || 1;
+  document.getElementById('insightBars').innerHTML = INSIGHTS.map(i => {
+    const w = Math.max(4, (i.mult / max * 100)).toFixed(1);
+    const cls = i.mult >= 1 ? 'up' : 'down';
+    return `<div class="ibar">
+      <span class="il">${esc(i.label)}</span>
+      <span class="it"><span class="if" style="width:${w}%"></span></span>
+      <span class="iv ${cls}">×${i.mult.toFixed(2)}</span>
+    </div>`;
+  }).join('');
+}
+
+// 渲染卡片
+function renderCards(terms){
+  const grid = document.getElementById('cardGrid');
+  const empty = document.getElementById('emptyState');
+  const kw = document.getElementById('emptyKw');
+  const list = CARDS.filter(c => {
+    if (!terms.length) return true;
+    const hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.why + ' ' + c.ev).toLowerCase();
+    return terms.every(t => hay.includes(t.toLowerCase()));
+  });
+  grid.innerHTML = list.map(c => `
+    <div class="scard">
+      <h4><span class="rk">${esc(c.rank)}</span>${hl(c.title, terms)}</h4>
+      <div class="tags">${c.tags.map(t => `<span class="tg">${hl(t, terms)}</span>`).join('')}</div>
+      <div class="why">${hl(c.why, terms)}</div>
+      <div class="ev">${hl(c.ev, terms)}</div>
+      <div class="row2">
+        <span class="refs">参考 <b>${esc(c.refs)}</b></span>
+        <span class="diff ${c.diff}">${esc(c.diffTxt)}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('rc').textContent = list.length;
+  if (list.length === 0){
+    empty.classList.add('show');
+    kw.textContent = terms.join(' / ');
+  } else {
+    empty.classList.remove('show');
+  }
+}
+
+// 搜索逻辑（实时）
+let activeTag = '';
+const qEl = document.getElementById('q');
+function apply(){
+  const text = (qEl.value || activeTag || '').trim();
+  const terms = text.split(/\s+/).filter(Boolean);
+  renderCards(terms);
+}
+qEl.addEventListener('input', () => { activeTag = ''; syncTags(); apply(); });
+document.getElementById('hotTags').querySelectorAll('.ht').forEach(t => {
+  t.addEventListener('click', () => {
+    const k = t.dataset.k;
+    if (activeTag === k){ activeTag = ''; qEl.value = ''; }
+    else { activeTag = k; qEl.value = k; }
+    syncTags(); apply();
+  });
+});
+function syncTags(){
+  document.getElementById('hotTags').querySelectorAll('.ht').forEach(t =>
+    t.classList.toggle('on', t.dataset.k === activeTag));
+}
+
+renderInsights();
+renderCards([]);
+</script>
+</body>
+</html>
