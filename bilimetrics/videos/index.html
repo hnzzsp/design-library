@@ -24,7 +24,7 @@
     <div class="hero-meta">
       <span class="chip" id="snapshotChip">快照时间 —</span>
       <span class="chip ghost">数据源 · B 站公开接口（服务端真实抓取）</span>
-      <span class="chip ghost warn">播放/评论/弹幕为真实值；投币/收藏接口未返回，标注「—」</span>
+      <span class="chip ghost ok">播放/评论/弹幕/点赞/收藏/投币/分享均为接口真实值</span>
     </div>
   </div>
 </header>
@@ -64,32 +64,31 @@
     <div class="pool" id="pool"></div>
   </section>
 
-  <!-- 模块三：对比结果 -->
+  <!-- 模块三：对比结果（两部分：互动分类 / 汇总分类） -->
   <section class="block" id="resultBlock" hidden>
     <div class="block-head">
       <h2>横向对比结果</h2>
-      <p class="block-sub">多维指标卡 · 柱状对比 · 能力雷达 · 明细表</p>
+      <p class="block-sub">以数据图表呈现，不堆视频素材 —— 互动分类对比 + 汇总分类统计两大部分。</p>
     </div>
 
-    <!-- 对比卡片 -->
-    <div class="cmp-cards" id="cmpCards"></div>
-
-    <!-- 柱状对比 -->
+    <!-- 第一部分：互动分类对比（弹幕 / 点赞 / 收藏） -->
     <div class="panel">
-      <div class="panel-head"><h3>核心指标柱状对比</h3><span class="panel-note">播放量以「万」为单位</span></div>
-      <div class="bars" id="bars"></div>
+      <div class="panel-head"><h3>互动分类对比 · 弹幕 / 点赞 / 收藏</h3><span class="panel-note">各分类独立柱状对比 + 分类统计</span></div>
+      <div class="bars" id="interBars"></div>
+      <div class="legend" id="interLegend"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>互动分类统计对比</h3><span class="panel-note">所选视频按分类汇总的统计结果</span></div>
+      <div class="table-scroll"><table class="detail" id="interTable"></table></div>
     </div>
 
-    <!-- 雷达 -->
+    <!-- 第二部分：汇总分类对比（综合统计） -->
     <div class="panel">
-      <div class="panel-head"><h3>能力雷达（归一化）</h3><span class="panel-note">各指标按所选视频最大值归一到 100</span></div>
-      <div class="radar-wrap"><svg id="radar" viewBox="0 0 420 360" class="radar"></svg></div>
-      <div class="legend" id="radarLegend"></div>
+      <div class="panel-head"><h3>汇总分类对比 · 综合统计</h3><span class="panel-note">总互动量柱状图 + 全指标明细</span></div>
+      <div class="bars" id="sumBars"></div>
     </div>
-
-    <!-- 明细表 -->
     <div class="panel">
-      <div class="panel-head"><h3>数据明细</h3><span class="panel-note">绿色标签＝接口真实值</span></div>
+      <div class="panel-head"><h3>汇总数据明细</h3><span class="panel-note">绿色标签＝接口真实值</span></div>
       <div class="table-scroll"><table class="detail" id="detailTable"></table></div>
     </div>
   </section>
