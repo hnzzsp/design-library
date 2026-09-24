@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我的视频 · 同分区横向对比 | BiliMetrics</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<!-- 返回条 -->
+<div class="topbar">
+  <a class="back" href="../index.html">← BiliMetrics 首页</a>
+  <span class="topbar-tag">我的视频 · 同分区对比</span>
+</div>
+
+<!-- 标题区 -->
+<header class="vhero">
+  <div class="vhero-glow g1"></div>
+  <div class="vhero-glow g2"></div>
+  <div class="vhero-inner">
+    <span class="badge"><i class="dot"></i>游戏分区 · GMOD 创作者数据</span>
+    <h1>我的视频<span class="accent"> · </span>同分区横向对比</h1>
+    <p class="lede">真实抓取你与同分区 UP 主的视频表现，按播放 / 评论 / 弹幕多指标横向对比，看清内容竞争力与爆款规律。</p>
+    <div class="hero-meta">
+      <span class="chip" id="snapshotChip">快照时间 —</span>
+      <span class="chip ghost">数据源 · B 站公开接口（服务端真实抓取）</span>
+      <span class="chip ghost warn">播放/评论/弹幕为真实值；投币/收藏接口未返回，标注「—」</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 模块一：同分区 UP 主阵容 -->
+  <section class="block">
+    <div class="block-head">
+      <h2>同分区 UP 主阵容</h2>
+      <p class="block-sub">点击头像可将该 UP 主的视频纳入 / 移出「对比候选池」。你的视频默认常驻。</p>
+    </div>
+    <div class="roster" id="roster"></div>
+  </section>
+
+  <!-- 模块二：视频候选池 + 对比工作台 -->
+  <section class="block">
+    <div class="block-head">
+      <h2>视频横向对比工作台</h2>
+      <p class="block-sub">从候选池勾选 2–6 条视频加入对比，下方实时生成多维对比视图。</p>
+    </div>
+
+    <div class="pool-bar">
+      <div class="pool-info">
+        已选 <b id="poolCount">0</b> / 6 条 · 对比候选池来自 <b id="poolUpCount">1</b> 位 UP 主
+      </div>
+      <div class="pool-actions">
+        <button class="btn ghost" id="clearPool">清空对比</button>
+        <div class="seg" id="poolFilter">
+          <button data-sort="play" class="active">按播放</button>
+          <button data-sort="comment">按评论</button>
+          <button data-sort="danmaku">按弹幕</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pool" id="pool"></div>
+  </section>
+
+  <!-- 模块三：对比结果 -->
+  <section class="block" id="resultBlock" hidden>
+    <div class="block-head">
+      <h2>横向对比结果</h2>
+      <p class="block-sub">多维指标卡 · 柱状对比 · 能力雷达 · 明细表</p>
+    </div>
+
+    <!-- 对比卡片 -->
+    <div class="cmp-cards" id="cmpCards"></div>
+
+    <!-- 柱状对比 -->
+    <div class="panel">
+      <div class="panel-head"><h3>核心指标柱状对比</h3><span class="panel-note">播放量以「万」为单位</span></div>
+      <div class="bars" id="bars"></div>
+    </div>
+
+    <!-- 雷达 -->
+    <div class="panel">
+      <div class="panel-head"><h3>能力雷达（归一化）</h3><span class="panel-note">各指标按所选视频最大值归一到 100</span></div>
+      <div class="radar-wrap"><svg id="radar" viewBox="0 0 420 360" class="radar"></svg></div>
+      <div class="legend" id="radarLegend"></div>
+    </div>
+
+    <!-- 明细表 -->
+    <div class="panel">
+      <div class="panel-head"><h3>数据明细</h3><span class="panel-note">绿色标签＝接口真实值</span></div>
+      <div class="table-scroll"><table class="detail" id="detailTable"></table></div>
+    </div>
+  </section>
+
+  <!-- 模块四：我的视频库 -->
+  <section class="block">
+    <div class="block-head">
+      <h2>我的视频库</h2>
+      <p class="block-sub">你已发布的全部视频，按指标排序快速定位代表作。</p>
+    </div>
+    <div class="pool-bar">
+      <div class="pool-info">共 <b id="libCount">0</b> 条视频</div>
+      <div class="seg" id="libFilter">
+        <button data-sort="play" class="active">按播放</button>
+        <button data-sort="comment">按评论</button>
+        <button data-sort="danmaku">按弹幕</button>
+      </div>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+</main>
+
+<footer class="vfooter">
+  <div>BiliMetrics · 面向创作者的 B 站大数据洞察</div>
+  <div class="muted">数据快照由服务端 WBI 签名抓取 · 自动实时需接入边缘代理</div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
