@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BiliMetrics 哔哩大数据 · 可视化仪表盘设计稿</title>
+<meta name="description" content="B站大数据与爆款话题实时监控仪表盘设计稿：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区与关键词选题分析。">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#0D1117; --card:#161B22; --border:rgba(240,246,252,.1);
+    --text:#E8ECF4; --muted:#98A2B3; --pink:#FB7299; --blue:#00AEEC; --green:#3FB950;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+  .wrap{max-width:1520px;margin:0 auto;padding:32px 20px 64px}
+  header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:44px;height:44px;flex:0 0 auto}
+  h1{font-size:22px;font-weight:700}
+  .sub{font-size:13px;color:var(--muted)}
+  .links{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{display:inline-block;padding:8px 16px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:13px;text-decoration:none;transition:border-color .2s}
+  .chip:hover{border-color:var(--pink)}
+  .chip.primary{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600}
+  section{margin-bottom:36px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+  .sec-head h2{font-size:17px;font-weight:700}
+  .sec-head span{font-size:12px;color:var(--muted)}
+  .frame{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .frame img{display:block;width:100%;height:auto}
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+  .note{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;font-size:13px;color:var(--muted)}
+  .note b{color:var(--text);display:block;margin-bottom:6px;font-size:13.5px}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="7" width="22" height="15" rx="3" stroke="#FB7299" stroke-width="2"/>
+        <path d="M10 11l6 3-6 3V11z" fill="#FB7299"/>
+        <path d="M7 4l3 3M21 4l-3 3" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>BiliMetrics 哔哩大数据</h1>
+        <div class="sub">B站数据可视化仪表盘 · 设计稿（2026-09-24）</div>
+      </div>
+    </div>
+    <nav class="links">
+      <a class="chip" href="./index.html">← 返回素材库</a>
+      <a class="chip" href="#overview">数据总览</a>
+      <a class="chip" href="#analysis">选题分析</a>
+      <a class="chip primary" href="#notes">设计说明</a>
+    </nav>
+  </header>
+
+  <section id="overview">
+    <div class="sec-head">
+      <h2>① 数据总览仪表盘</h2>
+      <span>实时热门视频核心互动数据 · 爆款/上升话题榜 · 热度趋势与生命周期曲线 · KPI 概览</span>
+    </div>
+    <div class="frame">
+      <img src="assets/bilimetrics/overview.png" alt="数据总览仪表盘：KPI概览、实时热门视频榜、爆款话题榜、上升热点榜、实时热门视频核心互动数据表、话题热度趋势、爆款话题生命周期、分区内容分布" loading="lazy">
+    </div>
+  </section>
+
+  <section id="analysis">
+    <div class="sec-head">
+      <h2>② 选题分析中心</h2>
+      <span>分区热度对比 · 热门关键词榜与竞争度分析 · 选题建议</span>
+    </div>
+    <div class="frame">
+      <img src="assets/bilimetrics/analysis.png" alt="选题分析中心：分区热度对比条形图、热门关键词榜、热门关键词竞争度分析表、三条选题建议卡片" loading="lazy">
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="sec-head"><h2>设计说明</h2><span>给后续开发对齐用</span></div>
+    <div class="notes">
+      <div class="note"><b><span class="dot" style="background:var(--pink)"></span>模块一：实时数据监控</b>
+        热门视频榜 + 核心互动数据表（播放 / 点赞 / 投币 / 收藏 / 弹幕 / 评论），表头标注"每30秒自动刷新"，对应后续接 B站 API 的轮询策略。</div>
+      <div class="note"><b><span class="dot" style="background:var(--blue)"></span>模块二：话题洞察</b>
+        爆款话题榜（热度值）、上升热点榜（24h 飙升幅度）、话题热度趋势（近7天）与生命周期曲线（萌芽→爆发→平台→衰退），用于判断入场时机。</div>
+      <div class="note"><b><span class="dot" style="background:var(--green)"></span>模块三：选题决策</b>
+        分区热度对比 + 关键词竞争度表（热度 / 关联视频 / 平均互动 / 竞争度 / 趋势），输出"蓝海机会 / 潜力股 / 跟随热点"三类选题建议卡。</div>
+      <div class="note"><b><span class="dot" style="background:#D29922"></span>视觉规范</b>
+        深色底 #0D1117 / 卡片 #161B22，B站粉 #FB7299 主强调、B站蓝 #00AEEC 第二数据色、绿 #3FB950 上升、红 #F85149 下降；中文 Noto Sans SC，数字等宽。</div>
+    </div>
+  </section>
+
+  <footer>
+    <span>BiliMetrics 哔哩大数据 · 仪表盘设计稿 · 2026-09-24</span>
+    <span>设计源文件：Ardot · B站大数据可视化仪表盘</span>
+  </footer>
+
+</div>
+</body>
+</html>

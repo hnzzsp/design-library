@@ -9,7 +9,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <meta name="build" content="2026-09-24 10:42">
+  <meta name="build" content="2026-09-24 14:26">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/favicon-180.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
@@ -505,7 +505,7 @@
   </main>
 
   <footer>
-    <div class="wrap">数据来源：Edge 浏览器书签 · 访问次数 = Edge 浏览历史 + 站内点击 · 版本 2026-09-24 10:42</div>
+    <div class="wrap">数据来源：Edge 浏览器书签 · 访问次数 = Edge 浏览历史 + 站内点击 · 版本 2026-09-24 14:26</div>
   </footer>
 
   <div class="updatebar" id="updatebar">
@@ -750,7 +750,7 @@
     };
 
     // 静态站容易吃到旧缓存：开着页面时定期问一次源站，发现构建时间变了就提示刷新
-    const MY_BUILD = '2026-09-24 10:42';
+    const MY_BUILD = '2026-09-24 14:26';
     function checkUpdate() {
       if (typeof fetch !== 'function') return;
       fetch(location.href.split('#')[0], { cache: 'no-store' })
