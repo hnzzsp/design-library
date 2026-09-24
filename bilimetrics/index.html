@@ -8,79 +8,110 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
   :root{
-    --bg:#0D1117; --card:#161B22; --border:rgba(240,246,252,.1);
+    --bg:#0B0E14; --card:#12161F; --card-2:#161B26; --border:rgba(255,255,255,.07);
+    --border-strong:rgba(255,255,255,.13);
     --text:#E8ECF4; --muted:#98A2B3; --faint:#5B6675;
-    --pink:#FB7299; --blue:#00AEEC; --green:#3FB950;
+    --pink:#FB7299; --blue:#00AEEC; --green:#3FB950; --purple:#A371F7; --amber:#E3B341;
     --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
-    --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",monospace;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{text-decoration:none;color:inherit}
   .container{max-width:1200px;margin:0 auto;padding:0 32px}
 
-  /* Header */
-  header.site{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
-  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:19px}
+  /* ===== Header ===== */
+  header.site{position:sticky;top:0;z-index:20;background:rgba(11,14,20,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:19px}
   .logo{width:30px;height:30px;flex:0 0 auto}
   .nav-links{display:flex;align-items:center;gap:30px}
   .nav-links a{font-size:15px;color:var(--muted);transition:color .2s}
   .nav-links a:hover{color:var(--text)}
-  .nav-cta{padding:9px 18px;border-radius:9px;background:var(--pink);color:#fff;font-size:14px;font-weight:600;transition:filter .2s}
-  .nav-cta:hover{filter:brightness(1.08)}
+  .nav-cta{padding:9px 18px;border-radius:10px;background:linear-gradient(120deg,#FB7299,#F8577F);color:#fff;font-size:14px;font-weight:600;transition:transform .18s,box-shadow .18s}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(251,114,153,.32)}
 
-  /* Hero */
-  .hero{position:relative;overflow:hidden;padding:84px 0 72px;text-align:center;
-    background:linear-gradient(160deg,#0D1117 0%,#11151B 100%)}
-  .glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
-  .glow.pink{width:520px;height:520px;left:-40px;top:-80px;background:radial-gradient(circle,rgba(251,114,153,.20),transparent 70%)}
-  .glow.blue{width:480px;height:480px;right:-20px;top:60px;background:radial-gradient(circle,rgba(0,174,236,.16),transparent 70%)}
-  .hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:26px}
-  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
-    background:rgba(251,114,153,.12);border:1px solid rgba(251,114,153,.4);color:var(--pink);font-size:13px;font-weight:600}
-  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--pink)}
-  h1.headline{font-size:clamp(38px,5.2vw,64px);line-height:1.18;font-weight:700;letter-spacing:-.5px;max-width:880px}
-  .subhead{font-size:19px;color:var(--muted);max-width:760px;line-height:1.7}
-  .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:4px}
-  .btn{display:inline-flex;align-items:center;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;transition:filter .2s,transform .15s}
-  .btn:hover{transform:translateY(-1px)}
-  .btn.primary{background:var(--pink);color:#fff}
-  .btn.primary:hover{filter:brightness(1.08)}
-  .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
-  .btn.secondary:hover{border-color:var(--muted)}
+  /* ===== Hero ===== */
+  .hero{position:relative;overflow:hidden;padding:88px 0 76px;
+    background:radial-gradient(1200px 600px at 50% -10%,rgba(251,114,153,.07),transparent 60%),linear-gradient(160deg,#0B0E14 0%,#0F131B 100%)}
+  .glow{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+  .glow.pink{width:560px;height:560px;left:-60px;top:-100px;background:radial-gradient(circle,rgba(251,114,153,.16),transparent 70%)}
+  .glow.blue{width:500px;height:500px;right:-40px;top:80px;background:radial-gradient(circle,rgba(0,174,236,.13),transparent 70%)}
+  .hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;
+    background:rgba(251,114,153,.1);border:1px solid rgba(251,114,153,.35);color:var(--pink);font-size:13px;font-weight:600}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--pink);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  h1.headline{font-size:clamp(40px,5.4vw,66px);line-height:1.16;font-weight:700;letter-spacing:-.5px;max-width:900px;
+    background:linear-gradient(108deg,#E8ECF4 25%,#FB7299 70%,#00AEEC 105%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .subhead{font-size:19px;color:var(--muted);max-width:760px;line-height:1.75}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 30px;border-radius:11px;font-size:15px;font-weight:600;transition:transform .18s,box-shadow .18s,border-color .18s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:linear-gradient(120deg,#FB7299,#F8577F);color:#fff}
+  .btn.primary:hover{box-shadow:0 8px 28px rgba(251,114,153,.36)}
+  .btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--border-strong)}
+  .btn.secondary:hover{border-color:var(--pink)}
 
-  .stat-row{display:flex;gap:48px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+  /* 真实身份卡：头像 + 实时粉丝 */
+  .identity-card{margin-top:22px;display:flex;align-items:center;gap:18px;padding:18px 26px;border-radius:18px;
+    background:linear-gradient(135deg,rgba(251,114,153,.09),rgba(0,174,236,.05)),var(--card);
+    border:1px solid var(--border-strong);box-shadow:0 12px 44px rgba(0,0,0,.4);text-align:left}
+  .identity-card .avatar-ring{width:64px;height:64px;border-radius:50%;padding:3px;flex:0 0 auto;
+    background:conic-gradient(from 140deg,#FB7299,#00AEEC,#A371F7,#FB7299)}
+  .identity-card .avatar-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+  .id-name{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .id-tags{display:flex;gap:6px;margin-top:3px}
+  .id-tag{font-size:11px;padding:1.5px 8px;border-radius:6px;background:rgba(227,179,65,.12);color:var(--amber);border:1px solid rgba(227,179,65,.3);font-weight:600}
+  .id-tag.self{background:rgba(251,114,153,.14);color:var(--pink);border-color:rgba(251,114,153,.4)}
+  .id-fans{margin-top:6px;font-size:13px;color:var(--muted)}
+  .id-fans b{font-family:var(--mono);font-size:22px;color:var(--blue);font-weight:700}
+  .id-fans .verified{color:var(--green);font-size:12px;margin-left:6px}
+  .id-fans a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+  .id-fans a:hover{color:var(--text)}
+
+  /* 对比阵容头像条 */
+  .crew{display:flex;align-items:center;gap:14px;margin-top:6px;font-size:13px;color:var(--muted)}
+  .crew-avatars{display:flex}
+  .crew-avatars img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--bg);margin-left:-10px;transition:transform .2s}
+  .crew-avatars img:first-child{margin-left:0}
+  .crew-avatars img:hover{transform:translateY(-3px) scale(1.08);z-index:2}
+  .crew b{color:var(--text)}
+
+  .stat-row{display:flex;gap:52px;justify-content:center;flex-wrap:wrap;margin-top:12px}
   .stat{display:flex;flex-direction:column;align-items:center;gap:4px}
   .stat .num{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--text)}
+  .stat .num.pink{color:var(--pink)}
   .stat .lbl{font-size:13px;color:var(--muted)}
 
-  .entry-row{display:flex;gap:20px;width:100%;margin-top:18px;text-align:left}
-  .entry{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;padding:28px 26px;border-radius:16px;
-    background:var(--card);border:1px solid var(--border);transition:border-color .2s,transform .2s}
-  .entry:hover{border-color:rgba(251,114,153,.5);transform:translateY(-3px)}
-  .entry .ic{width:32px;height:32px}
+  .entry-row{display:flex;gap:20px;width:100%;margin-top:20px;text-align:left}
+  .entry{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;padding:30px 28px;border-radius:18px;
+    background:var(--card);border:1px solid var(--border);transition:border-color .22s,transform .22s,box-shadow .22s}
+  .entry:hover{border-color:rgba(251,114,153,.45);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .entry .ic{width:34px;height:34px}
   .entry h3{font-size:18px;font-weight:700}
-  .entry p{font-size:14px;color:var(--muted);line-height:1.6;flex:1}
+  .entry p{font-size:14px;color:var(--muted);line-height:1.65;flex:1}
   .entry .arrow{display:flex;align-items:center;gap:6px;color:var(--pink);font-size:14px;font-weight:600}
 
-  /* Capabilities */
-  .capabilities{padding:72px 0;background:var(--bg)}
-  .cap-head{text-align:center;margin-bottom:36px}
+  /* ===== Capabilities ===== */
+  .capabilities{padding:80px 0;background:var(--bg)}
+  .cap-head{text-align:center;margin-bottom:40px}
   .cap-head h2{font-size:32px;font-weight:700}
   .cap-head p{font-size:16px;color:var(--muted);margin-top:10px}
   .cap-grid{display:flex;gap:20px;flex-wrap:wrap}
-  .cap-card{flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:14px;
-    background:var(--card);border:1px solid var(--border)}
+  .cap-card{flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px;padding:26px;border-radius:16px;
+    background:var(--card);border:1px solid var(--border);transition:border-color .22s,transform .22s}
+  .cap-card:hover{border-color:var(--border-strong);transform:translateY(-3px)}
   .cap-card .ic{width:24px;height:24px}
   .cap-card h4{font-size:16px;font-weight:700}
-  .cap-card p{font-size:13px;color:var(--muted);line-height:1.6}
+  .cap-card p{font-size:13px;color:var(--muted);line-height:1.65}
 
-  /* Footer */
-  footer.site{background:#0A0D12;padding:56px 0 40px;border-top:1px solid var(--border)}
+  /* ===== Footer ===== */
+  footer.site{background:#080B10;padding:56px 0 40px;border-top:1px solid var(--border)}
   .foot-top{display:flex;gap:64px;justify-content:space-between;flex-wrap:wrap;margin-bottom:36px}
-  .foot-brand{display:flex;flex-direction:column;gap:10px;max-width:260px}
+  .foot-brand{display:flex;flex-direction:column;gap:10px;max-width:280px}
   .foot-brand .brand{font-size:18px}
   .foot-brand p{font-size:13px;color:var(--muted)}
   .foot-cols{display:flex;gap:56px;flex-wrap:wrap}
@@ -95,6 +126,7 @@
     .entry-row{flex-direction:column}
     .stat-row{gap:32px}
     .foot-top{gap:36px}
+    .identity-card{flex-direction:row;text-align:left}
   }
 </style>
 </head>
@@ -129,11 +161,35 @@
       <a class="btn primary" href="../bilimetrics.html">进入数据总览</a>
       <a class="btn secondary" href="../bilimetrics-compare/">开始 UP 主对比</a>
     </div>
+
+    <!-- 真实身份卡（头像取自 B 站，粉丝数为实时抓取） -->
+    <div class="identity-card">
+      <span class="avatar-ring"><img src="../bilimetrics-compare/assets/avatars/self.jpg" alt="张爷丨张TaMa 头像"></span>
+      <div>
+        <div class="id-name">张爷丨张TaMa</div>
+        <div class="id-tags"><span class="id-tag self">本人</span><span class="id-tag">Lv6</span><span class="id-tag">知名偶像</span></div>
+        <div class="id-fans">当前粉丝 <b>24.06</b> 万<span class="verified">✔ 2026-09-24 实时抓取</span> ·
+          <a href="https://space.bilibili.com/374392541" target="_blank" rel="noopener">空间主页</a></div>
+      </div>
+    </div>
+
+    <!-- 实时对比阵容 -->
+    <div class="crew">
+      <span class="crew-avatars">
+        <img src="../bilimetrics-compare/assets/avatars/self.jpg" alt="张爷丨张TaMa">
+        <img src="../bilimetrics-compare/assets/avatars/up_yingshi.jpg" alt="影视飓风">
+        <img src="../bilimetrics-compare/assets/avatars/up_luoxiang.jpg" alt="罗翔说刑法">
+        <img src="../bilimetrics-compare/assets/avatars/up_banfo.jpg" alt="硬核的半佛仙人">
+      </span>
+      <span>实时对比阵容 · <b>4</b> 位已验证 UP 主</span>
+    </div>
+
     <div class="stat-row">
-      <div class="stat"><span class="num">6+</span><span class="lbl">实时追踪 UP 主</span></div>
+      <div class="stat"><span class="num pink">24.06万</span><span class="lbl">本人真实粉丝基线</span></div>
       <div class="stat"><span class="num">9</span><span class="lbl">项核心互动指标</span></div>
       <div class="stat"><span class="num">30</span><span class="lbl">天趋势回溯</span></div>
     </div>
+
     <div class="entry-row">
       <a class="entry" href="../bilimetrics.html">
         <svg class="ic" viewBox="0 0 32 32" fill="none"><rect x="3" y="3" width="26" height="26" rx="4" stroke="#00AEEC" stroke-width="2"/><path d="M8 21V13M16 21V9M24 21V16" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>
@@ -150,7 +206,7 @@
       <a class="entry" href="../bilimetrics-compare/">
         <svg class="ic" viewBox="0 0 32 32" fill="none"><circle cx="12" cy="12" r="5" stroke="#3FB950" stroke-width="2"/><path d="M4 26c0-4 4-7 8-7s8 3 8 7" stroke="#3FB950" stroke-width="2" stroke-linecap="round"/><path d="M22 9a4 4 0 0 1 0 8M24 26c0-3 2-5 5-6" stroke="#3FB950" stroke-width="2" stroke-linecap="round"/></svg>
         <h3>UP 主多维对比</h3>
-        <p>9 项核心指标雷达 / 柱状 / 折线对比，看清你与头部 UP 主的差距。</p>
+        <p>真实粉丝数据 × 9 项指标雷达 / 柱状 / 折线对比，看清你与头部 UP 主的差距。</p>
         <span class="arrow">前往 <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </a>
     </div>
@@ -178,7 +234,7 @@
       <div class="cap-card">
         <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="#3FB950" stroke-width="2" stroke-linecap="round"/></svg>
         <h4>多维对比</h4>
-        <p>9 项指标雷达 / 柱 / 折线，横向看清竞争力。</p>
+        <p>真实粉丝基线 × 9 项指标，雷达 / 柱 / 折线横向看清竞争力。</p>
       </div>
       <div class="cap-card">
         <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#00AEEC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#00AEEC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -195,7 +251,7 @@
     <div class="foot-top">
       <div class="foot-brand">
         <span class="brand">BiliMetrics</span>
-        <p>B 站大数据洞察平台</p>
+        <p>B 站大数据洞察平台 · 数据驱动创作决策</p>
       </div>
       <div class="foot-cols">
         <div class="foot-col">
@@ -207,7 +263,7 @@
         <div class="foot-col">
           <h5>资源</h5>
           <a href="../index.html">返回素材库</a>
-          <a href="#about">关于平台</a>
+          <a href="https://space.bilibili.com/374392541" target="_blank" rel="noopener">UP 主空间</a>
         </div>
       </div>
     </div>

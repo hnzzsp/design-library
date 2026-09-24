@@ -7,90 +7,97 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <a href="../bilimetrics/index.html" style="display:inline-block;margin:14px 20px 0;padding:8px 16px;border-radius:10px;background:#161B22;border:1px solid rgba(240,246,252,.1);color:#C9D1D9;font-size:13px;font-family:'Noto Sans SC',sans-serif;">← BiliMetrics 首页</a>
+  <div class="bg-glow bg-glow--pink"></div>
+  <div class="bg-glow bg-glow--blue"></div>
+
   <!-- 顶栏 -->
   <header class="topbar">
-    <div class="brand">
-      <svg class="logo" viewBox="0 0 28 28" fill="none">
+    <a class="brand" href="../bilimetrics/index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none" aria-hidden="true">
         <rect x="3" y="7" width="22" height="15" rx="3" stroke="#FB7299" stroke-width="2"/>
         <path d="M10 11l6 3-6 3V11z" fill="#FB7299"/>
         <path d="M7 4l3 3M21 4l-3 3" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <div class="titles">
-        <h1>BiliMetrics 哔哩大数据</h1>
-        <p>UP 主多维度数据对比 · 效果预览</p>
+      <span class="brand-name">BiliMetrics</span>
+      <span class="brand-sub">哔哩大数据</span>
+    </a>
+    <div class="topbar-right">
+      <div class="snapshot-chip" id="snapshotChip" title="粉丝数通过 B 站接口实时抓取，其余指标为示例估算">
+        <span class="live-dot"></span>
+        <span id="snapshotText">快照加载中…</span>
       </div>
-    </div>
-    <div class="live-chip">
-      <span class="live-dot"></span>
-      <span id="liveText">示例数据 · 实时预览</span>
+      <button class="refresh-btn" id="refreshBtn" title="重新渲染最新快照（自动实时需接入代理）">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        刷新
+      </button>
     </div>
   </header>
 
-  <!-- 控制条：UP 选择 + 指标选择 -->
-  <section class="controls">
-    <div class="ctrl-block">
-      <label class="heading">选择对比的 UP 主（本人已锁定）</label>
-      <div class="up-selector" id="upSelector"></div>
-    </div>
-    <div class="ctrl-block">
-      <label class="heading">图表指标</label>
-      <div class="select-row">
-        <select id="barMetric" aria-label="柱状图指标"></select>
-        <select id="lineMetric" aria-label="折线图指标"></select>
-      </div>
-    </div>
-  </section>
+  <main class="page">
+    <!-- 页头 -->
+    <section class="page-head">
+      <h1>UP 主多维度数据对比</h1>
+      <p>基于 B 站真实粉丝数据的多维横向对比 —— 点击头像卡片即可实时增删对比对象，三图联动刷新。</p>
+    </section>
 
-  <!-- 对比摘要 -->
-  <div class="summary" id="summary"></div>
-
-  <!-- 图表区 -->
-  <section class="grid">
-    <div class="card">
+    <!-- UP 主头像展示模块（兼作选择器） -->
+    <section class="card avatar-card">
       <div class="card-head">
-        <h2>多维能力雷达图</h2>
-        <span class="tag">8 项指标归一化</span>
+        <h2>对比对象</h2>
+        <span class="tag">头像取自 B 站真实资料 · 点击切换</span>
       </div>
-      <div id="radar"></div>
-      <div class="legend" id="radarLegend"></div>
-    </div>
+      <div class="avatar-wall" id="avatarWall"></div>
+    </section>
 
-    <div class="card">
+    <!-- 核心对比摘要 -->
+    <section class="summary" id="summary"></section>
+
+    <!-- 图表区 -->
+    <section class="grid">
+      <div class="card">
+        <div class="card-head">
+          <h2>多维能力雷达</h2>
+          <span class="tag">8 项指标归一化</span>
+        </div>
+        <div id="radar"></div>
+        <div class="legend" id="radarLegend"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>单指标对比</h2>
+          <select id="barMetric" aria-label="柱状图指标"></select>
+        </div>
+        <div id="bar"></div>
+        <div class="legend" id="barLegend"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>30 天趋势</h2>
+          <select id="lineMetric" aria-label="折线图指标"></select>
+        </div>
+        <div id="line"></div>
+        <div class="legend" id="lineLegend"></div>
+      </div>
+    </section>
+
+    <!-- 数据明细表 -->
+    <section class="card table-card">
       <div class="card-head">
-        <h2>单指标对比 · 柱状图</h2>
-        <span class="tag" id="barTag">播放量</span>
+        <h2>对比数据明细</h2>
+        <span class="tag">单位：万</span>
       </div>
-      <div id="bar"></div>
-      <div class="legend" id="barLegend"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head">
-        <h2>30 天趋势 · 折线图</h2>
-        <span class="tag" id="lineTag">粉丝数(万)</span>
+      <div class="table-wrap">
+        <table id="dataTable"></table>
       </div>
-      <div id="line"></div>
-      <div class="legend" id="lineLegend"></div>
-    </div>
-  </section>
+    </section>
 
-  <!-- 数据明细表 -->
-  <section class="card table-card">
-    <div class="card-head">
-      <h2>对比数据明细</h2>
-      <span class="tag">单位：万</span>
-    </div>
-    <div class="table-wrap">
-      <table id="dataTable"></table>
-    </div>
-  </section>
-
-  <p class="note">
-    说明：本页为「效果预览」原型，内置示例数据。接入真实 B 站数据只需替换
-    <code>data.js</code> 中的 <code>UPS</code> 数组（字段与单位见文件顶部注释），无需改动图表与交互逻辑。
-    雷达图用于多维度能力轮廓对比，柱状图用于单项指标横评，折线图用于 30 天走势对比。
-  </p>
+    <p class="note">
+      数据说明：粉丝数为 <b>2026-09-24 通过 B 站接口抓取的真实值</b>（头像同源）；播放、点赞、投币、收藏、弹幕、评论及 30 天趋势为<b>示例估算</b>，
+      仅演示多维对比形态。接入后端代理（如 Cloudflare Worker）调用 B 站开放接口后，替换 <code>data.js</code> 的 <code>UPS</code> 数组即可全量实时化，图表与交互无需改动。
+    </p>
+  </main>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
