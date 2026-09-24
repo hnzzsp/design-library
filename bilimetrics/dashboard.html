@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据总览仪表盘 · BiliMetrics 哔哩大数据</title>
+<meta name="description" content="B站大数据实时监控仪表盘：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区内容分布。支持时间范围切换、关键词检索、多列排序与自动刷新。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+  :root{
+    --bg:#0D1117; --card:#161B22; --card-2:#1C2230; --card-3:#212936;
+    --border:rgba(240,246,252,.1); --border-2:rgba(240,246,252,.18);
+    --text:#E8ECF4; --muted:#98A2B3; --faint:#6E7681;
+    --pink:#FB7299; --blue:#00AEEC; --green:#3FB950; --red:#F85149;
+    --amber:#D29922; --purple:#A371F7;
+    --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",monospace;
+    --r:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:40px}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1520px;margin:0 auto;padding:22px 20px 0}
+
+  /* ============ 顶部工具条 ============ */
+  .topbar{position:sticky;top:0;z-index:30;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);padding:16px 0;margin-bottom:22px}
+  .topbar .wrap{padding-top:0;padding-bottom:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:13px;flex:0 0 auto}
+  .brand .logo{width:44px;height:44px;flex:0 0 auto}
+  .brand h1{font-size:21px;font-weight:700;letter-spacing:-.2px;line-height:1.3}
+  .brand .sub{font-size:12.5px;color:var(--muted)}
+  .tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-left:auto}
+
+  .search{position:relative;width:290px}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none}
+  #q{width:100%;padding:10px 34px 10px 38px;border-radius:10px;background:var(--card);
+    border:1px solid var(--border);color:var(--text);font-size:13.5px;font-family:var(--font);outline:none;
+    transition:border-color .2s,box-shadow .2s}
+  #q::placeholder{color:var(--faint)}
+  #q:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(251,114,153,.13)}
+  .search .kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10.5px;
+    font-family:var(--mono);color:var(--faint);border:1px solid var(--border);border-radius:5px;padding:1px 5px;pointer-events:none}
+  #q:focus ~ .kbd{opacity:0}
+  .search .clr{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:19px;height:19px;border:none;
+    border-radius:50%;background:var(--card-3);color:var(--muted);cursor:pointer;display:none;align-items:center;
+    justify-content:center;font-size:13px;line-height:1;padding:0}
+  .search.has-val .clr{display:flex}
+  .search.has-val .kbd{display:none}
+
+  .seg{display:flex;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
+  .seg button{border:none;background:transparent;color:var(--muted);font-size:13px;font-family:var(--font);
+    padding:6px 15px;border-radius:7px;cursor:pointer;transition:background .2s,color .2s;font-weight:500;white-space:nowrap}
+  .seg button:hover{color:var(--text)}
+  .seg button.on{background:var(--pink);color:#fff;font-weight:600;box-shadow:0 2px 10px rgba(251,114,153,.3)}
+
+  .live{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;background:var(--card);
+    border:1px solid var(--border);font-size:13px;font-family:var(--mono);cursor:pointer;transition:border-color .2s;white-space:nowrap}
+  .live:hover{border-color:var(--border-2)}
+  .live .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(63,185,80,.6);
+    animation:pulse 2s infinite;flex:0 0 auto}
+  .live.paused .dot{background:var(--faint);animation:none}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,185,80,.55)}70%{box-shadow:0 0 0 7px rgba(63,185,80,0)}100%{box-shadow:0 0 0 0 rgba(63,185,80,0)}}
+  .live .t{color:var(--text)}
+  .live.paused .t{color:var(--faint)}
+
+  /* ============ KPI ============ */
+  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:18px}
+  .kpi{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+    padding:16px 18px;overflow:hidden;transition:border-color .22s,transform .22s,box-shadow .22s}
+  .kpi::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:var(--kc,var(--pink));
+    opacity:.75;transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .kpi.in::before{transform:scaleX(1)}
+  .kpi:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.32)}
+  .kpi .ic{width:22px;height:22px;margin-bottom:12px;display:block}
+  .kpi .lbl{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .kpi .val{font-family:var(--mono);font-size:clamp(24px,2vw,31px);font-weight:700;letter-spacing:-1px;line-height:1.28;margin-top:3px}
+  .kpi .delta{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:12px;
+    font-family:var(--mono);font-weight:600;padding:2px 8px;border-radius:6px}
+  .kpi .delta.up{color:var(--green);background:rgba(63,185,80,.11)}
+  .kpi .delta.down{color:var(--red);background:rgba(248,81,73,.11)}
+  .kpi .delta .note{color:var(--muted);font-weight:400;font-family:var(--font)}
+
+  /* ============ 榜单三栏 ============ */
+  .board-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .card-head{display:flex;align-items:center;gap:9px;padding:15px 18px;border-bottom:1px solid var(--border)}
+  .card-head .ic{width:18px;height:18px;flex:0 0 auto}
+  .card-head h2{font-size:14.5px;font-weight:700}
+  .card-head .tag{margin-left:auto;font-size:11px;color:var(--muted);background:var(--card-2);
+    border:1px solid var(--border);padding:2px 9px;border-radius:6px;white-space:nowrap}
+  .card-head .badge-live{margin-left:auto;font-size:11px;color:var(--green);background:rgba(63,185,80,.1);
+    border:1px solid rgba(63,185,80,.35);padding:2px 9px;border-radius:6px;font-weight:600;white-space:nowrap}
+
+  .list{padding:8px 0}
+  .item{display:flex;align-items:center;gap:11px;padding:9px 18px;cursor:pointer;transition:background .16s;
+    position:relative}
+  .item:hover{background:rgba(255,255,255,.035)}
+  .item.dim{opacity:.24}
+  .item.hit{background:rgba(251,114,153,.09)}
+  .item .rk{width:19px;flex:0 0 auto;font-family:var(--mono);font-size:13px;font-weight:700;text-align:center}
+  .item .rk.t1{color:var(--pink)}.item .rk.t2{color:var(--blue)}.item .rk.t3{color:var(--amber)}
+  .item .rk.tn{color:var(--faint);font-weight:500}
+  .item .tt{flex:1;min-width:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item .vv{font-family:var(--mono);font-size:12.5px;color:var(--muted);flex:0 0 auto}
+  .item .vv.up{color:var(--green)}
+  .item .vv.hot{color:var(--pink)}
+  .item .go{position:absolute;right:14px;font-size:11px;color:var(--pink);opacity:0;transition:opacity .18s}
+  .item:hover .go{opacity:1}
+  .item:hover .vv{opacity:0}
+  mark{background:rgba(251,114,153,.34);color:#fff;border-radius:3px;padding:0 2px}
+
+  /* ============ 大表 ============ */
+  .table-card{margin-bottom:18px}
+  .table-scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:960px}
+  thead th{position:sticky;top:0;background:var(--card);text-align:right;padding:11px 14px;font-size:12px;
+    color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;user-select:none;
+    transition:color .18s;z-index:2}
+  thead th.l{text-align:left}
+  thead th.sortable{cursor:pointer}
+  thead th.sortable:hover{color:var(--text)}
+  thead th .arw{display:inline-block;margin-left:4px;opacity:.35;font-size:10px;transition:opacity .18s}
+  thead th.on{color:var(--pink)}
+  thead th.on .arw{opacity:1}
+  tbody td{padding:10px 14px;text-align:right;border-bottom:1px solid rgba(240,246,252,.05);
+    font-family:var(--mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+  tbody td.l{text-align:left;font-family:var(--font);font-size:13px;color:var(--text);max-width:340px;
+    overflow:hidden;text-overflow:ellipsis}
+  tbody tr{transition:background .16s}
+  tbody tr:hover{background:rgba(255,255,255,.035)}
+  tbody tr.dim{opacity:.22}
+  tbody tr:last-child td{border-bottom:none}
+  td .up-name{color:var(--muted);font-family:var(--font);font-size:12.5px}
+  td .rk-n{font-family:var(--mono);font-weight:700;color:var(--faint)}
+  td .rk-n.t1{color:var(--pink)}td .rk-n.t2{color:var(--blue)}td .rk-n.t3{color:var(--amber)}
+  td .spark{display:inline-block;vertical-align:middle;margin-left:8px;opacity:.85}
+  .flash{animation:flash .9s ease-out}
+  @keyframes flash{0%{color:var(--green);background:rgba(63,185,80,.14)}100%{background:transparent}}
+  .empty-row td{text-align:center;padding:44px 14px;color:var(--muted);font-family:var(--font);font-size:14px}
+
+  /* ============ 底部三图 ============ */
+  .chart-row{display:grid;grid-template-columns:1.15fr 1.15fr 1fr;gap:16px}
+  .chart-body{padding:16px 18px 12px}
+  .chart-body svg{display:block;width:100%;height:auto;overflow:visible}
+  .tip{position:fixed;z-index:60;pointer-events:none;opacity:0;transition:opacity .14s;
+    background:rgba(28,34,48,.97);border:1px solid var(--border-2);border-radius:9px;padding:8px 12px;
+    font-size:12px;box-shadow:0 8px 26px rgba(0,0,0,.5);white-space:nowrap}
+  .tip.on{opacity:1}
+  .tip b{font-family:var(--mono);color:var(--pink);font-size:13.5px}
+  .tip .tt-l{color:var(--muted);display:block;font-size:11.5px;margin-bottom:2px}
+
+  .bar-row{margin-bottom:13px}
+  .bar-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;margin-bottom:5px}
+  .bar-top .bn{color:var(--text)}
+  .bar-top .bv{font-family:var(--mono);color:var(--muted);font-size:12px;transition:color .2s}
+  .bar-row:hover .bv{color:var(--text)}
+  .bar-track{height:9px;background:var(--card-2);border-radius:5px;overflow:hidden}
+  .bar-fill{height:100%;width:0;border-radius:5px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .bar-row:hover .bar-track{box-shadow:0 0 0 1px var(--border-2)}
+
+  .stage-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--muted)}
+  .stage-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
+  /* ============ 页脚 ============ */
+  .foot{margin-top:26px;padding-top:18px;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+    font-size:12px;color:var(--faint)}
+  .foot .nav-mini{display:flex;gap:16px;flex-wrap:wrap}
+  .foot .nav-mini a{color:var(--muted);transition:color .2s}
+  .foot .nav-mini a:hover{color:var(--text)}
+  .foot .nav-mini a.on{color:var(--pink);font-weight:600}
+
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+  /* 常规桌面窗口（≈1200-1400px）保持设计稿的 5 列 KPI / 3 列图表排布 */
+  @media (max-width:1080px){
+    .kpi-row{grid-template-columns:repeat(3,1fr)}
+    .chart-row{grid-template-columns:1fr 1fr}
+    .chart-row .card:nth-child(3){grid-column:1/-1}
+    .search{width:220px}
+    .brand .sub{display:none}
+  }
+  @media (max-width:940px){
+    .board-row{grid-template-columns:1fr}
+    .search{width:200px}
+  }
+  @media (max-width:760px){
+    .kpi-row{grid-template-columns:repeat(2,1fr)}
+    .chart-row{grid-template-columns:1fr}
+    .chart-row .card:nth-child(3){grid-column:auto}
+    .tools{width:100%}
+    .search{width:100%}
+    .brand h1{font-size:18px}
+    .kpi .val{font-size:26px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= 顶部工具条 ================= -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="7" width="22" height="15" rx="4" stroke="#FB7299" stroke-width="2"/>
+        <path d="M10.5 11l6 3-6 3v-6z" fill="#FB7299"/>
+        <path d="M7 3.5l3 3.5M21 3.5l-3 3.5" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <h1>BiliMetrics 哔哩大数据</h1>
+        <div class="sub">实时数据监控中心 · 爆款话题洞察</div>
+      </div>
+    </a>
+
+    <div class="tools">
+      <div class="search" id="searchBox">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="text" placeholder="搜索热门视频 / 话题 / UP主" autocomplete="off" spellcheck="false">
+        <span class="kbd">/</span>
+        <button class="clr" id="clrQ" title="清空" aria-label="清空搜索">×</button>
+      </div>
+
+      <div class="seg" role="group" aria-label="时间范围">
+        <button data-range="today">今日</button>
+        <button data-range="week" class="on">近7天</button>
+        <button data-range="month">近30天</button>
+      </div>
+
+      <div class="live" id="liveBtn" title="点击暂停 / 继续自动刷新">
+        <span class="dot"></span><span>实时</span><span class="t" id="clock">--:--</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= KPI ================= -->
+  <section class="kpi-row" id="kpiRow" aria-label="核心指标概览"></section>
+
+  <!-- ================= 三大榜单 ================= -->
+  <section class="board-row">
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299"/></svg>
+        <h2>实时热门视频榜</h2>
+        <span class="tag">TOP 10 · 按播放量</span>
+      </div>
+      <div class="list" id="videoList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round"/></svg>
+        <h2>爆款话题榜</h2>
+        <span class="tag">热度值</span>
+      </div>
+      <div class="list" id="topicList"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2>上升热点榜</h2>
+        <span class="tag">24h 飙升</span>
+      </div>
+      <div class="list" id="risingList"></div>
+    </div>
+  </section>
+
+  <!-- ================= 核心互动数据表 ================= -->
+  <section class="card table-card">
+    <div class="card-head">
+      <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="3.5" width="18" height="17" rx="3" stroke="#00AEEC" stroke-width="2"/><path d="M8.5 20.5v-17M3 9.5h18M3 15h18" stroke="#00AEEC" stroke-width="1.6"/></svg>
+      <h2>实时热门视频 · 核心互动数据</h2>
+      <span class="badge-live" id="refreshBadge">● 每 30 秒自动刷新</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" style="width:64px">排名</th>
+            <th class="l">视频标题</th>
+            <th class="l" style="width:132px">UP主</th>
+            <th class="sortable" data-key="play">播放<span class="arw">▾</span></th>
+            <th class="sortable" data-key="like">点赞<span class="arw">▾</span></th>
+            <th class="sortable" data-key="coin">投币<span class="arw">▾</span></th>
+            <th class="sortable" data-key="fav">收藏<span class="arw">▾</span></th>
+            <th class="sortable" data-key="danmaku">弹幕<span class="arw">▾</span></th>
+            <th class="sortable" data-key="comment">评论<span class="arw">▾</span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= 底部三图 ================= -->
+  <section class="chart-row">
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/><path d="M7 15l4-4 3 3 5-6" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2>话题热度趋势</h2>
+        <span class="tag" id="trendTag">近7天</span>
+      </div>
+      <div class="chart-body">
+        <svg id="trendChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题热度趋势折线图"></svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 18c3 0 4.5-14 8-14s5.5 14 8 14" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>
+        <h2>爆款话题生命周期</h2>
+        <span class="tag">模型预测</span>
+      </div>
+      <div class="chart-body">
+        <svg id="lifeChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题生命周期曲线"></svg>
+        <div class="stage-legend">
+          <span><i style="background:var(--faint)"></i>萌芽</span>
+          <span><i style="background:var(--blue)"></i>爆发</span>
+          <span><i style="background:var(--pink)"></i>平台</span>
+          <span><i style="background:var(--green)"></i>衰退</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M5 20V11M12 20V5M19 20v-6" stroke="#A371F7" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <h2>分区内容分布</h2>
+        <span class="tag">占比 TOP5</span>
+      </div>
+      <div class="chart-body" id="partBars"></div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>数据为演示用合成样本，接入 B 站开放接口后可直接替换 <code style="font-family:var(--mono);color:var(--muted)">DATA</code> 数据源 · 更新于 <span id="stamp">--</span></span>
+    <span class="nav-mini">
+      <a href="./index.html">BiliMetrics 首页</a>
+      <a href="./dashboard.html" class="on">数据总览</a>
+      <a href="./videos/">我的视频</a>
+      <a href="./analysis.html">选题分析</a>
+      <a href="../bilimetrics-compare/">UP 对比</a>
+    </span>
+  </div>
+</div>
+
+<div class="tip" id="tip"></div>
+
+<script>
+/* =========================================================
+   BiliMetrics · 数据总览仪表盘
+   数据为演示样本（结构对齐后续真实接口）
+   ========================================================= */
+
+/* ---------- 工具函数 ---------- */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+const pad2 = n => String(n).padStart(2, '0');
+
+// 中文数字：亿 / 万 / 千分位
+function fmtCN(n, opt = {}) {
+  if (n == null || isNaN(n)) return '--';
+  const { dec2 = true, wanDec = 0 } = opt;
+  if (n >= 1e8) return (n / 1e8).toFixed(dec2 ? 2 : 1).replace(/\.0+$/, '') + '亿';
+  if (n >= 1e4) return (n / 1e4).toFixed(wanDec).replace(/\.0+$/, '') + '万';
+  return n.toLocaleString('zh-CN');
+}
+const fmtInt = n => Math.round(n).toLocaleString('zh-CN');
+
+// 数字滚动
+function tween(el, from, to, ms, render) {
+  if (from === to) { el.textContent = render(to); return; }
+  const t0 = performance.now();
+  (function step(t) {
+    const p = Math.min(1, (t - t0) / ms);
+    const e = 1 - Math.pow(1 - p, 3);           // easeOutCubic
+    el.textContent = render(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = render(to);
+  })(t0);
+}
+
+/* ---------- 演示数据集 ---------- */
+// 说明：真实接入时，把 DATA[range] 换成接口返回的同构对象即可。
+const DATA = {
+  today: {
+    label: '今日',
+    kpiTotalLabel: '实时总播放量',
+    kpis: [
+      { icon: 'play',  color: '#FB7299', label: '实时总播放量', value: 128400000, delta: 12.4, note: '较昨日' },
+      { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 36420000,  delta: 8.1,  note: '较昨日' },
+      { icon: 'fire',  color: '#FB7299', label: '活跃爆款话题', value: 236,       delta: 15,   note: '新增',  abs: true },
+      { icon: 'up',    color: '#3FB950', label: '上升热点',     value: 89,        delta: 23,   note: '较昨日', abs: true },
+      { icon: 'user',  color: '#00AEEC', label: '监控 UP主',    value: 1204,      delta: 6,    note: '新增',  abs: true }
+    ],
+    videos: [
+      { rank: 1, title: '当我用AI重现童年动画',        up: '影视飓风',    play: 12840000, like: 860000, coin: 420000, fav: 380000, danmaku: 120000, comment: 90000 },
+      { rank: 2, title: '2026高考志愿填报指南',        up: '观察者网',    play: 9860000,  like: 720000, coin: 310000, fav: 290000, danmaku: 80000,  comment: 70000 },
+      { rank: 3, title: '城市夜骑Vlog · 郑州',         up: '皮皮在郑州',  play: 8420000,  like: 650000, coin: 280000, fav: 250000, danmaku: 110000, comment: 60000 },
+      { rank: 4, title: '三分钟看懂量子计算',          up: '妈咪叔',      play: 7650000,  like: 580000, coin: 240000, fav: 220000, danmaku: 70000,  comment: 50000 },
+      { rank: 5, title: '考研调剂避雷合集',            up: '考研酱',      play: 6980000,  like: 510000, coin: 190000, fav: 210000, danmaku: 60000,  comment: 80000 },
+      { rank: 6, title: '复古游戏机改造记',            up: '极客湾',      play: 6210000,  like: 470000, coin: 170000, fav: 150000, danmaku: 50000,  comment: 40000 },
+      { rank: 7, title: '一个人吃遍郑州夜市',          up: '食贫道',      play: 5740000,  like: 430000, coin: 150000, fav: 140000, danmaku: 46000,  comment: 37000 },
+      { rank: 8, title: '把宿舍改成迷你影院',          up: '手工耿',      play: 5180000,  like: 390000, coin: 140000, fav: 160000, danmaku: 41000,  comment: 33000 },
+      { rank: 9, title: '大学生特种兵式旅行复盘',      up: '阿柴cai',     play: 4630000,  like: 340000, coin: 120000, fav: 130000, danmaku: 35000,  comment: 29000 },
+      { rank: 10, title: '十年老键盘翻新实录',         up: '硬件茶谈',    play: 4180000,  like: 300000, coin: 110000, fav: 105000, danmaku: 30000,  comment: 26000 }
+    ],
+    topics: [
+      { rank: 1, name: '#AI绘画挑战',   heat: 9820 },
+      { rank: 2, name: '#毕业季vlog',   heat: 8640 },
+      { rank: 3, name: '#城市漫游计划', heat: 7510 },
+      { rank: 4, name: '#硬核科普',     heat: 6930 },
+      { rank: 5, name: '#复古是一种态度', heat: 5420 },
+      { rank: 6, name: '#电子榨菜',     heat: 4880 },
+      { rank: 7, name: '#宿舍改造',     heat: 4310 },
+      { rank: 8, name: '#考研上岸',     heat: 3960 },
+      { rank: 9, name: '#夜骑日记',     heat: 3540 },
+      { rank: 10, name: '#手作治愈',    heat: 3120 }
+    ],
+    rising: [
+      { rank: 1, name: '#多巴胺穿搭', pct: 312 },
+      { rank: 2, name: '#沉浸式学习', pct: 287 },
+      { rank: 3, name: '#宠物拟人',   pct: 245 },
+      { rank: 4, name: '#老物新用',   pct: 198 },
+      { rank: 5, name: '#考研倒计时', pct: 176 },
+      { rank: 6, name: '#国风变装',   pct: 154 },
+      { rank: 7, name: '#城市观察',   pct: 138 },
+      { rank: 8, name: '#极简生活',   pct: 121 },
+      { rank: 9, name: '#开源硬件',   pct: 109 },
+      { rank: 10, name: '#深夜食堂',  pct: 96 }
+    ],
+    trend: { tag: '近24小时', labels: ['00','03','06','09','12','15','18','21'], values: [42, 38, 51, 74, 86, 79, 93, 100] },
+    life:  { labels: ['萌芽', '爆发', '平台', '衰退'], values: [18, 96, 88, 34] },
+    parts: [
+      { name: '动画', value: 92, color: '#FB7299' },
+      { name: '游戏', value: 78, color: '#00AEEC' },
+      { name: '知识', value: 64, color: '#FB7299' },
+      { name: '生活', value: 53, color: '#00AEEC' },
+      { name: '影视', value: 41, color: '#3FB950' }
+    ]
+  },
+
+  week: {
+    label: '近7天',
+    kpiTotalLabel: '累计总播放量',
+    kpis: [
+      { icon: 'play',  color: '#FB7299', label: '累计总播放量', value: 876000000, delta: 9.6,  note: '较上周期' },
+      { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 242000000, delta: 7.2,  note: '较上周期' },
+      { icon: 'fire',  color: '#FB7299', label: '活跃爆款话题', value: 892,       delta: 64,   note: '新增',  abs: true },
+      { icon: 'up',    color: '#3FB950', label: '上升热点',     value: 421,       delta: 87,   note: '较上周期', abs: true },
+      { icon: 'user',  color: '#00AEEC', label: '监控 UP主',    value: 3680,      delta: 42,   note: '新增',  abs: true }
+    ],
+    videos: [
+      { rank: 1, title: '当我用AI重现童年动画',        up: '影视飓风',    play: 96800000, like: 6400000, coin: 3100000, fav: 2800000, danmaku: 890000, comment: 660000 },
+      { rank: 2, title: '2026高考志愿填报指南',        up: '观察者网',    play: 72300000, like: 5100000, coin: 2200000, fav: 2050000, danmaku: 610000, comment: 520000 },
+      { rank: 3, title: '城市夜骑Vlog · 郑州',         up: '皮皮在郑州',  play: 61400000, like: 4600000, coin: 1950000, fav: 1780000, danmaku: 810000, comment: 440000 },
+      { rank: 4, title: '三分钟看懂量子计算',          up: '妈咪叔',      play: 55900000, like: 4100000, coin: 1700000, fav: 1560000, danmaku: 520000, comment: 370000 },
+      { rank: 5, title: '考研调剂避雷合集',            up: '考研酱',      play: 50200000, like: 3600000, coin: 1350000, fav: 1490000, danmaku: 440000, comment: 580000 },
+      { rank: 6, title: '复古游戏机改造记',            up: '极客湾',      play: 44700000, like: 3300000, coin: 1200000, fav: 1060000, danmaku: 360000, comment: 290000 },
+      { rank: 7, title: '一个人吃遍郑州夜市',          up: '食贫道',      play: 41200000, like: 3000000, coin: 1080000, fav: 990000,  danmaku: 330000, comment: 270000 },
+      { rank: 8, title: '把宿舍改成迷你影院',          up: '手工耿',      play: 37400000, like: 2750000, coin: 980000,  fav: 1130000, danmaku: 295000, comment: 240000 },
+      { rank: 9, title: '大学生特种兵式旅行复盘',      up: '阿柴cai',     play: 33800000, like: 2400000, coin: 850000,  fav: 920000,  danmaku: 250000, comment: 210000 },
+      { rank: 10, title: '十年老键盘翻新实录',         up: '硬件茶谈',    play: 30100000, like: 2150000, coin: 790000,  fav: 750000,  danmaku: 215000, comment: 185000 }
+    ],
+    topics: [
+      { rank: 1, name: '#AI绘画挑战',   heat: 58400 },
+      { rank: 2, name: '#毕业季vlog',   heat: 52100 },
+      { rank: 3, name: '#城市漫游计划', heat: 46700 },
+      { rank: 4, name: '#硬核科普',     heat: 41200 },
+      { rank: 5, name: '#复古是一种态度', heat: 33800 },
+      { rank: 6, name: '#电子榨菜',     heat: 29600 },
+      { rank: 7, name: '#宿舍改造',     heat: 26400 },
+      { rank: 8, name: '#考研上岸',     heat: 24100 },
+      { rank: 9, name: '#夜骑日记',     heat: 21500 },
+      { rank: 10, name: '#手作治愈',    heat: 18900 }
+    ],
+    rising: [
+      { rank: 1, name: '#多巴胺穿搭', pct: 486 },
+      { rank: 2, name: '#沉浸式学习', pct: 412 },
+      { rank: 3, name: '#宠物拟人',   pct: 358 },
+      { rank: 4, name: '#老物新用',   pct: 291 },
+      { rank: 5, name: '#考研倒计时', pct: 264 },
+      { rank: 6, name: '#国风变装',   pct: 228 },
+      { rank: 7, name: '#城市观察',   pct: 203 },
+      { rank: 8, name: '#极简生活',   pct: 177 },
+      { rank: 9, name: '#开源硬件',   pct: 158 },
+      { rank: 10, name: '#深夜食堂',  pct: 141 }
+    ],
+    trend: { tag: '近7天', labels: ['周一','周二','周三','周四','周五','周六','周日'], values: [58, 54, 66, 71, 62, 74, 88] },
+    life:  { labels: ['萌芽', '爆发', '平台', '衰退'], values: [22, 92, 96, 41] },
+    parts: [
+      { name: '动画', value: 88, color: '#FB7299' },
+      { name: '游戏', value: 81, color: '#00AEEC' },
+      { name: '知识', value: 69, color: '#FB7299' },
+      { name: '生活', value: 58, color: '#00AEEC' },
+      { name: '影视', value: 47, color: '#3FB950' }
+    ]
+  },
+
+  month: {
+    label: '近30天',
+    kpiTotalLabel: '累计总播放量',
+    kpis: [
+      { icon: 'play',  color: '#FB7299', label: '累计总播放量', value: 3260000000, delta: 6.8,  note: '较上周期' },
+      { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 918000000,  delta: 5.4,  note: '较上周期' },
+      { icon: 'fire',  color: '#FB7299', label: '活跃爆款话题', value: 3142,       delta: 208,  note: '新增',  abs: true },
+      { icon: 'up',    color: '#3FB950', label: '上升热点',     value: 1876,       delta: 264,  note: '较上周期', abs: true },
+      { icon: 'user',  color: '#00AEEC', label: '监控 UP主',    value: 12450,      delta: 186,  note: '新增',  abs: true }
+    ],
+    videos: [
+      { rank: 1, title: '当我用AI重现童年动画',        up: '影视飓风',    play: 428000000, like: 28600000, coin: 13900000, fav: 12400000, danmaku: 3960000, comment: 2940000 },
+      { rank: 2, title: '2026高考志愿填报指南',        up: '观察者网',    play: 316000000, like: 22100000, coin: 9800000,  fav: 9100000,  danmaku: 2680000, comment: 2310000 },
+      { rank: 3, title: '城市夜骑Vlog · 郑州',         up: '皮皮在郑州',  play: 271000000, like: 20100000, coin: 8600000,  fav: 7800000,  danmaku: 3540000, comment: 1920000 },
+      { rank: 4, title: '三分钟看懂量子计算',          up: '妈咪叔',      play: 246000000, like: 17900000, coin: 7500000,  fav: 6900000,  danmaku: 2280000, comment: 1640000 },
+      { rank: 5, title: '考研调剂避雷合集',            up: '考研酱',      play: 219000000, like: 15800000, coin: 5900000,  fav: 6500000,  danmaku: 1940000, comment: 2560000 },
+      { rank: 6, title: '复古游戏机改造记',            up: '极客湾',      play: 196000000, like: 14300000, coin: 5300000,  fav: 4700000,  danmaku: 1590000, comment: 1280000 },
+      { rank: 7, title: '一个人吃遍郑州夜市',          up: '食贫道',      play: 181000000, like: 13200000, coin: 4700000,  fav: 4350000,  danmaku: 1450000, comment: 1190000 },
+      { rank: 8, title: '把宿舍改成迷你影院',          up: '手工耿',      play: 164000000, like: 12100000, coin: 4300000,  fav: 4950000,  danmaku: 1290000, comment: 1060000 },
+      { rank: 9, title: '大学生特种兵式旅行复盘',      up: '阿柴cai',     play: 148000000, like: 10500000, coin: 3720000,  fav: 4050000,  danmaku: 1090000, comment: 920000 },
+      { rank: 10, title: '十年老键盘翻新实录',         up: '硬件茶谈',    play: 132000000, like: 9400000,  coin: 3460000,  fav: 3290000,  danmaku: 940000,  comment: 810000 }
+    ],
+    topics: [
+      { rank: 1, name: '#AI绘画挑战',   heat: 214000 },
+      { rank: 2, name: '#毕业季vlog',   heat: 196000 },
+      { rank: 3, name: '#城市漫游计划', heat: 172000 },
+      { rank: 4, name: '#硬核科普',     heat: 155000 },
+      { rank: 5, name: '#复古是一种态度', heat: 128000 },
+      { rank: 6, name: '#电子榨菜',     heat: 113000 },
+      { rank: 7, name: '#宿舍改造',     heat: 101000 },
+      { rank: 8, name: '#考研上岸',     heat: 94000 },
+      { rank: 9, name: '#夜骑日记',     heat: 86000 },
+      { rank: 10, name: '#手作治愈',    heat: 79000 }
+    ],
+    rising: [
+      { rank: 1, name: '#多巴胺穿搭', pct: 742 },
+      { rank: 2, name: '#沉浸式学习', pct: 668 },
+      { rank: 3, name: '#宠物拟人',   pct: 574 },
+      { rank: 4, name: '#老物新用',   pct: 493 },
+      { rank: 5, name: '#考研倒计时', pct: 428 },
+      { rank: 6, name: '#国风变装',   pct: 376 },
+      { rank: 7, name: '#城市观察',   pct: 329 },
+      { rank: 8, name: '#极简生活',   pct: 287 },
+      { rank: 9, name: '#开源硬件',   pct: 251 },
+      { rank: 10, name: '#深夜食堂',  pct: 218 }
+    ],
+    trend: { tag: '近30天', labels: ['第1周','第2周','第3周','第4周','本周'], values: [61, 68, 59, 77, 84] },
+    life:  { labels: ['萌芽', '爆发', '平台', '衰退'], values: [25, 88, 94, 52] },
+    parts: [
+      { name: '动画', value: 85, color: '#FB7299' },
+      { name: '游戏', value: 79, color: '#00AEEC' },
+      { name: '知识', value: 72, color: '#FB7299' },
+      { name: '生活', value: 61, color: '#00AEEC' },
+      { name: '影视', value: 52, color: '#3FB950' }
+    ]
+  }
+};
+
+/* ---------- 图标 ---------- */
+const ICONS = {
+  play:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299"/></svg>',
+  heart: '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.4-7-9.2A3.8 3.8 0 0 1 12 8.4a3.8 3.8 0 0 1 7 2.4C19 15.6 12 20 12 20z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round"/></svg>',
+  fire:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 4 6 6.4 6 10a6 6 0 0 1-12 0c0-2 1-3.6 2.4-5" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="2.2" fill="#FB7299"/></svg>',
+  up:    '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  user:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#00AEEC" stroke-width="2"/><path d="M4.5 20c0-3.7 3.4-6.2 7.5-6.2s7.5 2.5 7.5 6.2" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>'
+};
+
+/* ---------- 状态 ---------- */
+const state = {
+  range: 'week',
+  query: '',
+  sortKey: null,
+  sortDir: 'desc',
+  paused: false,
+  tick: 0        // 模拟刷新轮次
+};
+
+/* =========================================================
+   渲染：KPI
+   ========================================================= */
+let lastKpiValues = [];
+function renderKpi() {
+  const row = $('#kpiRow');
+  const kpis = DATA[state.range].kpis;
+
+  if (!row.children.length) {
+    row.innerHTML = kpis.map((k, i) => `
+      <div class="kpi" style="--kc:${k.color}">
+        ${ICONS[k.icon]}
+        <div class="lbl">${k.label}</div>
+        <div class="val" data-i="${i}">--</div>
+        <div class="delta ${k.delta >= 0 ? 'up' : 'down'}">
+          ${k.delta >= 0 ? '▲' : '▼'} ${Math.abs(k.delta)}${k.abs ? '' : '%'}
+          <span class="note">${k.note}</span>
+        </div>
+      </div>`).join('');
+    requestAnimationFrame(() => $$('.kpi', row).forEach(el => el.classList.add('in')));
+  }
+
+  kpis.forEach((k, i) => {
+    const card = row.children[i];
+    const valEl = $('.val', card);
+    const lblEl = $('.lbl', card);
+    const dEl = $('.delta', card);
+
+    if (lblEl.textContent !== k.label) lblEl.textContent = k.label;
+    dEl.className = 'delta ' + (k.delta >= 0 ? 'up' : 'down');
+    dEl.innerHTML = `${k.delta >= 0 ? '▲' : '▼'} ${Math.abs(k.delta)}${k.abs ? '' : '%'}
+      <span class="note">${k.note}</span>`;
+
+    const from = lastKpiValues[i] != null ? lastKpiValues[i] : k.value;
+    const target = k.value;
+    if (k.abs) tween(valEl, from, target, 700, v => fmtInt(v));
+    else       tween(valEl, from, target, 700, v => fmtCN(v));
+    lastKpiValues[i] = target;
+  });
+}
+
+/* =========================================================
+   渲染：三大榜单
+   ========================================================= */
+function rankCls(i) { return i === 0 ? 't1' : i === 1 ? 't2' : i === 2 ? 't3' : 'tn'; }
+
+function highlight(text, q) {
+  if (!q) return text;
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  if (idx < 0) return text;
+  return text.slice(0, idx) +
+    '<mark>' + text.slice(idx, idx + q.length) + '</mark>' +
+    text.slice(idx + q.length);
+}
+
+function renderBoards() {
+  const d = DATA[state.range];
+  const q = state.query.trim().toLowerCase();
+
+  // 实时热门视频榜
+  $('#videoList').innerHTML = d.videos.slice(0, 10).map((v, i) => {
+    const hit = q && (v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
+    const dim = q && !hit;
+    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="video" data-rank="${v.rank}">
+      <span class="rk ${rankCls(i)}">${v.rank}</span>
+      <span class="tt">${highlight(v.title, q)}</span>
+      <span class="vv hot">${fmtCN(v.play)}</span>
+      <span class="go">查看 →</span>
+    </div>`;
+  }).join('');
+
+  // 爆款话题榜
+  $('#topicList').innerHTML = d.topics.slice(0, 10).map((t, i) => {
+    const hit = q && t.name.toLowerCase().includes(q);
+    const dim = q && !hit;
+    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="topic" data-rank="${t.rank}">
+      <span class="rk ${rankCls(i)}">${t.rank}</span>
+      <span class="tt">${highlight(t.name, q)}</span>
+      <span class="vv">${fmtInt(t.heat)}</span>
+      <span class="go">查看 →</span>
+    </div>`;
+  }).join('');
+
+  // 上升热点榜
+  $('#risingList').innerHTML = d.rising.slice(0, 10).map((r, i) => {
+    const hit = q && r.name.toLowerCase().includes(q);
+    const dim = q && !hit;
+    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="rising" data-rank="${r.rank}">
+      <span class="rk ${rankCls(i)}">${r.rank}</span>
+      <span class="tt">${highlight(r.name, q)}</span>
+      <span class="vv up">+${r.pct}%</span>
+      <span class="go">查看 →</span>
+    </div>`;
+  }).join('');
+}
+
+/* =========================================================
+   渲染：核心互动数据表
+   ========================================================= */
+const COLS = ['play', 'like', 'coin', 'fav', 'danmaku', 'comment'];
+
+function currentRows() {
+  const d = DATA[state.range];
+  let rows = d.videos.slice();
+
+  const q = state.query.trim().toLowerCase();
+  if (q) rows = rows.filter(v => v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
+
+  if (state.sortKey) {
+    const k = state.sortKey, dir = state.sortDir === 'desc' ? -1 : 1;
+    rows.sort((a, b) => (a[k] - b[k]) * dir);
+  }
+  return rows;
+}
+
+function renderTable(flashKeys) {
+  const tbody = $('#tbody');
+  const rows = currentRows();
+
+  if (!rows.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="9">没有匹配「${state.query}」的视频，换个关键词试试</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(v => {
+    const rankClsN = v.rank === 1 ? 't1' : v.rank === 2 ? 't2' : v.rank === 3 ? 't3' : '';
+    const q = state.query.trim().toLowerCase();
+    const hit = q && (v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
+    return `<tr class="${hit ? '' : ''}">
+      <td class="l"><span class="rk-n ${rankClsN}">${v.rank}</span></td>
+      <td class="l" title="${v.title}">${highlight(v.title, q)}</td>
+      <td class="l"><span class="up-name">${highlight(v.up, q)}</span></td>
+      <td data-k="play">${fmtCN(v.play)}</td>
+      <td data-k="like">${fmtCN(v.like)}</td>
+      <td data-k="coin">${fmtCN(v.coin)}</td>
+      <td data-k="fav">${fmtCN(v.fav)}</td>
+      <td data-k="danmaku">${fmtCN(v.danmaku)}</td>
+      <td data-k="comment">${fmtCN(v.comment)}</td>
+    </tr>`;
+  }).join('');
+
+  // 刷新时给数字加个闪一下的反馈
+  if (flashKeys) {
+    $$('#tbody tr').forEach(tr => {
+      $$('td[data-k]', tr).forEach(td => {
+        if (flashKeys.includes(td.dataset.k)) {
+          td.classList.remove('flash');
+          void td.offsetWidth;
+          td.classList.add('flash');
+        }
+      });
+    });
+  }
+}
+
+function syncSortHeaders() {
+  $$('thead th.sortable').forEach(th => {
+    const on = th.dataset.key === state.sortKey;
+    th.classList.toggle('on', on);
+    th.querySelector('.arw').textContent = on ? (state.sortDir === 'desc' ? '▾' : '▴') : '▾';
+  });
+}
+
+/* =========================================================
+   渲染：趋势折线图（SVG）
+   ========================================================= */
+let trendPts = [];
+function renderTrend() {
+  const d = DATA[state.range].trend;
+  const svg = $('#trendChart');
+  $('#trendTag').textContent = d.tag;
+
+  const W = 420, H = 190, pl = 30, pr = 12, pt = 16, pb = 26;
+  const iw = W - pl - pr, ih = H - pt - pb;
+  const max = Math.max(...d.values) * 1.14;
+  const n = d.values.length;
+
+  const pts = d.values.map((v, i) => ({
+    x: pl + (n === 1 ? iw / 2 : (iw * i) / (n - 1)),
+    y: pt + ih - (v / max) * ih,
+    v, label: d.labels[i]
+  }));
+  trendPts = pts;
+
+  // 平滑曲线（Catmull-Rom → 三次贝塞尔）
+  function smooth(p) {
+    if (p.length < 2) return '';
+    let dstr = `M${p[0].x},${p[0].y}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+      const c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+      dstr += ` C${c1x},${c1y} ${c2x},${c2y} ${p2.x},${p2.y}`;
+    }
+    return dstr;
+  }
+
+  const line = smooth(pts);
+  const area = line + ` L${pts[pts.length - 1].x},${pt + ih} L${pts[0].x},${pt + ih} Z`;
+
+  const grid = [0, .25, .5, .75, 1].map(f => {
+    const y = pt + ih * f;
+    return `<line x1="${pl}" y1="${y}" x2="${W - pr}" y2="${y}" stroke="rgba(240,246,252,.06)" stroke-width="1"/>`;
+  }).join('');
+
+  const xlab = pts.map(p => `<text x="${p.x}" y="${H - 7}" fill="#6E7681" font-size="10.5"
+      text-anchor="middle" font-family="Noto Sans SC,sans-serif">${p.label}</text>`).join('');
+
+  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="${i === pts.length - 1 ? 4 : 3}"
+      fill="#0D1117" stroke="#FB7299" stroke-width="2.4"/>`).join('');
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#FB7299" stop-opacity=".34"/>
+        <stop offset="100%" stop-color="#FB7299" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <path d="${area}" fill="url(#tg)"/>
+    <path d="${line}" fill="none" stroke="#FB7299" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+    ${xlab}
+    <line id="tHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(251,114,153,.5)"
+      stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
+    <g id="tHot" opacity="0"><circle r="5.5" fill="#FB7299" stroke="#0D1117" stroke-width="2.5"/></g>
+    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="tHit" style="cursor:crosshair"/>
+  `;
+
+  bindChartHover(svg, pts, 'tHover', 'tHot', d.labels, v => `${v} 热度指数`);
+}
+
+/* =========================================================
+   渲染：生命周期曲线
+   ========================================================= */
+function renderLife() {
+  const d = DATA[state.range].life;
+  const svg = $('#lifeChart');
+  const W = 420, H = 190, pl = 26, pr = 26, pt = 22, pb = 46;
+  const iw = W - pl - pr, ih = H - pt - pb;
+  const max = 108;
+  const n = d.values.length;
+
+  const pts = d.values.map((v, i) => ({
+    x: pl + (iw * i) / (n - 1),
+    y: pt + ih - (v / max) * ih,
+    v, label: d.labels[i]
+  }));
+
+  function smooth(p) {
+    let dstr = `M${p[0].x},${p[0].y}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2;
+      const c1x = p1.x + (p2.x - p0.x) / 6, c1y = p1.y + (p2.y - p0.y) / 6;
+      const c2x = p2.x - (p3.x - p1.x) / 6, c2y = p2.y - (p3.y - p1.y) / 6;
+      dstr += ` C${c1x},${c1y} ${c2x},${c2y} ${p2.x},${p2.y}`;
+    }
+    return dstr;
+  }
+  const line = smooth(pts);
+  const area = line + ` L${pts[pts.length - 1].x},${pt + ih} L${pts[0].x},${pt + ih} Z`;
+
+  const segColors = ['#3FB950', '#00AEEC', '#FB7299', '#6E7681'];
+  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${segColors[i]}"
+      stroke="#0D1117" stroke-width="2.4"/>`).join('');
+
+  const labels = pts.map((p, i) => `
+    <text x="${p.x}" y="${pt + ih + 20}" fill="#98A2B3" font-size="11" text-anchor="middle"
+      font-family="Noto Sans SC,sans-serif">${p.label}</text>
+    <text x="${p.x}" y="${pt + ih + 36}" fill="${segColors[i]}" font-size="11" text-anchor="middle"
+      font-family="ui-monospace,Consolas,monospace" font-weight="700">${p.v}</text>`).join('');
+
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#00AEEC" stop-opacity=".30"/>
+        <stop offset="55%" stop-color="#A371F7" stop-opacity=".22"/>
+        <stop offset="100%" stop-color="#FB7299" stop-opacity=".10"/>
+      </linearGradient>
+      <linearGradient id="ls" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#00AEEC"/>
+        <stop offset="55%" stop-color="#A371F7"/>
+        <stop offset="100%" stop-color="#FB7299"/>
+      </linearGradient>
+    </defs>
+    <path d="${area}" fill="url(#lg)"/>
+    <path d="${line}" fill="none" stroke="url(#ls)" stroke-width="2.6" stroke-linecap="round"/>
+    ${dots}${labels}
+    <line id="lHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(163,113,247,.5)"
+      stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
+    <g id="lHot" opacity="0"><circle r="6" fill="#A371F7" stroke="#0D1117" stroke-width="2.5"/></g>
+    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="lHit" style="cursor:crosshair"/>
+  `;
+
+  bindChartHover(svg, pts, 'lHover', 'lHot', d.labels, v => `${v} · 生命周期热度`);
+}
+
+/* 图表 hover 绑定：就近吸附 + tooltip */
+function bindChartHover(svg, pts, hoverId, hotId, labels, fmtVal) {
+  const hit = svg.querySelector('rect[id$="Hit"]');
+  const hl = svg.querySelector('#' + hoverId);
+  const hot = svg.querySelector('#' + hotId);
+  const tip = $('#tip');
+  const box = svg.getBoundingClientRect();
+
+  function move(e) {
+    const r = svg.getBoundingClientRect();
+    const scale = 420 / r.width;                       // viewBox → 屏幕
+    const x = (e.clientX - r.left) * scale;
+    let best = 0, bd = Infinity;
+    pts.forEach((p, i) => { const dd = Math.abs(p.x - x); if (dd < bd) { bd = dd; best = i; } });
+    const p = pts[best];
+
+    hl.setAttribute('x1', p.x); hl.setAttribute('x2', p.x); hl.setAttribute('opacity', '1');
+    hot.setAttribute('transform', `translate(${p.x},${p.y})`); hot.setAttribute('opacity', '1');
+
+    tip.classList.add('on');
+    tip.innerHTML = `<span class="tt-l">${labels[best]}</span><b>${fmtVal(p.v)}</b>`;
+    const tr = tip.getBoundingClientRect();
+    tip.style.left = Math.min(window.innerWidth - tr.width - 12, e.clientX + 14) + 'px';
+    tip.style.top = Math.max(8, e.clientY - tr.height - 14) + 'px';
+  }
+  function out() {
+    hl.setAttribute('opacity', '0');
+    hot.setAttribute('opacity', '0');
+    tip.classList.remove('on');
+  }
+  hit.addEventListener('mousemove', move);
+  hit.addEventListener('mouseleave', out);
+  hit.addEventListener('touchmove', e => { if (e.touches[0]) move(e.touches[0]); }, { passive: true });
+  hit.addEventListener('touchend', out);
+}
+
+/* =========================================================
+   渲染：分区分布条形
+   ========================================================= */
+function renderParts() {
+  const parts = DATA[state.range].parts;
+  $('#partBars').innerHTML = parts.map(p => `
+    <div class="bar-row">
+      <div class="bar-top">
+        <span class="bn">${p.name}</span>
+        <span class="bv">${p.value}${p.value > 0 ? '' : ''}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" data-w="${p.value}" style="background:linear-gradient(90deg,${p.color},${p.color}cc)"></div>
+      </div>
+    </div>`).join('');
+
+  requestAnimationFrame(() => {
+    $$('#partBars .bar-fill').forEach(el => { el.style.width = Math.min(100, el.dataset.w) + '%'; });
+  });
+}
+
+/* =========================================================
+   主渲染
+   ========================================================= */
+function render(flashKeys) {
+  renderKpi();
+  renderBoards();
+  syncSortHeaders();
+  renderTable(flashKeys);
+  renderTrend();
+  renderLife();
+  renderParts();
+  $('#stamp').textContent = new Date().toLocaleString('zh-CN', { hour12: false });
+}
+
+/* =========================================================
+   交互绑定
+   ========================================================= */
+
+// 时间范围
+$$('.seg button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.dataset.range === state.range) return;
+    $$('.seg button').forEach(b => b.classList.toggle('on', b === btn));
+    state.range = btn.dataset.range;
+    state.tick = 0;
+    lastKpiValues = [];
+    render();
+  });
+});
+
+// 搜索
+const qEl = $('#q'), sBox = $('#searchBox');
+let qTimer = null;
+qEl.addEventListener('input', () => {
+  sBox.classList.toggle('has-val', !!qEl.value);
+  clearTimeout(qTimer);
+  qTimer = setTimeout(() => {
+    state.query = qEl.value;
+    renderBoards();
+    renderTable();
+  }, 110);
+});
+$('#clrQ').addEventListener('click', () => {
+  qEl.value = ''; state.query = ''; sBox.classList.remove('has-val');
+  renderBoards(); renderTable(); qEl.focus();
+});
+// / 快捷键聚焦，Esc 清空
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
+  if (e.key === 'Escape' && document.activeElement === qEl) {
+    qEl.value = ''; state.query = ''; sBox.classList.remove('has-val');
+    renderBoards(); renderTable(); qEl.blur();
+  }
+});
+
+// 表头排序
+$$('thead th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const k = th.dataset.key;
+    if (state.sortKey === k) state.sortDir = state.sortDir === 'desc' ? 'asc' : 'desc';
+    else { state.sortKey = k; state.sortDir = 'desc'; }
+    syncSortHeaders();
+    renderTable();
+  });
+});
+
+// 榜单点击 → 联动搜索
+document.addEventListener('click', e => {
+  const item = e.target.closest('.item');
+  if (!item) return;
+  const list = item.parentElement;
+  const idx = Array.from(list.children).indexOf(item);
+  const d = DATA[state.range];
+  let text = '';
+  if (item.dataset.kind === 'video') text = d.videos.slice(0, 10)[idx].up;
+  else if (item.dataset.kind === 'topic') text = d.topics.slice(0, 10)[idx].name;
+  else text = d.rising.slice(0, 10)[idx].name;
+
+  // 再点一次同一个 → 取消筛选
+  if (state.query === text) { text = ''; }
+  qEl.value = text;
+  state.query = text;
+  sBox.classList.toggle('has-val', !!text);
+  renderBoards(); renderTable();
+});
+
+// 实时时钟
+function tickClock() {
+  const now = new Date();
+  $('#clock').textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+}
+tickClock();
+setInterval(tickClock, 20000);
+
+// 自动刷新（30s）
+$('#liveBtn').addEventListener('click', () => {
+  state.paused = !state.paused;
+  $('#liveBtn').classList.toggle('paused', state.paused);
+  $('#refreshBadge').textContent = state.paused ? '⏸ 已暂停自动刷新' : '● 每 30 秒自动刷新';
+  $('#refreshBadge').style.color = state.paused ? 'var(--faint)' : '';
+  $('#refreshBadge').style.borderColor = state.paused ? 'var(--border)' : '';
+});
+
+setInterval(() => {
+  if (state.paused) return;
+  state.tick++;
+  const d = DATA[state.range];
+  // KPI 微增
+  d.kpis.forEach(k => {
+    if (k.abs) k.value += Math.max(1, Math.round(Math.random() * 2));
+    else k.value = Math.round(k.value * (1 + (Math.random() * 0.006 + 0.001)));
+  });
+  // 表格数字微增
+  d.videos.forEach(v => {
+    v.play    = Math.round(v.play    * (1 + Math.random() * 0.004));
+    v.like    = Math.round(v.like    * (1 + Math.random() * 0.003));
+    v.coin    = Math.round(v.coin    * (1 + Math.random() * 0.002));
+    v.fav     = Math.round(v.fav     * (1 + Math.random() * 0.002));
+    v.danmaku = Math.round(v.danmaku * (1 + Math.random() * 0.003));
+    v.comment = Math.round(v.comment * (1 + Math.random() * 0.003));
+  });
+  renderKpi();
+  renderTable(['play', 'like']);
+  $('#stamp').textContent = new Date().toLocaleString('zh-CN', { hour12: false });
+}, 30000);
+
+/* ---------- 入场 ---------- */
+render();
+</script>
+</body>
+</html>
