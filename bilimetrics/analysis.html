@@ -543,6 +543,7 @@ function renderContent(terms){
     hintEl.innerHTML = '智能映射：<b>' + esc(hints.join('；')) + '</b>（运营概念 → 对应题材的真实内容）';
   } else {
     hintEl.style.display = 'none';
+    hintEl.innerHTML = '';
   }
 
   grid.innerHTML = shown.map(c => {
