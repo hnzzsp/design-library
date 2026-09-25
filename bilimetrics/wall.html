@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>互动墙 · BiliMetrics</title>
-<meta name="description" content="BiliMetrics 互动墙：创作者选题征集与观众留言板。支持星级评分、盖楼回复、最新/最热排序，留言保存在本地浏览器。">
+<title>互动墙 · 观众建议 · BiliMetrics</title>
+<meta name="description" content="BiliMetrics 互动墙：自动汇总我空间视频评论区的观众建议、选题诉求与疑问，支持搜索/筛选/排序并定时同步；下方保留本地留言板。">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./assets/style.css">
 <style>
@@ -12,7 +12,60 @@
     background:radial-gradient(900px 420px at 80% -20%,rgba(0,174,236,.08),transparent 60%),linear-gradient(160deg,#0B0E14,#0F131B)}
   .wall-head h1{font-size:clamp(30px,4.2vw,46px);font-weight:700;letter-spacing:-.5px;
     background:linear-gradient(108deg,#E8ECF4 30%,#00AEEC 80%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .wall-head p{font-size:16px;color:var(--muted);margin-top:12px;max-width:700px;line-height:1.7}
+  .wall-head p{font-size:16px;color:var(--muted);margin-top:12px;max-width:760px;line-height:1.7}
+  .wall-head p strong{color:var(--text)}
+
+  /* ===== 数据源状态条 ===== */
+  .src-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    padding:12px 16px;border-radius:12px;background:var(--card);border:1px solid var(--border);margin-bottom:18px}
+  .src-l{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+  .src-l b{color:var(--text);font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+  .live{width:8px;height:8px;border-radius:50%;background:var(--green);flex:0 0 auto;
+    box-shadow:0 0 0 0 rgba(63,185,80,.55);animation:pulse 2.2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,185,80,.55)}70%{box-shadow:0 0 0 9px rgba(63,185,80,0)}100%{box-shadow:0 0 0 0 rgba(63,185,80,0)}}
+  .src-r{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--faint)}
+  .btn.spin svg{animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ===== 工具条（本页微调） ===== */
+  .adv-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .adv-toolbar .search{flex:1 1 260px;min-width:200px}
+  .adv-toolbar .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--faint)}
+  .adv-toolbar .search input{padding-left:38px}
+
+  /* ===== 观众建议卡 ===== */
+  .ac-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:14px;align-items:start}
+  .ac{display:flex;gap:12px;padding:16px;border-radius:14px;background:var(--card);
+    border:1px solid var(--border);transition:border-color .2s,transform .2s,box-shadow .2s}
+  .ac:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,0,0,.28)}
+  .ac-av{position:relative;width:38px;height:38px;flex:0 0 auto;border-radius:50%;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:#fff;background:#2A3140}
+  .ac-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ac-main{min-width:0;flex:1}
+  .ac-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+  .ac-name{font-size:13.5px;font-weight:600;color:var(--text)}
+  .ac-kind{font-size:10.5px;padding:1px 7px;border-radius:6px;font-weight:600;white-space:nowrap}
+  .k-sug{background:rgba(251,114,153,.14);color:var(--pink);border:1px solid rgba(251,114,153,.3)}
+  .k-que{background:rgba(0,174,236,.13);color:var(--blue);border:1px solid rgba(0,174,236,.3)}
+  .ac-like{font-size:11.5px;color:var(--pink);font-variant-numeric:tabular-nums}
+  .ac-time{font-size:11.5px;color:var(--faint);margin-left:auto;white-space:nowrap}
+  .ac-txt{font-size:14px;line-height:1.66;color:#D5DCE8;word-break:break-word}
+  .ac-foot{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+  .ac-src{font-size:12px;color:var(--muted);max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    padding:3px 9px;border-radius:8px;background:var(--card-2);border:1px solid var(--border);transition:.2s}
+  .ac-src:hover{color:var(--blue);border-color:rgba(0,174,236,.4)}
+  .ac-rep{font-size:11.5px;color:var(--faint)}
+  .ac-copy{margin-left:auto;font-size:11.5px;color:var(--faint);background:none;border:none;padding:2px 4px;transition:color .2s}
+  .ac-copy:hover{color:var(--text)}
+
+  /* ===== 更新提示 ===== */
+  .toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);z-index:80;
+    padding:11px 20px;border-radius:11px;background:rgba(18,22,31,.96);border:1px solid var(--border-strong);
+    color:var(--text);font-size:13.5px;box-shadow:0 12px 34px rgba(0,0,0,.42);opacity:0;pointer-events:none;transition:.28s}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:8px}
+
+  /* ===== 本地留言板（保留原功能） ===== */
   .note{display:flex;align-items:center;gap:10px;margin:0 2px 22px;padding:11px 15px;border-radius:11px;
     background:rgba(227,179,65,.08);border:1px solid rgba(227,179,65,.3);font-size:13px;color:var(--amber)}
   .note svg{flex:0 0 auto}
@@ -35,9 +88,21 @@
   .reply-form .field{margin-bottom:10px}
   .reply-box{display:flex;gap:8px;align-items:flex-start}
   .reply-box .field{flex:1;margin-bottom:0}
-  @media (max-width:840px){
+  .board-divider{display:flex;align-items:center;gap:14px;margin:6px 0 30px;color:var(--faint);font-size:12.5px;letter-spacing:.4px}
+  .board-divider::before,.board-divider::after{content:"";height:1px;background:var(--border);flex:1}
+
+  @media (max-width:900px){
+    .ac-grid{grid-template-columns:1fr}
     .wall-grid{grid-template-columns:1fr;gap:18px}
     .panel .sticky{position:static}
+    .ac-src{max-width:100%}
+  }
+  @media (max-width:560px){
+    .wall-head{padding:44px 0 30px}
+    .src-bar{padding:11px 13px}
+    .adv-toolbar .search{flex:1 1 100%}
+    .ac{padding:14px}
+    .ac-time{margin-left:0}
   }
 </style>
 </head>
@@ -68,18 +133,62 @@
 <!-- Head -->
 <section class="wall-head">
   <div class="container">
-    <span class="eyebrow"><span class="dot"></span>互动墙 · 选题征集</span>
-    <h1>说说你想看的内容</h1>
-    <p>观众在这里点播、吐槽、提选题；创作者在这里收集灵感。支持星级评分、盖楼回复与最新 / 最热排序。这是个静态站，留言保存在你自己的浏览器里。</p>
+    <span class="eyebrow"><span class="dot"></span>互动墙 · 观众建议</span>
+    <h1>观众在想什么，这里看得见</h1>
+    <p>自动汇总「我空间视频」评论区的观众留言，筛出<strong>提建议、催更诉求与内容疑问</strong>，支持搜索、筛选与排序。<strong>数据定时从 B 站评论区同步</strong>，本页每 60 秒自动检查一次更新。</p>
   </div>
 </section>
 
-<!-- Main -->
-<main class="section">
+<!-- 观众建议墙 -->
+<main class="section" id="advice">
   <div class="container">
+    <div class="src-bar">
+      <div class="src-l">
+        <span class="live"></span>
+        <span>数据源：B 站评论区（真实评论） · 快照 <b id="snapAt">读取中…</b></span>
+      </div>
+      <div class="src-r">
+        <span id="statLine">—</span>
+        <button class="btn secondary sm" id="btnRefresh" title="立即重新拉取最新数据">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          刷新
+        </button>
+      </div>
+    </div>
+
+    <div class="adv-toolbar">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.2-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="搜索评论内容 / 观众昵称 / 视频标题…" autocomplete="off">
+      </div>
+      <div class="chips" id="kindChips">
+        <button class="chip active" data-k="all">全部</button>
+        <button class="chip" data-k="suggest">建议诉求</button>
+        <button class="chip" data-k="question">观众疑问</button>
+      </div>
+      <div class="seg" id="sortSeg">
+        <button data-s="hot" class="active">最热</button>
+        <button data-s="new">最新</button>
+      </div>
+    </div>
+
+    <div class="ac-grid" id="advGrid"></div>
+
+    <div class="empty" id="advEmpty" style="display:none">
+      <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3 id="emptyTitle">暂未取到观众建议</h3>
+      <p id="emptyDesc">数据由抓取脚本生成，稍后刷新即可。</p>
+    </div>
+  </div>
+</main>
+
+<!-- 本地留言板 -->
+<section class="section" id="board">
+  <div class="container">
+    <div class="board-divider">我的留言板 · 本地</div>
     <div class="note">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>留言仅保存在<strong>本地浏览器</strong>（localStorage）。清除站点缓存或更换设备后留言会丢失，不会上传到任何服务器。</span>
+      <span>下方留言仅保存在<strong>本地浏览器</strong>（localStorage）。清除站点缓存或更换设备后会丢失，不会上传到任何服务器。</span>
     </div>
 
     <div class="wall-grid">
@@ -117,7 +226,7 @@
       <div>
         <div class="cmt-head">
           <h3>全部留言</h3>
-          <div class="seg" id="sortSeg">
+          <div class="seg" id="sortSeg2">
             <button data-s="new" class="active">最新</button>
             <button data-s="hot">最热</button>
           </div>
@@ -133,7 +242,7 @@
       </div>
     </div>
   </div>
-</main>
+</section>
 
 <!-- Footer -->
 <footer class="site">
@@ -164,57 +273,288 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 BiliMetrics · 数据快照仅供创作参考</span>
+      <span>© 2026 BiliMetrics · 评论数据来自 B 站评论区公开内容</span>
       <span>静态站点 · 本地存储</span>
     </div>
   </div>
 </footer>
 
+<div class="toast" id="toast"><span class="dot"></span><span id="toastTxt"></span></div>
+
 <script>
+/* ============================================================
+   第一部分：观众建议墙（真实评论）
+   ============================================================ */
 (function(){
   "use strict";
-  const KEY = "bilimetrics_wall_v1";
-  const $ = (s, r=document) => r.querySelector(s);
-  const listEl = $("#list"), emptyEl = $("#empty");
-
-  // 安全转义：所有用户文本插入 innerHTML 前必经此函数
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
   function esc(s){
-    return String(s).replace(/[&<>"']/g, c => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[c]));
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c];
+    });
   }
 
-  // 头像色（按昵称哈希到色相）
+  var PAY = null;                 // 当前数据载荷
+  var kind = 'all', sortMode = 'hot', q = '';
+  var POLL_MS = 60000;            // 自动刷新周期
+
+  var KIND_META = {
+    suggest:  { label: '建议', cls: 'k-sug' },
+    question: { label: '疑问', cls: 'k-que' }
+  };
+
+  // ---- 工具 ----
   function avatarColor(name){
-    let h = 0;
-    for (let i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) % 360;
-    return `linear-gradient(135deg,hsl(${h} 70% 52%),hsl(${(h+40)%360} 70% 46%))`;
+    var h = 0, n = String(name || '');
+    for (var i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) % 360;
+    return 'linear-gradient(135deg,hsl(' + h + ' 70% 52%),hsl(' + ((h+40)%360) + ' 70% 46%))';
+  }
+  function initials(name){
+    var n = String(name || '').trim();
+    return n ? n.slice(0, 1) : '观';
+  }
+  function relTime(sec){
+    if (!sec) return '';
+    var t = sec * 1000, d = Math.floor((Date.now() - t) / 1000);
+    if (d < 60) return '刚刚';
+    if (d < 3600) return Math.floor(d/60) + ' 分钟前';
+    if (d < 86400) return Math.floor(d/3600) + ' 小时前';
+    if (d < 2592000) return Math.floor(d/86400) + ' 天前';
+    var dt = new Date(t);
+    return dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+  }
+
+  // ---- 加载数据（幂等 + 破缓存，支持反复调用实现刷新） ----
+  function loadComments(cb){
+    var s = document.createElement('script');
+    s.src = './comments/data.js?t=' + Date.now();
+    s.onload = function(){ try { cb(window.COMMENTS_PAYLOAD || null); } finally { s.remove(); } };
+    s.onerror = function(){ s.remove(); cb(null); };
+    document.head.appendChild(s);
+  }
+
+  // ---- 过滤 + 排序 ----
+  function currentList(){
+    var arr = (PAY && PAY.items) ? PAY.items.slice() : [];
+    if (kind !== 'all') arr = arr.filter(function(c){ return c.kind === kind; });
+    if (q){
+      var k = q.toLowerCase();
+      arr = arr.filter(function(c){
+        return ((c.msg||'') + ' ' + (c.uname||'') + ' ' + (c.vtitle||'')).toLowerCase().indexOf(k) >= 0;
+      });
+    }
+    if (sortMode === 'hot'){
+      arr.sort(function(a,b){ return (b.like - a.like) || (b.ctime - a.ctime); });
+    } else {
+      arr.sort(function(a,b){ return b.ctime - a.ctime; });
+    }
+    return arr;
+  }
+
+  // ---- 渲染单卡 ----
+  function cardHTML(c){
+    var meta = KIND_META[c.kind] || { label: '评论', cls: '' };
+    var url = 'https://www.bilibili.com/video/' + encodeURIComponent(c.bv || '') + '/#reply' + encodeURIComponent(c.id || '');
+    var av = c.avatar
+      ? '<img src="' + esc(c.avatar) + '" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">'
+      : '';
+    var like = c.like > 0 ? '<span class="ac-like" title="B 站点赞数">♥ ' + c.like + '</span>' : '';
+    var rep = c.rcount > 0 ? '<span class="ac-rep">' + c.rcount + ' 条回复</span>' : '';
+    return '<article class="ac">' +
+      '<div class="ac-av" style="background:' + avatarColor(c.uname) + '">' + esc(initials(c.uname)) + av + '</div>' +
+      '<div class="ac-main">' +
+        '<div class="ac-top">' +
+          '<span class="ac-name">' + esc(c.uname) + '</span>' +
+          '<span class="ac-kind ' + meta.cls + '">' + meta.label + '</span>' +
+          like +
+          '<span class="ac-time">' + relTime(c.ctime) + '</span>' +
+        '</div>' +
+        '<p class="ac-txt">' + esc(c.msg) + '</p>' +
+        '<div class="ac-foot">' +
+          '<a class="ac-src" href="' + url + '" target="_blank" rel="noopener" title="' + esc(c.vtitle || c.bv) + '">▶ ' + esc(c.vtitle || c.bv) + '</a>' +
+          rep +
+          '<button class="ac-copy" data-copy="' + esc(c.id) + '" title="复制这条建议">复制</button>' +
+        '</div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  // ---- 渲染 ----
+  function render(){
+    var grid = $('#advGrid'), emptyEl = $('#advEmpty');
+    if (!PAY || !PAY.items || !PAY.items.length){
+      grid.innerHTML = '';
+      emptyEl.style.display = 'block';
+      $('#emptyTitle').textContent = PAY ? '暂未取到观众建议' : '数据加载失败';
+      $('#emptyDesc').textContent = PAY
+        ? '抓取脚本尚未产出数据，或该筛选条件下没有匹配结果。'
+        : '未能加载 ./comments/data.js，请确认文件已部署。';
+      return;
+    }
+    var arr = currentList();
+    if (!arr.length){
+      grid.innerHTML = '';
+      emptyEl.style.display = 'block';
+      $('#emptyTitle').textContent = '没有匹配的评论';
+      $('#emptyDesc').textContent = '试试换个关键词，或把筛选切回「全部」。';
+      return;
+    }
+    emptyEl.style.display = 'none';
+    grid.innerHTML = arr.map(cardHTML).join('');
+  }
+
+  function paintStats(){
+    if (!PAY) return;
+    var st = PAY.stats || {};
+    var modeTxt = PAY.mode === 'full' ? '全量' : '公开(每视频3条)';
+    $('#statLine').textContent = '覆盖 ' + (st.videos || 0) + ' 个视频 · 抓取 ' + (st.raw || 0) +
+      ' 条 · 入库 ' + (st.kept || 0) + ' 条 · ' + modeTxt;
+  }
+
+  // ---- 应用数据 ----
+  function apply(payload, isAuto){
+    if (payload && payload.items){
+      var changed = !PAY || PAY.snapshot !== payload.snapshot || (PAY.items || []).length !== payload.items.length;
+      PAY = payload;
+      $('#snapAt').textContent = payload.snapshot || '--';
+      paintStats();
+      render();
+      if (isAuto && changed) toast('已同步最新数据 · ' + (payload.snapshot || ''));
+    } else {
+      PAY = null;
+      render();
+    }
+  }
+
+  var toastTimer = null;
+  function toast(msg){
+    var el = $('#toast');
+    $('#toastTxt').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2600);
+  }
+
+  // ---- 刷新 ----
+  var spinning = false;
+  function refresh(isAuto){
+    if (spinning) return;
+    spinning = true;
+    var btn = $('#btnRefresh');
+    if (!isAuto) btn.classList.add('spin');
+    loadComments(function(payload){
+      spinning = false;
+      btn.classList.remove('spin');
+      if (!payload){
+        if (!isAuto) toast('拉取失败，请稍后再试');
+        if (!PAY) apply(null);
+        return;
+      }
+      apply(payload, isAuto);
+      if (!isAuto) toast('已刷新 · 快照 ' + (payload.snapshot || '--'));
+    });
+  }
+
+  // ---- 交互 ----
+  var qTimer = null;
+  $('#q').addEventListener('input', function(e){
+    clearTimeout(qTimer);
+    var v = e.target.value.trim().toLowerCase();
+    qTimer = setTimeout(function(){ q = v; render(); }, 180);
+  });
+
+  $('#kindChips').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-k]');
+    if (!b) return;
+    kind = b.dataset.k;
+    $$('#kindChips button').forEach(function(x){ x.classList.toggle('active', x === b); });
+    render();
+  });
+
+  $('#sortSeg').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-s]');
+    if (!b) return;
+    sortMode = b.dataset.s;
+    $$('#sortSeg button').forEach(function(x){ x.classList.toggle('active', x === b); });
+    render();
+  });
+
+  $('#advGrid').addEventListener('click', function(e){
+    var btn = e.target.closest('[data-copy]');
+    if (!btn) return;
+    var id = btn.dataset.copy;
+    var item = ((PAY && PAY.items) || []).filter(function(c){ return String(c.id) === String(id); })[0];
+    if (!item) return;
+    var text = '【' + (item.kind === 'suggest' ? '建议' : '疑问') + '】' + item.uname +
+               '（赞 ' + item.like + '）\n' + item.msg + '\n—— 来自《' + (item.vtitle || item.bv) + '》';
+    copyText(text, btn);
+  });
+
+  function copyText(text, btn){
+    function done(){ if (btn){ var o = btn.textContent; btn.textContent = '已复制'; setTimeout(function(){ btn.textContent = o; }, 1400); } }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch(e){}
+      ta.remove();
+    }
+  }
+
+  $('#btnRefresh').addEventListener('click', function(){ refresh(false); });
+
+  // 自动刷新：定时 + 从后台切回前台时
+  setInterval(function(){ if (!document.hidden) refresh(true); }, POLL_MS);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) refresh(true); });
+  window.addEventListener('online', function(){ refresh(true); });
+
+  // 首次加载
+  refresh(false);
+})();
+
+/* ============================================================
+   第二部分：本地留言板（localStorage，原功能保留）
+   ============================================================ */
+(function(){
+  "use strict";
+  var KEY = "bilimetrics_wall_v1";
+  var $ = function(s, r){ return (r||document).querySelector(s); };
+  var listEl = $("#list"), emptyEl = $("#empty");
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" })[c];
+    });
+  }
+  function avatarColor(name){
+    var h = 0;
+    for (var i=0;i<name.length;i++) h = (h*31 + name.charCodeAt(i)) % 360;
+    return "linear-gradient(135deg,hsl(" + h + " 70% 52%),hsl(" + ((h+40)%360) + " 70% 46%))";
   }
   function initials(name){
     name = (name||"").trim();
     if(!name) return "游";
     return name.slice(0,1);
   }
-
-  // 相对时间
   function relTime(ts){
-    const d = Math.floor((Date.now()-ts)/1000);
+    var d = Math.floor((Date.now()-ts)/1000);
     if(d < 60) return "刚刚";
     if(d < 3600) return Math.floor(d/60)+" 分钟前";
     if(d < 86400) return Math.floor(d/3600)+" 小时前";
     if(d < 2592000) return Math.floor(d/86400)+" 天前";
-    const dt = new Date(ts);
-    return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(dt.getDate()).padStart(2,"0")}`;
+    var dt = new Date(ts);
+    return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");
   }
-
-  // 持久化
   function load(){
     try{
-      const raw = localStorage.getItem(KEY);
+      var raw = localStorage.getItem(KEY);
       if(raw) return JSON.parse(raw);
     }catch(e){}
-    // 首次访问：写入示例留言（明确标记 seed）
-    const seed = [
+    var seed = [
       {id:"s1", name:"数据控阿杰", rating:5, text:"能不能出一期「追逐」系列的数据复盘？从完播率和收藏率反推选题公式，太想看了。", t:Date.now()-86400000*2, likes:12, liked:false, seed:true, replies:[
         {id:"s1r1", name:"创作者小队", text:"已记下！下个月排期安排上。", t:Date.now()-86400000*1.6}
       ]},
@@ -228,81 +568,79 @@
     try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){}
   }
 
-  let data = load();
-  let sortMode = "new";
+  var data = load();
+  var sortMode = "new";
 
   function starsHTML(n){
-    let s = '<span class="stars">';
-    for(let i=1;i<=5;i++) s += `<span class="st ${i<=n?"on":""}">★</span>`;
+    var s = '<span class="stars">';
+    for(var i=1;i<=5;i++) s += '<span class="st ' + (i<=n?"on":"") + '">★</span>';
     return s + "</span>";
   }
 
   function render(){
-    let arr = data.slice();
+    var arr = data.slice();
     if(sortMode === "new"){
-      arr.sort((a,b)=> b.t - a.t);
+      arr.sort(function(a,b){ return b.t - a.t; });
     } else {
-      arr.sort((a,b)=> (b.likes||0) - (a.likes||0) || b.t - a.t);
+      arr.sort(function(a,b){ return (b.likes||0) - (a.likes||0) || b.t - a.t; });
     }
 
     $("#empty").style.display = arr.length ? "none" : "block";
 
     listEl.innerHTML = "";
-    arr.forEach(c => {
-      const wrap = document.createElement("div");
+    arr.forEach(function(c){
+      var wrap = document.createElement("div");
       wrap.className = "cmt";
 
-      const left = document.createElement("div");
+      var left = document.createElement("div");
       left.className = "avatar";
       left.style.background = avatarColor(c.name||"匿名");
       left.textContent = initials(c.name);
 
-      const main = document.createElement("div");
+      var main = document.createElement("div");
       main.className = "main";
 
-      const seedTag = c.seed ? '<span class="seed-tag">示例</span>' : "";
-      let html = `
-        <div class="top">
-          <span class="nm">${esc(c.name||"匿名")}</span>
-          ${starsHTML(c.rating||0)}
-          <span class="tm">${relTime(c.t)}</span>
-          ${seedTag}
-        </div>
-        <div class="txt">${esc(c.text||"")}</div>
-        <div class="acts">
-          <button class="like ${c.liked?"liked":""}" data-like="${c.id}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 10v11M2 13a2 2 0 0 1 2-2h3v10H4a2 2 0 0 1-2-2v-6Zm5 0 4.5-7.5a2 2 0 0 1 3.6 1.4L14.5 9H20a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 18.8 20H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span>${c.likes||0}</span>
-          </button>
-          <button class="reply-btn" data-reply="${c.id}">回复</button>
-        </div>`;
+      var seedTag = c.seed ? '<span class="seed-tag">示例</span>' : "";
+      var html =
+        '<div class="top">' +
+          '<span class="nm">' + esc(c.name||"匿名") + '</span>' +
+          starsHTML(c.rating||0) +
+          '<span class="tm">' + relTime(c.t) + '</span>' +
+          seedTag +
+        '</div>' +
+        '<div class="txt">' + esc(c.text||"") + '</div>' +
+        '<div class="acts">' +
+          '<button class="like ' + (c.liked?"liked":"") + '" data-like="' + c.id + '">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 10v11M2 13a2 2 0 0 1 2-2h3v10H4a2 2 0 0 1-2-2v-6Zm5 0 4.5-7.5a2 2 0 0 1 3.6 1.4L14.5 9H20a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 18.8 20H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            '<span>' + (c.likes||0) + '</span>' +
+          '</button>' +
+          '<button class="reply-btn" data-reply="' + c.id + '">回复</button>' +
+        '</div>';
 
-      // 回复区
       if(c.replies && c.replies.length){
         html += '<div class="reply">';
-        c.replies.forEach(r => {
-          html += `
-            <div class="cmt">
-              <div class="avatar" style="width:30px;height:30px;font-size:13px;background:${avatarColor(r.name||"匿名")}">${initials(r.name)}</div>
-              <div class="main">
-                <div class="top"><span class="nm">${esc(r.name||"匿名")}</span><span class="tm">${relTime(r.t)}</span></div>
-                <div class="txt">${esc(r.text||"")}</div>
-              </div>
-            </div>`;
+        c.replies.forEach(function(r){
+          html +=
+            '<div class="cmt">' +
+              '<div class="avatar" style="width:30px;height:30px;font-size:13px;background:' + avatarColor(r.name||"匿名") + '">' + initials(r.name) + '</div>' +
+              '<div class="main">' +
+                '<div class="top"><span class="nm">' + esc(r.name||"匿名") + '</span><span class="tm">' + relTime(r.t) + '</span></div>' +
+                '<div class="txt">' + esc(r.text||"") + '</div>' +
+              '</div>' +
+            '</div>';
         });
         html += '</div>';
       }
 
-      // 回复输入（默认隐藏）
-      html += `
-        <div class="reply-form" id="rf-${c.id}">
-          <div class="reply-box">
-            <div class="field">
-              <input type="text" class="rf-input" placeholder="回复 ${esc(c.name||"匿名")}…" maxlength="200">
-            </div>
-            <button class="btn secondary sm rf-send" data-send="${c.id}">发送</button>
-          </div>
-        </div>`;
+      html +=
+        '<div class="reply-form" id="rf-' + c.id + '">' +
+          '<div class="reply-box">' +
+            '<div class="field">' +
+              '<input type="text" class="rf-input" placeholder="回复 ' + esc(c.name||"匿名") + '…" maxlength="200">' +
+            '</div>' +
+            '<button class="btn secondary sm rf-send" data-send="' + c.id + '">发送</button>' +
+          '</div>' +
+        '</div>';
 
       main.innerHTML = html;
       wrap.appendChild(left);
@@ -311,26 +649,24 @@
     });
   }
 
-  // 评分输入
-  let curRate = 0;
-  const rateEl = $("#rate");
+  var curRate = 0;
+  var rateEl = $("#rate");
   function paintRate(v){
-    rateEl.querySelectorAll(".sti").forEach(s => {
+    rateEl.querySelectorAll(".sti").forEach(function(s){
       s.classList.toggle("on", Number(s.dataset.v) <= v);
     });
   }
-  rateEl.querySelectorAll(".sti").forEach(s => {
-    s.addEventListener("click", () => { curRate = Number(s.dataset.v); paintRate(curRate); });
-    s.addEventListener("mouseenter", () => paintRate(Number(s.dataset.v)));
+  rateEl.querySelectorAll(".sti").forEach(function(s){
+    s.addEventListener("click", function(){ curRate = Number(s.dataset.v); paintRate(curRate); });
+    s.addEventListener("mouseenter", function(){ paintRate(Number(s.dataset.v)); });
   });
-  rateEl.addEventListener("mouseleave", () => paintRate(curRate));
+  rateEl.addEventListener("mouseleave", function(){ paintRate(curRate); });
 
-  // 提交留言
-  $("#form").addEventListener("submit", e => {
+  $("#form").addEventListener("submit", function(e){
     e.preventDefault();
-    const msg = $("#msg").value.trim();
+    var msg = $("#msg").value.trim();
     if(!msg){ $("#formHint").textContent = "留言内容不能为空"; return; }
-    const nick = $("#nick").value.trim() || "匿名观众";
+    var nick = $("#nick").value.trim() || "匿名观众";
     data.unshift({
       id: "u"+Date.now(),
       name: nick,
@@ -347,43 +683,41 @@
     $("#nick").value = "";
     curRate = 0; paintRate(0);
     $("#formHint").textContent = "发布成功，感谢参与！";
-    setTimeout(()=>{ $("#formHint").textContent = "文明发言，禁止人身攻击"; }, 2500);
+    setTimeout(function(){ $("#formHint").textContent = "文明发言，禁止人身攻击"; }, 2500);
     render();
   });
 
-  // 排序切换
-  $("#sortSeg").addEventListener("click", e => {
-    const b = e.target.closest("button[data-s]");
+  $("#sortSeg2").addEventListener("click", function(e){
+    var b = e.target.closest("button[data-s]");
     if(!b) return;
     sortMode = b.dataset.s;
-    $("#sortSeg").querySelectorAll("button").forEach(x => x.classList.toggle("active", x===b));
+    $("#sortSeg2").querySelectorAll("button").forEach(function(x){ x.classList.toggle("active", x===b); });
     render();
   });
 
-  // 列表交互（点赞 / 展开回复 / 发送回复）——事件委托
-  listEl.addEventListener("click", e => {
-    const likeBtn = e.target.closest("[data-like]");
+  listEl.addEventListener("click", function(e){
+    var likeBtn = e.target.closest("[data-like]");
     if(likeBtn){
-      const c = data.find(x => x.id === likeBtn.dataset.like);
+      var c = data.filter(function(x){ return x.id === likeBtn.dataset.like; })[0];
       if(c){ c.liked = !c.liked; c.likes = (c.likes||0) + (c.liked?1:-1); save(data); render(); }
       return;
     }
-    const rb = e.target.closest("[data-reply]");
+    var rb = e.target.closest("[data-reply]");
     if(rb){
-      const rf = $("#rf-"+rb.dataset.reply);
+      var rf = $("#rf-"+rb.dataset.reply);
       if(rf) rf.classList.toggle("show");
       return;
     }
-    const sb = e.target.closest("[data-send]");
+    var sb = e.target.closest("[data-send]");
     if(sb){
-      const rf = $("#rf-"+sb.dataset.send);
-      const inp = rf && rf.querySelector(".rf-input");
-      const val = inp ? inp.value.trim() : "";
+      var box = $("#rf-"+sb.dataset.send);
+      var inp = box && box.querySelector(".rf-input");
+      var val = inp ? inp.value.trim() : "";
       if(!val) return;
-      const c = data.find(x => x.id === sb.dataset.send);
-      if(c){
-        c.replies = c.replies || [];
-        c.replies.push({ id:"r"+Date.now(), name:"匿名观众", text:val, t:Date.now() });
+      var cc = data.filter(function(x){ return x.id === sb.dataset.send; })[0];
+      if(cc){
+        cc.replies = cc.replies || [];
+        cc.replies.push({ id:"r"+Date.now(), name:"匿名观众", text:val, t:Date.now() });
         save(data); render();
       }
     }
