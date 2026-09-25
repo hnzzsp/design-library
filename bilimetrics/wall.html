@@ -23,6 +23,11 @@
   .live{width:8px;height:8px;border-radius:50%;background:var(--green);flex:0 0 auto;
     box-shadow:0 0 0 0 rgba(63,185,80,.55);animation:pulse 2.2s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,185,80,.55)}70%{box-shadow:0 0 0 9px rgba(63,185,80,0)}100%{box-shadow:0 0 0 0 rgba(63,185,80,0)}}
+  .src-tag{font-size:11px;padding:2px 9px;border-radius:7px;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+  .src-tag.rt{background:rgba(63,185,80,.14);color:var(--green);border:1px solid rgba(63,185,80,.35)}
+  .src-tag.rt::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .src-tag.of{background:rgba(227,179,65,.14);color:var(--amber);border:1px solid rgba(227,179,65,.35)}
+  .src-tag.of::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber)}
   .src-r{display:flex;align-items:center;gap:12px;font-size:12.5px;color:var(--faint)}
   .btn.spin svg{animation:spin .8s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -135,7 +140,7 @@
   <div class="container">
     <span class="eyebrow"><span class="dot"></span>互动墙 · 观众建议</span>
     <h1>观众在想什么，这里看得见</h1>
-    <p>自动汇总「我空间视频」评论区的观众留言，筛出<strong>提建议、催更诉求与内容疑问</strong>，支持搜索、筛选与排序。<strong>数据定时从 B 站评论区同步</strong>，本页每 60 秒自动检查一次更新。</p>
+    <p>自动汇总「我空间视频」评论区的观众留言，筛出<strong>提建议、催更诉求与内容疑问</strong>，支持搜索、筛选与排序。数据由服务端<strong>实时从 B 站抓取</strong>（未登录，每视频取最新 3 条主评论 + 完整楼中楼），接口异常时自动回退本地快照。</p>
   </div>
 </section>
 
@@ -144,7 +149,7 @@
   <div class="container">
     <div class="src-bar">
       <div class="src-l">
-        <span class="live"></span>
+        <span class="src-tag of" id="srcTag">离线快照</span>
         <span>数据源：B 站评论区（真实评论） · 快照 <b id="snapAt">读取中…</b></span>
       </div>
       <div class="src-r">
@@ -298,6 +303,11 @@
   var PAY = null;                 // 当前数据载荷
   var kind = 'all', sortMode = 'hot', q = '';
   var POLL_MS = 60000;            // 自动刷新周期
+  var SRC = 'static';             // 'rt'(实时) | 'static'(离线快照)
+
+  // ⬇⬇⬇ 部署 Worker 后把地址填进来（见 worker/DEPLOY.md）；留空 '' 则只用离线快照，页面不报错 ⬇⬇⬇
+  var COMMENTS_API = '';
+  // 例：var COMMENTS_API = 'https://bilimetrics-comments.<你的子域>.workers.dev/api/comments';
 
   var KIND_META = {
     suggest:  { label: '建议', cls: 'k-sug' },
@@ -325,13 +335,28 @@
     return dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
   }
 
-  // ---- 加载数据（幂等 + 破缓存，支持反复调用实现刷新） ----
-  function loadComments(cb){
+  // ---- 加载数据（优先实时 Worker，失败回退静态快照） ----
+  function loadStatic(cb){
     var s = document.createElement('script');
     s.src = './comments/data.js?t=' + Date.now();
-    s.onload = function(){ try { cb(window.COMMENTS_PAYLOAD || null); } finally { s.remove(); } };
-    s.onerror = function(){ s.remove(); cb(null); };
+    s.onload = function(){ try { cb(window.COMMENTS_PAYLOAD || null, 'static'); } finally { s.remove(); } };
+    s.onerror = function(){ s.remove(); cb(null, 'static'); };
     document.head.appendChild(s);
+  }
+  function loadComments(cb, force){
+    if (!COMMENTS_API){
+      SRC = 'static';
+      loadStatic(cb);
+      return;
+    }
+    var url = COMMENTS_API + (force ? '?force=1' : '');
+    fetch(url, { cache: 'no-store' })
+      .then(function(r){ return r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)); })
+      .then(function(j){ cb((j && j.items) ? j : null, 'rt'); })
+      .catch(function(){ // 实时接口失败（断网 / Worker 未部署 / 风控）→ 回退静态快照
+        SRC = 'static';
+        loadStatic(cb);
+      });
   }
 
   // ---- 过滤 + 排序 ----
@@ -407,20 +432,28 @@
   function paintStats(){
     if (!PAY) return;
     var st = PAY.stats || {};
-    var modeTxt = PAY.mode === 'full' ? '全量' : '公开(每视频3条)';
+    var modeTxt = PAY.mode === 'full' ? '全量' : (PAY.mode === 'realtime' ? '实时(每视频3条)' : '公开(每视频3条)');
     $('#statLine').textContent = '覆盖 ' + (st.videos || 0) + ' 个视频 · 抓取 ' + (st.raw || 0) +
       ' 条 · 入库 ' + (st.kept || 0) + ' 条 · ' + modeTxt;
   }
 
+  function setSrcTag(){
+    var el = $('#srcTag');
+    if (SRC === 'rt'){ el.textContent = '实时'; el.className = 'src-tag rt'; }
+    else { el.textContent = '离线快照'; el.className = 'src-tag of'; }
+  }
+
   // ---- 应用数据 ----
-  function apply(payload, isAuto){
+  function apply(payload, isAuto, source){
     if (payload && payload.items){
+      SRC = (source === 'rt') ? 'rt' : 'static';
       var changed = !PAY || PAY.snapshot !== payload.snapshot || (PAY.items || []).length !== payload.items.length;
       PAY = payload;
       $('#snapAt').textContent = payload.snapshot || '--';
+      setSrcTag();
       paintStats();
       render();
-      if (isAuto && changed) toast('已同步最新数据 · ' + (payload.snapshot || ''));
+      if (isAuto && changed && SRC === 'rt') toast('已同步最新数据 · ' + (payload.snapshot || ''));
     } else {
       PAY = null;
       render();
@@ -436,14 +469,14 @@
     toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2600);
   }
 
-  // ---- 刷新 ----
+  // ---- 刷新（手动=绕过 KV 缓存强制抓；自动=尊重缓存） ----
   var spinning = false;
   function refresh(isAuto){
     if (spinning) return;
     spinning = true;
     var btn = $('#btnRefresh');
     if (!isAuto) btn.classList.add('spin');
-    loadComments(function(payload){
+    loadComments(function(payload, source){
       spinning = false;
       btn.classList.remove('spin');
       if (!payload){
@@ -451,9 +484,9 @@
         if (!PAY) apply(null);
         return;
       }
-      apply(payload, isAuto);
-      if (!isAuto) toast('已刷新 · 快照 ' + (payload.snapshot || '--'));
-    });
+      apply(payload, isAuto, source);
+      if (!isAuto) toast((SRC === 'rt' ? '已刷新 · 实时 ' : '已刷新 · 快照 ') + (payload.snapshot || '--'));
+    }, !isAuto);
   }
 
   // ---- 交互 ----
