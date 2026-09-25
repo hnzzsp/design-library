@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内容档案库 · BiliMetrics</title>
+<meta name="description" content="BiliMetrics 内容档案库：基于真实视频快照的检索浏览，支持关键词搜索、题材标签筛选、多指标排序与单条数据透视。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/style.css">
+<style>
+  .lib-head{position:relative;overflow:hidden;padding:64px 0 40px;
+    background:radial-gradient(900px 400px at 20% -20%,rgba(251,114,153,.08),transparent 60%),linear-gradient(160deg,#0B0E14,#0F131B)}
+  .lib-head h1{font-size:clamp(30px,4.2vw,46px);font-weight:700;letter-spacing:-.5px;
+    background:linear-gradient(108deg,#E8ECF4 30%,#FB7299 80%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .lib-head p{font-size:16px;color:var(--muted);margin-top:12px;max-width:680px;line-height:1.7}
+  .res-meta{font-size:13px;color:var(--muted);margin:0 2px 18px}
+  .res-meta b{color:var(--text);font-family:var(--mono)}
+  .cover-ph{background:linear-gradient(135deg,#1b2230,#222b3d);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px}
+  .drawer .cover-lg{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--card-2)}
+  .drawer .dtitle{font-size:17px;font-weight:700;line-height:1.45;margin:16px 0 10px}
+  .drawer .dmeta{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin-bottom:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site">
+  <div class="container nav">
+    <input type="checkbox" id="navToggle" class="nav-toggle-cb" aria-label="展开导航菜单">
+    <a class="brand" href="./index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#FB7299"/><path d="M11 9.5L19 14L11 18.5V9.5Z" fill="#fff"/></svg>
+      <span>BiliMetrics</span>
+    </a>
+    <nav class="nav-links">
+      <a href="./dashboard.html">数据总览</a>
+      <a href="./videos/">我的视频</a>
+      <a href="./analysis.html">选题分析</a>
+      <a href="./library.html" class="active">内容档案库</a>
+      <a href="./feed.html">灵感情报站</a>
+      <a href="./wall.html">互动墙</a>
+      <a href="../bilimetrics-compare/">UP 对比</a>
+    </nav>
+    <a class="nav-cta" href="./dashboard.html">进入控制台</a>
+    <label for="navToggle" class="nav-toggle" aria-label="菜单"><span></span></label>
+  </div>
+</header>
+
+<!-- Head -->
+<section class="lib-head">
+  <div class="container">
+    <span class="eyebrow"><span class="dot"></span>内容档案库 · 真实视频快照</span>
+    <h1>把每一条视频，查个底朝天</h1>
+    <p>聚合你与同分区 UP 主的真实视频快照（共 <b id="totalN">--</b> 条）。支持关键词搜索、题材标签筛选、多指标排序，点击任意卡片即可透视单条视频的全部互动数据并直达 B 站。</p>
+  </div>
+</section>
+
+<!-- Main -->
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="text" placeholder="搜索标题或 UP 主，如「追逐」「小潮院长」" autocomplete="off">
+      </div>
+      <div class="select">
+        <select id="sort">
+          <option value="play">播放最高</option>
+          <option value="like">点赞最高</option>
+          <option value="favorite">收藏最高</option>
+          <option value="coin">投币最高</option>
+          <option value="new">最新发布</option>
+        </select>
+      </div>
+      <div class="select">
+        <select id="owner">
+          <option value="all">全部创作者</option>
+          <option value="self">仅本人</option>
+          <option value="peer">仅同分区</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="chips" id="topicChips" style="margin-bottom:18px"></div>
+
+    <div class="res-meta">命中 <b id="rc">--</b> 条 · 当前筛选：<b id="rcFilter">全部</b></div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">
+      <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <h3>没有匹配的视频</h3>
+      <p>试试更换关键词，或清除题材 / 创作者筛选。</p>
+    </div>
+  </div>
+</main>
+
+<!-- 详情抽屉 -->
+<div class="mask" id="mask"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="dh">
+    <h3>视频数据透视</h3>
+    <button class="x" id="drawerClose" aria-label="关闭">✕</button>
+  </div>
+  <div class="db" id="drawerBody"></div>
+</aside>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="brand">BiliMetrics</span>
+        <p>B 站大数据洞察平台 · 数据驱动创作决策</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>产品</h5>
+          <a href="./dashboard.html">数据总览</a>
+          <a href="./library.html">内容档案库</a>
+          <a href="./analysis.html">选题分析</a>
+        </div>
+        <div class="foot-col">
+          <h5>社区</h5>
+          <a href="./feed.html">灵感情报站</a>
+          <a href="./wall.html">互动墙</a>
+          <a href="../bilimetrics-compare/">UP 对比</a>
+        </div>
+        <div class="foot-col">
+          <h5>资源</h5>
+          <a href="../index.html">返回素材库</a>
+          <a href="https://space.bilibili.com/374392541" target="_blank" rel="noopener">UP 主空间</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>版权所有 2026 BiliMetrics · 数据来源于公开接口，仅供学习研究</span>
+      <span>Designed with WorkBuddy</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./videos/data.js"></script>
+<script>
+(function(){
+  "use strict";
+  // 题材规则：按标题关键词派生标签
+  var TOPIC_RULES = [
+    {id:'chase',  label:'追逐/逃杀',  kw:['追逐','逃杀','追杀','火箭','跑酷','追']},
+    {id:'horror', label:'恐怖/惊悚',  kw:['恐怖','惊悚','鬼','灵异','悬疑','scp']},
+    {id:'monster',label:'NextBot/怪物',kw:['bot','nextbot','怪物','丧尸','僵尸','尸']},
+    {id:'scene',  label:'场景化探索',kw:['场景','地图','探索','建筑','沙盒','建造']},
+    {id:'multi',  label:'多人/联动',  kw:['多人','联机','联动','组队','合作','朋友']},
+    {id:'funny',  label:'整活/沙雕',  kw:['整活','沙雕','搞笑','迷惑','离谱']}
+  ];
+
+  function classify(title){
+    var t = (title||'').toLowerCase();
+    for (var i=0;i<TOPIC_RULES.length;i++){
+      var r = TOPIC_RULES[i];
+      for (var j=0;j<r.kw.length;j++){
+        if (t.indexOf(r.kw[j].toLowerCase())>-1) return r.id;
+      }
+    }
+    return 'other';
+  }
+
+  // 组装统一列表
+  var ALL = [];
+  function pushVideos(list, owner, up, face, mid){
+    list.forEach(function(v){
+      v.__owner = owner; v.__up = up; v.__face = face; v.__mid = mid;
+      v.__topic = classify(v.title);
+      ALL.push(v);
+    });
+  }
+  var VD = (typeof VIDEOS_DATA!=='undefined') ? VIDEOS_DATA : null;
+  if (VD){
+    var S = VD.self;
+    pushVideos(S.videos, 'self', S.name, S.face, S.mid);
+    (VD.peers||[]).forEach(function(p){
+      pushVideos(p.videos, 'peer', p.name, p.face, p.mid);
+    });
+  }
+
+  // 全局均值（用于透视条）
+  var MEAN = {};
+  ['play','like','favorite','coin','comment','danmaku','share'].forEach(function(k){
+    var s=0; ALL.forEach(function(v){ s+= (v[k]||0); });
+    MEAN[k] = ALL.length ? s/ALL.length : 1;
+  });
+
+  var TOPIC_LABEL = {}; TOPIC_RULES.forEach(function(r){ TOPIC_LABEL[r.id]=r.label; });
+  TOPIC_LABEL.other = '其他 / 综合';
+
+  // 格式化
+  function fmtCN(n){
+    n = Number(n)||0;
+    if (n>=1e8) return (n/1e8).toFixed(2)+'亿';
+    if (n>=1e4) return (n/1e4).toFixed(1)+'万';
+    return String(Math.round(n));
+  }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function coverOf(v){ return 'videos/'+v.cover; }
+  function faceOf(v){ return 'videos/'+v.__face; }
+
+  // 状态
+  var q='', topic='all', owner='all', sort='play';
+
+  // 题材筛选 chips
+  var counts = {all:ALL.length};
+  TOPIC_RULES.forEach(function(r){ counts[r.id]=0; });
+  counts.other=0;
+  ALL.forEach(function(v){ counts[v.__topic]=(counts[v.__topic]||0)+1; });
+
+  var chipsEl = document.getElementById('topicChips');
+  var chipsHtml = '<button class="chip active" data-t="all">全部<span class="cnt">'+ALL.length+'</span></button>';
+  TOPIC_RULES.concat([{id:'other',label:TOPIC_LABEL.other}]).forEach(function(r){
+    chipsHtml += '<button class="chip" data-t="'+r.id+'">'+esc(r.label)+'<span class="cnt">'+(counts[r.id]||0)+'</span></button>';
+  });
+  chipsEl.innerHTML = chipsHtml;
+  chipsEl.addEventListener('click', function(e){
+    var b = e.target.closest('.chip'); if(!b) return;
+    topic = b.getAttribute('data-t');
+    Array.prototype.forEach.call(chipsEl.children, function(c){ c.classList.toggle('active', c===b); });
+    render();
+  });
+
+  // 输入 / 下拉
+  document.getElementById('q').addEventListener('input', function(e){ q=e.target.value.trim().toLowerCase(); render(); });
+  document.getElementById('sort').addEventListener('change', function(e){ sort=e.target.value; render(); });
+  document.getElementById('owner').addEventListener('change', function(e){ owner=e.target.value; render(); });
+
+  function filtered(){
+    var arr = ALL.filter(function(v){
+      if (owner!=='all' && v.__owner!==owner) return false;
+      if (topic!=='all' && v.__topic!==topic) return false;
+      if (q){
+        var hay = (v.title+' '+v.__up).toLowerCase();
+        if (hay.indexOf(q)===-1) return false;
+      }
+      return true;
+    });
+    arr.sort(function(a,b){
+      if (sort==='new') return (b.created||0)-(a.created||0);
+      return (b[sort]||0)-(a[sort]||0);
+    });
+    return arr;
+  }
+
+  var grid = document.getElementById('grid');
+  var emptyEl = document.getElementById('empty');
+
+  function cardHtml(v){
+    var ownerCls = v.__owner==='self' ? 'self' : 'peer';
+    var ownerTxt = v.__owner==='self' ? '本人' : '同行';
+    return ''+
+      '<article class="media-card" data-bv="'+esc(v.bvid)+'">'+
+        '<div class="cover">'+
+          '<img src="'+coverOf(v)+'" alt="'+esc(v.title)+'" loading="lazy" onerror="this.style.display=\'none\';this.parentNode.classList.add(\'cover-ph\');this.parentNode.textContent=\'无封面\'">'+
+          (v.length?'<span class="dur">'+esc(v.length)+'</span>':'')+
+          '<span class="play-ov"><span><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span></span>'+
+        '</div>'+
+        '<div class="body">'+
+          '<div class="ttl">'+esc(v.title)+'</div>'+
+          '<div class="sub"><span class="up"><img src="'+faceOf(v)+'" alt="" onerror="this.style.visibility=\'hidden\'">'+esc(v.__up)+'</span>'+
+            '<span class="owner-badge '+ownerCls+'">'+ownerTxt+'</span></div>'+
+          '<div class="metric-list">'+
+            '<div class="m"><span class="k">播放</span><span class="v">'+fmtCN(v.play)+'</span></div>'+
+            '<div class="m"><span class="k">点赞</span><span class="v">'+fmtCN(v.like)+'</span></div>'+
+            '<div class="m"><span class="k">收藏</span><span class="v">'+fmtCN(v.favorite)+'</span></div>'+
+            '<div class="m"><span class="k">投币</span><span class="v">'+fmtCN(v.coin)+'</span></div>'+
+          '</div>'+
+          '<div class="tags"><span class="tag">'+esc(TOPIC_LABEL[v.__topic])+'</span></div>'+
+        '</div>'+
+      '</article>';
+  }
+
+  function render(){
+    var arr = filtered();
+    document.getElementById('rc').textContent = arr.length;
+    var fTxt = (topic==='all'?'全部题材':TOPIC_LABEL[topic]) + ' · ' +
+               (owner==='all'?'全部创作者':(owner==='self'?'仅本人':'仅同分区')) +
+               (q?(' · 关键词「'+q+'」'):'');
+    document.getElementById('rcFilter').textContent = fTxt;
+    if (!arr.length){ grid.innerHTML=''; emptyEl.style.display='block'; return; }
+    emptyEl.style.display='none';
+    grid.innerHTML = arr.map(cardHtml).join('');
+  }
+
+  grid.addEventListener('click', function(e){
+    var card = e.target.closest('.media-card'); if(!card) return;
+    var bv = card.getAttribute('data-bv');
+    var v = ALL.filter(function(x){return x.bvid===bv;})[0];
+    if (v) openDrawer(v);
+  });
+
+  // 抽屉
+  var mask = document.getElementById('mask');
+  var drawer = document.getElementById('drawer');
+  var drawerBody = document.getElementById('drawerBody');
+
+  function bar(label, val, mean, color){
+    var ratio = mean>0 ? val/mean : 0;
+    var pct = Math.max(3, Math.min(100, ratio*100));
+    var cls = color||'';
+    return '<div class="bar"><div class="bl"><span class="bk">'+label+'</span>'+
+      '<span class="bv">'+fmtCN(val)+' · '+ratio.toFixed(2)+'×</span></div>'+
+      '<div class="bt"><div class="bf '+cls+'" style="width:'+pct.toFixed(1)+'%"></div></div></div>';
+  }
+
+  function openDrawer(v){
+    var ownerCls = v.__owner==='self' ? 'self' : 'peer';
+    var ownerTxt = v.__owner==='self' ? '本人' : '同分区 UP';
+    drawerBody.innerHTML =
+      '<img class="cover-lg" src="'+coverOf(v)+'" alt="" onerror="this.style.display=\'none\'">'+
+      '<div class="dtitle">'+esc(v.title)+'</div>'+
+      '<div class="dmeta"><img src="'+faceOf(v)+'" alt="" style="width:24px;height:24px;border-radius:50%;object-fit:cover" onerror="this.style.visibility=\'hidden\'">'+
+        '<b style="color:var(--text)">'+esc(v.__up)+'</b>'+
+        '<span class="owner-badge '+ownerCls+'">'+ownerTxt+'</span>'+
+        '<span class="tag">'+esc(TOPIC_LABEL[v.__topic])+'</span>'+
+        (v.length?'<span class="tag">'+esc(v.length)+'</span>':'')+
+      '</div>'+
+      '<div class="tags" style="margin-bottom:18px"><span class="badge blue">BV '+esc(v.bvid)+'</span>'+
+        '<span class="badge green">互动率 '+((v.like+v.favorite+v.coin+v.comment+v.share+v.danmaku)/(v.play||1)*100).toFixed(2)+'%</span></div>'+
+      bar('播放量', v.play, MEAN.play, '')+
+      bar('点赞', v.like, MEAN.like, 'blue')+
+      bar('收藏', v.favorite, MEAN.favorite, 'amber')+
+      bar('投币', v.coin, MEAN.coin, '')+
+      bar('评论', v.comment, MEAN.comment, '')+
+      bar('弹幕', v.danmaku, MEAN.danmaku, 'blue')+
+      bar('分享', v.share, MEAN.share, 'amber')+
+      '<a class="btn primary" style="margin-top:20px;width:100%;justify-content:center" href="'+esc(v.url)+'" target="_blank" rel="noopener">在 B 站观看 →</a>';
+    mask.classList.add('show');
+    drawer.classList.add('show');
+    drawer.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeDrawer(){
+    mask.classList.remove('show'); drawer.classList.remove('show');
+    drawer.setAttribute('aria-hidden','true'); document.body.style.overflow='';
+  }
+  document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+  mask.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeDrawer(); });
+
+  document.getElementById('totalN').textContent = ALL.length;
+  render();
+})();
+</script>
+</body>
+</html>

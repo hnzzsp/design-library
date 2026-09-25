@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灵感情报站 · BiliMetrics</title>
+<meta name="description" content="BiliMetrics 灵感情报站：按栏目与标签组织的创作者干货流，涵盖平台动态、运营干货、数据解读与工具推荐，支持搜索与排序。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/style.css">
+<style>
+  .feed-head{position:relative;overflow:hidden;padding:64px 0 40px;
+    background:radial-gradient(900px 400px at 80% -20%,rgba(0,174,236,.08),transparent 60%),linear-gradient(160deg,#0B0E14,#0F131B)}
+  .feed-head h1{font-size:clamp(30px,4.2vw,46px);font-weight:700;letter-spacing:-.5px;
+    background:linear-gradient(108deg,#E8ECF4 30%,#00AEEC 80%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .feed-head p{font-size:16px;color:var(--muted);margin-top:12px;max-width:700px;line-height:1.7}
+  .col-tabs{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}
+  .col-tabs .chip.active{background:rgba(0,174,236,.14);border-color:rgba(0,174,236,.5);color:var(--blue)}
+  .feed-card .cov{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .feed-card .cov .emoji{font-size:42px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .feed-card .cov .col-badge{position:absolute;left:12px;top:12px;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.42);color:#fff;backdrop-filter:blur(4px)}
+  .feed-card .cov .hot{position:absolute;right:12px;top:12px;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:rgba(251,114,153,.9);color:#fff}
+  .feed-card .body{padding:14px 4px 4px}
+  .feed-card .ttl{font-size:15.5px;font-weight:700;line-height:1.42;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .feed-card .exc{font-size:13px;color:var(--muted);line-height:1.6;margin:8px 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .feed-card .fmeta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--faint)}
+  .note{font-size:12px;color:var(--faint);margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site">
+  <div class="container nav">
+    <input type="checkbox" id="navToggle" class="nav-toggle-cb" aria-label="展开导航菜单">
+    <a class="brand" href="./index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#FB7299"/><path d="M11 9.5L19 14L11 18.5V9.5Z" fill="#fff"/></svg>
+      <span>BiliMetrics</span>
+    </a>
+    <nav class="nav-links">
+      <a href="./dashboard.html">数据总览</a>
+      <a href="./videos/">我的视频</a>
+      <a href="./analysis.html">选题分析</a>
+      <a href="./library.html">内容档案库</a>
+      <a href="./feed.html" class="active">灵感情报站</a>
+      <a href="./wall.html">互动墙</a>
+      <a href="../bilimetrics-compare/">UP 对比</a>
+    </nav>
+    <a class="nav-cta" href="./dashboard.html">进入控制台</a>
+    <label for="navToggle" class="nav-toggle" aria-label="菜单"><span></span></label>
+  </div>
+</header>
+
+<!-- Head -->
+<section class="feed-head">
+  <div class="container">
+    <span class="eyebrow"><span class="dot"></span>灵感情报站 · 创作者干货流</span>
+    <h1>把散落的增长方法，汇成一条信息流</h1>
+    <p>按「栏目 + 标签」双维度组织：平台动态、运营干货、数据解读、工具推荐。支持关键词搜索与最新 / 最热排序，点击卡片阅读完整内容。</p>
+  </div>
+</section>
+
+<!-- Main -->
+<main class="section">
+  <div class="container">
+    <div class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="text" placeholder="搜索文章标题或要点，如「完播率」「封面」" autocomplete="off">
+      </div>
+      <div class="seg" id="sortSeg">
+        <button data-s="new" class="active">最新</button>
+        <button data-s="hot">最热</button>
+      </div>
+    </div>
+
+    <div class="col-tabs" id="colTabs"></div>
+    <div class="chips" id="tagChips" style="margin-bottom:20px"></div>
+
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">
+      <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <h3>没有匹配的文章</h3>
+      <p>换个关键词，或清除栏目 / 标签筛选试试。</p>
+    </div>
+    <p class="note">本站为学习演示项目，情报站内容由编辑团队精选整理（示例），非官方公告，请以 B 站官方信息为准。</p>
+  </div>
+</main>
+
+<!-- 文章弹层 -->
+<div class="modal" id="modal">
+  <div class="panel">
+    <div class="cov" id="mCov"><div class="ov"></div></div>
+    <div class="pad" id="mPad"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="brand">BiliMetrics</span>
+        <p>B 站大数据洞察平台 · 数据驱动创作决策</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>产品</h5>
+          <a href="./dashboard.html">数据总览</a>
+          <a href="./library.html">内容档案库</a>
+          <a href="./analysis.html">选题分析</a>
+        </div>
+        <div class="foot-col">
+          <h5>社区</h5>
+          <a href="./feed.html">灵感情报站</a>
+          <a href="./wall.html">互动墙</a>
+          <a href="../bilimetrics-compare/">UP 对比</a>
+        </div>
+        <div class="foot-col">
+          <h5>资源</h5>
+          <a href="../index.html">返回素材库</a>
+          <a href="https://space.bilibili.com/374392541" target="_blank" rel="noopener">UP 主空间</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>版权所有 2026 BiliMetrics · 数据来源于公开接口，仅供学习研究</span>
+      <span>Designed with WorkBuddy</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  // 栏目定义（多栏目）
+  var COLUMNS = [
+    {id:'plat', label:'平台动态', grad:'linear-gradient(135deg,#00AEEC,#A371F7)', emo:'📢'},
+    {id:'ops',  label:'运营干货', grad:'linear-gradient(135deg,#FB7299,#E3B341)', emo:'🚀'},
+    {id:'data', label:'数据解读', grad:'linear-gradient(135deg,#3FB950,#00AEEC)', emo:'📊'},
+    {id:'tool', label:'工具推荐', grad:'linear-gradient(135deg,#A371F7,#FB7299)', emo:'🛠️'}
+  ];
+  var COL = {}; COLUMNS.forEach(function(c){ COL[c.id]=c; });
+
+  // 文章数据（编辑精选 · 示例）
+  var ARTICLES = [
+    {id:1, col:'plat', tags:['算法','变现'], title:'B 站 2026 创作激励改版，流量分成怎么算', emo:'📢', date:'2026-09-22', read:6, hot:942,
+     exc:'新激励从「播放单价」转向「有效观看 + 互动权重」，纯灌量稿件收益下降，完播与互动成为分蛋糕的关键。',
+     body:'<p>2026 年创作激励迎来一轮结构性调整：过去以播放量为绝对核心的分成模型，正在向「有效观看时长 + 互动密度」倾斜。</p><h4>对你意味着什么</h4><p>单纯靠标题党拉点击、但完播拉垮的稿件，单位收益会明显下滑；而高完播、高互动（评论 / 弹幕 / 收藏）的内容，即便播放中等，也能拿到更高权重。</p><h4>可执行动作</h4><ul><li>把前 15 秒的「钩子」做重，先保完播；</li><li>在视频中埋「评论诱因」（提问、二选一、争议点）；</li><li>收藏向内容（教程 / 合集）优先排期，收藏的激励权重上调明显。</li></ul>'},
+    {id:2, col:'plat', tags:['算法','选题'], title:'竖屏稿件流量池扩容，中视频也有春天', emo:'📱', date:'2026-09-18', read:4, hot:631,
+     exc:'推荐位向竖屏与中视频双开，单条时长 3–8 分钟的稿件获得额外曝光加权。',
+     body:'<p>近期推荐系统对竖屏与中视频（3–8 分钟）做了流量池扩容，意味着过去被压制的「中等时长」内容有了更公平的起跑线。</p><h4>怎么借势</h4><p>如果你的内容偏中视频，可以在封面与标题强化「竖屏友好」信息密度；同时利用前 3 秒快速建立期待，避免被快速划走。</p>'},
+    {id:3, col:'ops', tags:['标题','完播率'], title:'标题的 3 秒法则：前 12 字决定点击', emo:'✍️', date:'2026-09-20', read:5, hot:1180,
+     exc:'移动端标题前列约 12 个汉字决定用户是否点开。把最强信息点、最具体的结果前置。',
+     body:'<p>在信息流里，用户扫一眼标题的时间不到 3 秒。前 12 个汉字就是你的「橱窗」。</p><h4>好标题的三要素</h4><ul><li><b>具体</b>：用数字、结果、对比替代形容词（「播放翻 3 倍」好过「很有效」）；</li><li><b>悬念</b>：抛出一个反常识或未完成的信息；</li><li><b>人设</b>：让观众知道这是「谁」在说。</li></ul><p>但注意：标题党会牺牲完播，钩子必须与内容兑现，否则算法反噬。</p>'},
+    {id:4, col:'ops', tags:['封面'], title:'封面设计的「对比冲突」原则', emo:'🎨', date:'2026-09-15', read:4, hot:870,
+     exc:'高点击封面不是「好看」，而是制造「看一眼就想点」的视觉冲突：大小对比、表情对比、前后对比。',
+     body:'<p>封面不是海报，而是「货架上的商品图」。它的唯一 KPI 是点击率。</p><h4>三个可复制的手法</h4><ul><li><b>大小对比</b>：把主体放大到画面 60% 以上；</li><li><b>表情 / 情绪对比</b>：夸张表情比微笑点击高；</li><li><b>前后对比</b>：放「Before / After」式双图。</li></ul><p>文字压图控制在 4–6 字，用描边保证在任何背景可读。</p>'},
+    {id:5, col:'ops', tags:['完播率','剪辑'], title:'完播率救不回来？先拆「前三秒」和「中段落」', emo:'⏱️', date:'2026-09-12', read:6, hot:1024,
+     exc:'完播是算法分发的前提。掉完播通常死在开头铺垫太长，或中段没有节奏变化。',
+     body:'<p>完播率直接决定二次推荐的量级。多数低完播稿件，问题集中在两处。</p><h4>前三秒</h4><p>观众在 3 秒内没拿到「我为什么要看」的理由就划走。把结论、亮点、冲突前置，别用长铺垫。</p><h4>中段落</h4><p>每 20–30 秒要有一次「信息或情绪变化」（转场、反转、新知识点），否则观众进入自动驾驶状态。剪辑上多用 J-cut 与音效 cue 制造节奏。</p>'},
+    {id:6, col:'data', tags:['数据','涨粉'], title:'为什么「收藏率」比「点赞」更值钱', emo:'⭐', date:'2026-09-19', read:5, hot:1330,
+     exc:'收藏代表「以后还要看」，是强意图信号。收藏率高的内容更容易被算法长期分发、带来长尾涨粉。',
+     body:'<p>点赞是情绪反馈，收藏是「工具化意图」。一个被收藏的教程，会在用户下次搜索时反复被唤起，形成长尾流量。</p><h4>怎么提升收藏率</h4><ul><li>做「可复用」内容：清单、模板、合集、速查；</li><li>在视频里明确说「建议收藏」；</li><li>标题 / 封面暗示「干货密度」。</li></ul><p>从本站真实基线看，收藏率中位数约 2%，超过 3% 即进入头部区间。</p>'},
+    {id:7, col:'data', tags:['选题','数据'], title:'从 30 条爆款看「追逐类」内容的生命周期', emo:'🔥', date:'2026-09-17', read:7, hot:1098,
+     exc:'追逐 / 逃杀类在本站样本里互动倍率最高（1.48×），但生命周期短，靠首发与二创延续。',
+     body:'<p>基于本人与同分区 60 条真实视频快照，「追逐 / 逃杀」题材的互动倍率最高（约 1.48× 于均值），但单条热度窗口通常只有 1–2 周。</p><h4>生命周期规律</h4><ul><li><b>首发窗口</b>：题材刚起时进场，吃到最大红利；</li><li><b>二创延续</b>：用不同地图 / 角色做变体，延长生命周期；</li><li><b>长尾</b>：靠收藏型内容承接搜索流量。</li></ul>'},
+    {id:8, col:'data', tags:['数据'], title:'互动率 5% 到底是什么水平', emo:'📈', date:'2026-09-14', read:4, hot:756,
+     exc:'互动率 =（点赞+收藏+投币+评论+分享+弹幕）/ 播放。本站真实均值约 5.16%。',
+     body:'<p>互动率是衡量「内容质量」最综合的指标，因为它把点赞、收藏、投币、评论、分享、弹幕全部纳入。</p><p>本站真实样本（30 条本人视频）的互动率均值约 <b>5.16%</b>。低于 3% 说明内容偏「看完就走」，高于 8% 已是强共鸣级别。提升互动率优先从「评论诱因」与「收藏价值」两端入手。</p>'},
+    {id:9, col:'tool', tags:['工具','数据'], title:'用 Cloudflare Worker 给静态站接实时数据', emo:'☁️', date:'2026-09-16', read:8, hot:644,
+     exc:'纯静态站（GitHub Pages）无法直连 B 站 API（CORS+WBI 签名）。用 Worker 做代理即可突破。',
+     body:'<p>像本站这样的纯静态站，浏览器端无法直接调用 B 站 API——CORS、WBI 签名、风控三道墙。解决思路是把「抓取 + 签名」放到服务端。</p><h4>最小可行方案</h4><ul><li>在 Cloudflare Worker 里实现 WBI 签名与请求转发；</li><li>前端改为 <code>fetch(&apos;/api/...&apos;)</code> 走同源代理；</li><li>加一层缓存（如 KV），避免频繁请求触发风控。</li></ul><p>这样就能把本站「真实数据快照」升级成「准实时」。</p>'},
+    {id:10, col:'tool', tags:['剪辑','工具'], title:'剪映关键帧批量模板，效率翻倍的笨办法', emo:'✂️', date:'2026-09-11', read:5, hot:512,
+     exc:'把重复的动效（缩放、位移、蒙版）做成可复制的关键帧模板，避免每条手动调。',
+     body:'<p>剪辑里最耗时的往往是「重复动效」：同款片头、同款字幕入场。与其每条手调，不如固化成模板。</p><h4>做法</h4><ul><li>调好一条后，复制片段连同关键帧一起粘贴；</li><li>把常用入场 / 出场存为「预设」；</li><li>用调整图层统一调色，减少逐条操作。</li></ul>'},
+    {id:11, col:'ops', tags:['涨粉','选题'], title:'涨粉靠「系列化」还是「单条爆款」', emo:'🌱', date:'2026-09-10', read:6, hot:921,
+     exc:'系列化带来稳定预期与订阅转化；单爆款带来脉冲流量。两者分工不同，最优是「系列打底 + 偶发爆款拉新」。',
+     body:'<p>涨粉有两条路：把内容做成系列（用户追更、订阅转化高），或赌单条爆款（流量脉冲大但留存差）。</p><h4>建议组合</h4><ul><li><b>70% 系列化</b>：固定栏目 / 固定玩法，建立观众预期；</li><li><b>30% 爆款试探</b>：用新题材 / 新形式测试天花板；</li><li>爆款跑通后，快速沉淀成系列。</li></ul>'},
+    {id:12, col:'tool', tags:['工具','标题'], title:'AI 脚本大纲生成工作流（不直接代写）', emo:'🤖', date:'2026-09-08', read:5, hot:703,
+     exc:'用 AI 生成「结构大纲 + 钩子候选」，人保留选题与观点，既提效又不丢人设。',
+     body:'<p>AI 代写容易丢人设、同质化。更好的用法是让它做「结构工」，你做「决策人」。</p><h4>工作流</h4><ul><li>输入选题与目标观众，让 AI 给 3 版大纲；</li><li>让它产出 10 个标题钩子候选，你挑；</li><li>你补充真实案例与个人观点，定稿。</li></ul><p>关键是：AI 负责「可能性」，你负责「判断与真实」。</p>'}
+  ];
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function fmtDate(d){ return String(d).replace(/-/g,'/'); }
+
+  // 标签全集（标签体系）
+  var TAGS = [];
+  ARTICLES.forEach(function(a){ a.tags.forEach(function(t){ if(TAGS.indexOf(t)<0) TAGS.push(t); }); });
+
+  var state = {q:'', col:'all', tag:'all', sort:'new'};
+
+  // 栏目 tabs
+  var colTabs = document.getElementById('colTabs');
+  var colHtml = '<button class="chip active" data-c="all">全部栏目<span class="cnt">'+ARTICLES.length+'</span></button>';
+  COLUMNS.forEach(function(c){
+    var n = ARTICLES.filter(function(a){return a.col===c.id;}).length;
+    colHtml += '<button class="chip" data-c="'+c.id+'">'+esc(c.label)+'<span class="cnt">'+n+'</span></button>';
+  });
+  colTabs.innerHTML = colHtml;
+  colTabs.addEventListener('click', function(e){
+    var b=e.target.closest('.chip'); if(!b) return;
+    state.col=b.getAttribute('data-c');
+    Array.prototype.forEach.call(colTabs.children,function(c){c.classList.toggle('active',c===b);});
+    render();
+  });
+
+  // 标签 chips
+  var tagChips = document.getElementById('tagChips');
+  var tagHtml = '<button class="chip active" data-t="all">全部标签</button>';
+  TAGS.forEach(function(t){
+    var n = ARTICLES.filter(function(a){return a.tags.indexOf(t)>-1;}).length;
+    tagHtml += '<button class="chip" data-t="'+esc(t)+'">'+esc(t)+'<span class="cnt">'+n+'</span></button>';
+  });
+  tagChips.innerHTML = tagHtml;
+  tagChips.addEventListener('click', function(e){
+    var b=e.target.closest('.chip'); if(!b) return;
+    state.tag=b.getAttribute('data-t');
+    Array.prototype.forEach.call(tagChips.children,function(c){c.classList.toggle('active',c===b);});
+    render();
+  });
+
+  // 搜索 + 排序
+  document.getElementById('q').addEventListener('input', function(e){ state.q=e.target.value.trim().toLowerCase(); render(); });
+  var sortSeg = document.getElementById('sortSeg');
+  sortSeg.addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    state.sort=b.getAttribute('data-s');
+    Array.prototype.forEach.call(sortSeg.children,function(c){c.classList.toggle('active',c===b);});
+    render();
+  });
+
+  function filtered(){
+    var arr = ARTICLES.filter(function(a){
+      if (state.col!=='all' && a.col!==state.col) return false;
+      if (state.tag!=='all' && a.tags.indexOf(state.tag)<0) return false;
+      if (state.q){
+        var hay=(a.title+' '+a.exc+' '+a.tags.join(' ')).toLowerCase();
+        if (hay.indexOf(state.q)===-1) return false;
+      }
+      return true;
+    });
+    arr.sort(function(a,b){
+      if (state.sort==='hot') return b.hot-a.hot;
+      return a.date<b.date?1:-1;
+    });
+    return arr;
+  }
+
+  var grid=document.getElementById('grid'), emptyEl=document.getElementById('empty');
+
+  function cardHtml(a){
+    var c=COL[a.col];
+    return ''+
+      '<article class="media-card feed-card" data-id="'+a.id+'">'+
+        '<div class="cov" style="background:'+c.grad+'">'+
+          '<span class="col-badge">'+esc(c.label)+'</span>'+
+          (a.hot>=900?'<span class="hot">🔥 '+a.hot+'</span>':'')+
+          '<span class="emoji">'+(a.emo||c.emo)+'</span>'+
+        '</div>'+
+        '<div class="body">'+
+          '<div class="ttl">'+esc(a.title)+'</div>'+
+          '<div class="exc">'+esc(a.exc)+'</div>'+
+          '<div class="tags">'+(a.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join(''))+'</div>'+
+          '<div class="fmeta"><span>'+fmtDate(a.date)+'</span><span>'+a.read+' 分钟读</span></div>'+
+        '</div>'+
+      '</article>';
+  }
+
+  function render(){
+    var arr=filtered();
+    if(!arr.length){ grid.innerHTML=''; emptyEl.style.display='block'; return; }
+    emptyEl.style.display='none';
+    grid.innerHTML=arr.map(cardHtml).join('');
+  }
+
+  grid.addEventListener('click', function(e){
+    var card=e.target.closest('.feed-card'); if(!card) return;
+    var a=ARTICLES.filter(function(x){return x.id==card.getAttribute('data-id');})[0];
+    if(a) openModal(a);
+  });
+
+  var modal=document.getElementById('modal'), mCov=document.getElementById('mCov'), mPad=document.getElementById('mPad');
+  function openModal(a){
+    var c=COL[a.col];
+    mCov.style.background=c.grad;
+    mCov.innerHTML='<span class="emoji" style="font-size:64px">'+(a.emo||c.emo)+'</span><div class="ov"></div>';
+    mPad.innerHTML=
+      '<h2>'+esc(a.title)+'</h2>'+
+      '<div class="meta"><span class="badge blue">'+esc(c.label)+'</span>'+
+        (a.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join(''))+
+        '<span>'+fmtDate(a.date)+'</span><span>'+a.read+' 分钟读</span><span>🔥 '+a.hot+'</span></div>'+
+      '<div class="content">'+a.body+'</div>';
+    modal.classList.add('show');
+    document.body.style.overflow='hidden';
+  }
+  function closeModal(){ modal.classList.remove('show'); document.body.style.overflow=''; }
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeModal(); });
+
+  render();
+})();
+</script>
+</body>
+</html>
