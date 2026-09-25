@@ -247,6 +247,59 @@
     .wrap{padding-left:14px;padding-right:14px}
     .kpi .val{font-size:24px}
   }
+
+  /* ============ 话题详情抽屉 ============ */
+  .dw-mask{position:fixed;inset:0;background:rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;
+    transition:opacity .24s,visibility .24s}
+  .dw-mask.on{opacity:1;visibility:visible}
+  .drawer{position:fixed;top:0;right:0;height:100%;width:min(560px,100%);z-index:100;background:var(--card);
+    border-left:1px solid var(--border-2);display:flex;flex-direction:column;box-shadow:-24px 0 60px rgba(0,0,0,.5);
+    transform:translateX(102%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+  .drawer.on{transform:translateX(0)}
+  .dw-head{position:relative;flex:0 0 auto;padding:20px 22px 16px;border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,rgba(251,114,153,.1),transparent)}
+  .dw-head h3{font-size:20px;font-weight:700;letter-spacing:-.2px;margin:9px 0 5px;padding-right:36px}
+  .dw-head .rk-badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11.5px;font-weight:700;
+    color:var(--pink);background:rgba(251,114,153,.13);border:1px solid rgba(251,114,153,.28);border-radius:999px;padding:2px 10px}
+  .dw-head .meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+  .dw-head .meta b{color:var(--text);font-family:var(--mono)}
+  .dw-close{position:absolute;top:15px;right:15px;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);
+    background:var(--card-2);color:var(--muted);cursor:pointer;font-size:16px;line-height:1;display:flex;
+    align-items:center;justify-content:center;transition:.18s}
+  .dw-close:hover{color:var(--text);border-color:var(--border-2)}
+  .dw-body{flex:1;overflow-y:auto;padding:18px 22px 28px}
+  .dw-sec{margin-bottom:22px}
+  .dw-sec h4{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.3px;
+    color:var(--muted);margin-bottom:11px}
+  .dw-sec h4::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--pink)}
+  .m-list{display:grid;gap:8px}
+  .m-row{display:grid;grid-template-columns:1fr auto 74px;align-items:center;gap:12px;padding:9px 13px;
+    background:var(--card-2);border:1px solid var(--border);border-radius:10px}
+  .m-row .m-name{font-size:13px;color:var(--muted)}
+  .m-row .m-val{font-family:var(--mono);font-size:14.5px;font-weight:700;text-align:right;color:var(--text)}
+  .m-row .m-cmp{font-family:var(--mono);font-size:11.5px;text-align:right;color:var(--faint);white-space:nowrap}
+  .m-cmp.up{color:var(--green)} .m-cmp.down{color:var(--red)}
+  .gender{display:flex;gap:12px}
+  .gender .g{flex:1;background:var(--card-2);border:1px solid var(--border);border-radius:10px;padding:11px 14px}
+  .gender .g .gl{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+  .gender .g .gd{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .gender .g .gv{font-family:var(--mono);font-size:21px;font-weight:700;margin-top:4px}
+  .dw-bars .bar-fill{display:block}
+  .dw-bars .bar-row:last-child{margin-bottom:0}
+  .dw-note{font-size:11.5px;color:var(--faint);line-height:1.75;margin-top:4px}
+  .dw-note .g-up{color:var(--green)} .dw-note .g-down{color:var(--red)}
+  .dw-actions{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px}
+  .dw-btn{font-size:12.5px;font-family:var(--font);padding:8px 14px;border-radius:9px;cursor:pointer;
+    border:1px solid var(--border-2);background:var(--card-2);color:var(--text);transition:.18s}
+  .dw-btn:hover{border-color:var(--pink);color:var(--pink)}
+  .dw-btn.primary{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600}
+  .dw-btn.primary:hover{filter:brightness(1.08)}
+  @media (max-width:560px){
+    .drawer{width:100%}
+    .m-row{grid-template-columns:1fr auto;gap:8px}
+    .m-row .m-cmp{display:none}
+    .gender{flex-direction:column}
+  }
 </style>
 </head>
 <body>
@@ -446,6 +499,22 @@
 </div>
 
 <div class="tip" id="tip"></div>
+
+<!-- 话题详情抽屉 -->
+<div class="dw-mask" id="dwMask"></div>
+<aside class="drawer" id="topicDrawer" role="dialog" aria-modal="true" aria-labelledby="dwTitle" aria-hidden="true">
+  <div class="dw-head">
+    <button class="dw-close" id="dwClose" aria-label="关闭话题详情">×</button>
+    <span class="rk-badge" id="dwRank">—</span>
+    <h3 id="dwTitle">—</h3>
+    <div class="meta">
+      <span>热度 <b id="dwHeat">—</b></span>
+      <span>周期 <b id="dwRange">—</b></span>
+      <span>榜位 <b id="dwPeriod">—</b></span>
+    </div>
+  </div>
+  <div class="dw-body" id="dwBody"></div>
+</aside>
 
 <script>
 /* =========================================================
@@ -777,11 +846,11 @@ function renderBoards() {
   const tophits = d.topics.filter(t => !q || t.name.toLowerCase().includes(q)).slice(0, 10);
   $('#topicList').innerHTML = tophits.length ? tophits.map((t, i) => {
     const hit = q && t.name.toLowerCase().includes(q);
-    return `<div class="item ${hit ? 'hit' : ''}" data-kind="topic" data-rank="${t.rank}">
+    return `<div class="item ${hit ? 'hit' : ''}" data-kind="topic" data-rank="${t.rank}" title="点击查看「${t.name}」详细数据指标">
       <span class="rk ${rankCls(i)}">${t.rank}</span>
       <span class="tt">${highlight(t.name, q)}</span>
       <span class="vv">${fmtInt(t.heat)}</span>
-      <span class="go">查看 →</span>
+      <span class="go">详情 →</span>
     </div>`;
   }).join('') : `<div class="empty">未匹配到话题</div>`;
 
@@ -789,11 +858,11 @@ function renderBoards() {
   const risehits = d.rising.filter(r => !q || r.name.toLowerCase().includes(q)).slice(0, 10);
   $('#risingList').innerHTML = risehits.length ? risehits.map((r, i) => {
     const hit = q && r.name.toLowerCase().includes(q);
-    return `<div class="item ${hit ? 'hit' : ''}" data-kind="rising" data-rank="${r.rank}">
+    return `<div class="item ${hit ? 'hit' : ''}" data-kind="rising" data-rank="${r.rank}" title="点击查看「${r.name}」详细数据指标">
       <span class="rk ${rankCls(i)}">${r.rank}</span>
       <span class="tt">${highlight(r.name, q)}</span>
       <span class="vv up">+${r.pct}%</span>
-      <span class="go">查看 →</span>
+      <span class="go">详情 →</span>
     </div>`;
   }).join('') : `<div class="empty">未匹配到热点</div>`;
 }
@@ -1103,6 +1172,210 @@ function renderScatter() {
 }
 
 /* =========================================================
+   话题详情抽屉：确定性画像 + 结构化指标（合成样本）
+   - 同一话题的"性格"由名称种子决定，跨周期稳定
+   - 绝对量随该周期热度缩放；完播率/互动率等 rate 指标稳定
+   - 每项指标附「相对本周期 TOP10 均值」的偏差，便于横向对比
+   ========================================================= */
+const AGE_LABELS = ['18岁以下', '18-24岁', '25-30岁', '31-40岁', '40岁以上'];
+const REGION_POOL = ['广东', '江苏', '浙江', '山东', '河南', '四川', '北京', '上海',
+  '湖北', '湖南', '福建', '河北', '陕西', '安徽', '辽宁'];
+
+function strSeed(str) {                            // FNV-1a
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return h >>> 0;
+}
+function rngFrom(seed) {                           // mulberry32
+  let s = seed >>> 0;
+  return function () {
+    s = (s + 0x6D2B79F5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), 1 | t);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rangeSalt = k => (k === 'today' ? 11 : k === 'week' ? 23 : 37);
+
+// 单个话题的完整指标集
+function topicProfile(name, heat, rangeKey) {
+  const rnd = rngFrom(strSeed(name) ^ Math.imul(rangeSalt(rangeKey), 2654435761));
+  const bt = (a, b) => a + rnd() * (b - a);
+
+  const play    = Math.round(heat * bt(620, 1180));         // 话题累计播放量
+  const views   = Math.round(play * bt(1.7, 2.5));          // 总浏览量（曝光）
+  const like    = Math.round(play * bt(0.042, 0.092));
+  const comment = Math.round(play * bt(0.004, 0.014));
+  const share   = Math.round(play * bt(0.0025, 0.009));
+  const fav     = Math.round(play * bt(0.02, 0.06));
+  const follow  = Math.round(play * bt(0.00018, 0.00062));  // 涨粉
+  const finish  = Math.round(bt(31, 69) * 10) / 10;         // 完播率 %
+  const engRate = Math.round((like + comment + share + fav) / Math.max(play, 1) * 1000) / 10;
+
+  const gMale = Math.round(bt(46, 71));
+
+  const raw = AGE_LABELS.map(() => 0.6 + rnd());
+  raw[1] *= 1.9; raw[2] *= 1.45;                            // B 站受众：18-24 / 25-30 偏重
+  const sum = raw.reduce((a, b) => a + b, 0);
+  const ages = raw.map((v, i) => ({ label: AGE_LABELS[i], pct: Math.round(v / sum * 1000) / 10 }));
+  ages[2].pct = Math.round((ages[2].pct + (100 - ages.reduce((a, b) => a + b.pct, 0))) * 10) / 10;
+
+  const pool = REGION_POOL.slice().sort((a, b) => (strSeed(a + name) % 97) - (strSeed(b + name) % 97));
+  const rr = [0, 1, 2, 3, 4].map(i => 22 - i * 3 + rnd() * 7);
+  const rsum = rr.reduce((a, b) => a + b, 0);
+  const regions = rr.map((v, i) => ({ name: pool[i], pct: Math.round(v / rsum * 1000) / 10 }));
+
+  return { play, views, like, comment, share, fav, follow, finish, engRate,
+           gMale, gFemale: 100 - gMale, ages, regions };
+}
+
+// 本周期 TOP10 均值，作为对比基准
+function topicBenchmark(rangeKey) {
+  const list = DATA[rangeKey].topics.slice(0, 10);
+  const keys = ['play', 'views', 'like', 'comment', 'share', 'fav', 'follow', 'finish', 'engRate'];
+  const agg = {};
+  keys.forEach(k => agg[k] = 0);
+  list.forEach(t => { const p = topicProfile(t.name, t.heat, rangeKey); keys.forEach(k => agg[k] += p[k]); });
+  keys.forEach(k => agg[k] /= list.length);
+  return agg;
+}
+
+/* ---------- 抽屉 DOM & 渲染 ---------- */
+const drawerEl = $('#topicDrawer'), dwMask = $('#dwMask'), dwBody = $('#dwBody');
+let dwOpenKey = null, dwLastFocus = null;
+
+function dwBar(label, pct, color) {
+  return `<div class="bar-row">
+    <div class="bar-top"><span class="bn">${label}</span><span class="bv">${pct.toFixed(1)}%</span></div>
+    <div class="bar-track"><span class="bar-fill" style="background:${color || 'linear-gradient(90deg,var(--pink),var(--purple))'}" data-w="${pct}"></span></div>
+  </div>`;
+}
+function fmtMean(base) { return base >= 10000 ? fmtCN(base) : (Number.isInteger(base) ? base : base.toFixed(1)); }
+function dwRow(name, value, cmp) {
+  return `<div class="m-row">
+    <span class="m-name">${name}</span>
+    <span class="m-val">${value}</span>
+    <span class="m-cmp ${cmp.cls}"${cmp.title ? ' title="' + cmp.title + '"' : ''}>${cmp.text}</span>
+  </div>`;
+}
+// 相对本周期 TOP10 均值的倍率（统一量纲，跨指标可横向对比）
+function dwRatio(val, base) {
+  if (!base) return { text: '—', cls: '', title: '' };
+  const r = val / base;
+  return { text: (r >= 1 ? '▲ ' : '▼ ') + r.toFixed(2) + '×', cls: r >= 1 ? 'up' : 'down',
+           title: 'TOP10 均值 ≈ ' + fmtMean(base) };
+}
+
+function openTopicDetail(kind, rank) {
+  const d = DATA[state.range];
+  const src = kind === 'rising' ? d.rising : d.topics;
+  const t = src.slice(0, 10)[rank - 1];
+  if (!t) return;
+
+  const p = topicProfile(t.name, t.heat, state.range);
+  const bm = topicBenchmark(state.range);
+  const kindLabel = kind === 'rising' ? '上升热点' : '爆款话题';
+
+  $('#dwRank').textContent = '#' + t.rank + ' · ' + kindLabel;
+  $('#dwTitle').textContent = t.name;
+  $('#dwHeat').textContent = fmtInt(t.heat);
+  $('#dwRange').textContent = d.label;
+  $('#dwPeriod').textContent = kind === 'rising' ? '+' + t.pct + '%' : 'TOP ' + t.rank;
+
+  const core = [
+    ['总浏览量',   fmtCN(p.views)   + '次',        dwRatio(p.views, bm.views)],
+    ['播放量',     fmtCN(p.play)    + '次',        dwRatio(p.play, bm.play)],
+    ['点赞数',     fmtCN(p.like),                  dwRatio(p.like, bm.like)],
+    ['评论数',     fmtCN(p.comment),               dwRatio(p.comment, bm.comment)],
+    ['转发数',     fmtCN(p.share),                 dwRatio(p.share, bm.share)],
+    ['收藏数',     fmtCN(p.fav),                   dwRatio(p.fav, bm.fav)],
+    ['涨粉情况',   '+' + fmtInt(p.follow) + ' 人', dwRatio(p.follow, bm.follow)],
+    ['完播率',     p.finish.toFixed(1) + '%',      dwRatio(p.finish, bm.finish)],
+    ['平均互动率', p.engRate.toFixed(1) + '%',     dwRatio(p.engRate, bm.engRate)]
+  ];
+
+  dwBody.innerHTML =
+    `<div class="dw-sec"><h4>核心数据指标</h4><div class="m-list">` +
+      core.map(r => dwRow(r[0], r[1], r[2])).join('') +
+    `</div><p class="dw-note">最右列为「相对本周期榜单 TOP10 均值」的倍率：<span class="g-up">▲ 绿色</span> 高于均值，<span class="g-down">▼ 红色</span> 低于均值（悬停可看均值绝对值）。</p></div>` +
+    `<div class="dw-sec"><h4>观众画像 · 年龄分布</h4><div class="dw-bars">` +
+      p.ages.map(a => dwBar(a.label, a.pct)).join('') + `</div></div>` +
+    `<div class="dw-sec"><h4>观众画像 · 性别构成</h4><div class="gender">` +
+      `<div class="g"><div class="gl"><span class="gd" style="background:var(--blue)"></span>男性用户</div><div class="gv">${p.gMale}%</div></div>` +
+      `<div class="g"><div class="gl"><span class="gd" style="background:var(--pink)"></span>女性用户</div><div class="gv">${p.gFemale}%</div></div>` +
+    `</div></div>` +
+    `<div class="dw-sec"><h4>观众画像 · 地域分布 TOP5</h4><div class="dw-bars">` +
+      p.regions.map(r => dwBar(r.name, r.pct, 'linear-gradient(90deg,var(--blue),var(--purple))')).join('') + `</div></div>` +
+    `<div class="dw-actions">` +
+      `<button class="dw-btn primary" id="dwFilter">🔍 以此话题筛选榜单</button>` +
+      `<button class="dw-btn" id="dwCopy">复制指标</button>` +
+    `</div>` +
+    `<p class="dw-note">数据为演示用合成样本，结构已与 B 站开放接口对齐，接入真实数据后可直接替换。</p>`;
+
+  requestAnimationFrame(() => $$('.bar-fill', dwBody).forEach(el => { el.style.width = el.dataset.w + '%'; }));
+
+  $('#dwFilter').addEventListener('click', () => { applySearchLink(t.name); closeTopicDetail(); });
+  $('#dwCopy').addEventListener('click', e => copyMetrics(t.name, p, d.label, e.currentTarget));
+
+  if (!dwOpenKey) dwLastFocus = document.activeElement;
+  drawerEl.classList.add('on'); dwMask.classList.add('on');
+  drawerEl.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  dwOpenKey = kind + '|' + rank;
+  $('#dwClose').focus();
+}
+
+function closeTopicDetail() {
+  drawerEl.classList.remove('on'); dwMask.classList.remove('on');
+  drawerEl.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  dwOpenKey = null;
+  if (dwLastFocus && dwLastFocus.focus) dwLastFocus.focus();
+}
+
+// 保留原「榜单项 → 联动搜索」能力（现由抽屉内按钮触发）
+function applySearchLink(text) {
+  const next = state.query === text ? '' : text;
+  qEl.value = next; state.query = next;
+  sBox.classList.toggle('has-val', !!next);
+  renderBoards(); renderTable(); renderScatter();
+}
+
+function copyMetrics(name, p, label, btn) {
+  const txt = [
+    name + ' · ' + label,
+    '总浏览量: ' + fmtCN(p.views),
+    '播放量: ' + fmtCN(p.play),
+    '点赞数: ' + fmtCN(p.like),
+    '评论数: ' + fmtCN(p.comment),
+    '转发数: ' + fmtCN(p.share),
+    '收藏数: ' + fmtCN(p.fav),
+    '涨粉: +' + fmtCN(p.follow),
+    '完播率: ' + p.finish.toFixed(1) + '%',
+    '平均互动率: ' + p.engRate.toFixed(1) + '%',
+    '性别: 男 ' + p.gMale + '% / 女 ' + p.gFemale + '%',
+    '年龄: ' + p.ages.map(a => a.label + ' ' + a.pct + '%').join(' / '),
+    '地域TOP5: ' + p.regions.map(r => r.name + ' ' + r.pct + '%').join(' / ')
+  ].join('\n');
+  const done = () => { const old = btn.textContent; btn.textContent = '✓ 已复制';
+    setTimeout(() => { btn.textContent = old; }, 1600); };
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    document.body.removeChild(ta); done();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fallback);
+  else fallback();
+}
+
+$('#dwClose').addEventListener('click', closeTopicDetail);
+dwMask.addEventListener('click', closeTopicDetail);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && dwOpenKey) closeTopicDetail(); });
+
+/* =========================================================
    主渲染
    ========================================================= */
 function render(flashKeys) {
@@ -1128,6 +1401,7 @@ $$('.seg button').forEach(btn => btn.addEventListener('click', () => {
   state.range = btn.dataset.range;
   state.tick = 0; lastKpiValues = [];
   render();
+  if (dwOpenKey) { const k = dwOpenKey.split('|'); openTopicDetail(k[0], Number(k[1])); }  // 周期切换时同步刷新抽屉
 }));
 
 // 分区筛选
@@ -1179,21 +1453,15 @@ $$('thead th.sortable').forEach(th => th.addEventListener('click', () => {
   syncSortHeaders(); renderTable();
 }));
 
-// 榜单点击 → 联动搜索
+// 榜单点击：话题 / 热点 → 打开详情抽屉；视频 → 沿用原「联动搜索」
 document.addEventListener('click', e => {
   const item = e.target.closest('.item');
   if (!item) return;
+  const kind = item.dataset.kind;
+  if (kind === 'topic' || kind === 'rising') { openTopicDetail(kind, Number(item.dataset.rank)); return; }
   const list = item.parentElement;
   const idx = Array.from(list.children).indexOf(item);
-  const d = DATA[state.range];
-  let text = '';
-  if (item.dataset.kind === 'video') text = d.videos.slice(0, 10)[idx].up;
-  else if (item.dataset.kind === 'topic') text = d.topics.slice(0, 10)[idx].name;
-  else text = d.rising.slice(0, 10)[idx].name;
-  if (state.query === text) text = '';
-  qEl.value = text; state.query = text;
-  sBox.classList.toggle('has-val', !!text);
-  renderBoards(); renderTable(); renderScatter();
+  applySearchLink(DATA[state.range].videos.slice(0, 10)[idx].up);
 });
 
 // 实时时钟
