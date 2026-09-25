@@ -87,45 +87,110 @@
   .ibar .iv.up{color:var(--green)}
   .ibar .iv.down{color:var(--pink)}
 
-  /* ===== 相关内容（搜索结果 · 真实视频快照） ===== */
-  .content-sec{padding:6px 0 4px}
-  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
-  .sec-head .sec-title h2{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .sec-head .cnt{font-family:var(--mono);font-size:12px;color:var(--pink);border:1px solid rgba(251,114,153,.4);
+  /* ===== 实时建议引擎 ===== */
+  .adv-sec{padding:6px 0 4px}
+  .adv-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .adv-top .tt h2{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .adv-top .cnt{font-family:var(--mono);font-size:12px;color:var(--pink);border:1px solid rgba(251,114,153,.4);
     background:rgba(251,114,153,.1);padding:2px 9px;border-radius:6px;font-weight:600}
-  .sec-head .sub{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
-  .sorts{display:flex;gap:6px;flex-wrap:wrap}
-  .sorts button{font-size:12.5px;padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--border);
-    color:var(--muted);cursor:pointer;font-family:var(--font);transition:.16s;white-space:nowrap}
-  .sorts button:hover{border-color:var(--border-strong);color:var(--text)}
-  .sorts button.on{background:rgba(0,174,236,.14);border-color:var(--blue);color:var(--blue);font-weight:600}
-  .hint{margin:0 0 14px;font-size:12.5px;color:var(--faint);line-height:1.7}
-  .hint b{color:var(--amber);font-weight:600}
-  .vid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(332px,1fr));gap:14px}
-  .vcard{display:flex;gap:13px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border);
-    transition:border-color .2s,transform .2s,box-shadow .2s;cursor:pointer}
-  .vcard:hover{border-color:rgba(251,114,153,.45);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.38)}
-  .vcard .thumb{position:relative;width:118px;height:72px;flex:0 0 auto;border-radius:9px;overflow:hidden;background:var(--card-2)}
-  .vcard .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .vcard .thumb .dur{position:absolute;right:4px;bottom:4px;font-family:var(--mono);font-size:10px;color:#fff;
-    background:rgba(0,0,0,.72);padding:1px 5px;border-radius:4px;letter-spacing:0}
-  .vcard .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
-  .vcard .vt{font-size:13.5px;font-weight:600;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;
-    -webkit-box-orient:vertical;overflow:hidden}
-  .vcard .vm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--faint)}
-  .vcard .own{display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
-  .vcard .own.self{color:var(--pink);font-weight:600}
-  .vcard .own img{width:16px;height:16px;border-radius:50%;object-fit:cover;background:var(--card-2)}
-  .vcard .tp{color:var(--blue);opacity:.85}
-  .vcard:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
-  .vcard .vs{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
-  .vcard .vs span{white-space:nowrap}
-  .vcard .vs span b{color:var(--text);font-weight:600;margin-left:3px}
-  .vcard .vs span.hi b{color:var(--pink)}
-  .vid-empty{display:none;text-align:center;padding:46px 20px;color:var(--muted);font-size:14px;line-height:1.8;
+  .adv-top .sub{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
+  .adv-grid{display:grid;grid-template-columns:302px 1fr;gap:16px;align-items:start}
+
+  /* 左侧 · 实时诊断台 */
+  .diag{position:sticky;top:88px;--lv:#98A2B3;
+    background:linear-gradient(155deg,rgba(0,174,236,.08),rgba(251,114,153,.05)),var(--card);
+    border:1px solid var(--border-strong);border-radius:16px;padding:20px}
+  .diag[data-lv="strong"]{--lv:#3FB950}
+  .diag[data-lv="ok"]{--lv:#00AEEC}
+  .diag[data-lv="watch"]{--lv:#E3B341}
+  .diag[data-lv="hold"]{--lv:#98A2B3}
+  .dg-top{display:flex;align-items:center;gap:15px}
+  .ring{position:relative;width:94px;height:94px;flex:0 0 auto}
+  .ring svg{width:94px;height:94px;display:block;transform:rotate(-90deg)}
+  .ring .rk{fill:none;stroke:rgba(255,255,255,.08);stroke-width:8}
+  .ring .rv{fill:none;stroke:var(--lv);stroke-width:8;stroke-linecap:round;
+    transition:stroke-dashoffset .55s cubic-bezier(.2,.8,.2,1),stroke .3s}
+  .ring .rn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .rn b{font-family:var(--mono);font-size:27px;font-weight:700;line-height:1;color:var(--lv)}
+  .ring .rn i{font-style:normal;font-size:10px;color:var(--faint);letter-spacing:.6px;margin-top:3px}
+  .dg-meta{min-width:0;flex:1}
+  .dg-meta .lv{font-size:15px;font-weight:700;color:var(--lv);line-height:1.35}
+  .dg-meta .lv .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;
+    padding:2px 8px;border-radius:6px;color:var(--lv);background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);margin-left:7px;vertical-align:1px}
+  .dg-meta .desc{font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:6px}
+  .dg-sec{margin-top:15px;padding-top:13px;border-top:1px solid var(--border)}
+  .dg-sec > h5{font-size:11px;color:var(--faint);font-weight:600;letter-spacing:.5px;margin-bottom:9px}
+  .dl{display:flex;flex-direction:column;gap:7px}
+  .dl .row{display:flex;align-items:baseline;justify-content:space-between;gap:9px;font-size:12.5px}
+  .dl .row .k{color:var(--muted);white-space:nowrap}
+  .dl .row .v{font-family:var(--mono);font-weight:600;color:var(--text);text-align:right}
+  .dl .row .v.up{color:#3FB950}
+  .dl .row .v.down{color:var(--pink)}
+  .dl .row .v.acc{color:var(--blue)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chips .ck{font-size:11.5px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,.05);
+    border:1px solid var(--border);color:var(--muted)}
+  .chips .ck b{color:var(--blue);font-weight:600}
+  .chips .ck.fresh b{color:var(--amber)}
+  .bmini{height:7px;background:var(--card-2);border-radius:4px;overflow:hidden;margin-top:1px}
+  .bmini i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#00AEEC,#FB7299);
+    transition:width .6s cubic-bezier(.2,.8,.2,1)}
+  .dg-foot{font-size:11px;color:var(--faint);line-height:1.6;margin-top:13px;padding-top:11px;border-top:1px solid var(--border)}
+
+  /* 右侧 · 建议清单 */
+  .adv-list{display:flex;flex-direction:column;gap:12px}
+  .acard{position:relative;padding:17px 20px 17px 21px;border-radius:14px;background:var(--card);--ac:#00AEEC;
+    border:1px solid var(--border);transition:border-color .2s,transform .2s,box-shadow .2s}
+  .acard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:14px 0 0 14px;background:var(--ac)}
+  .acard:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.34)}
+  .acard.ac-topic{--ac:#FB7299}
+  .acard.ac-title{--ac:#A371F7}
+  .acard.ac-cover{--ac:#00AEEC}
+  .acard.ac-hook{--ac:#E3B341}
+  .acard.ac-pace{--ac:#3FB950}
+  .acard.ac-avoid{--ac:#F85149}
+  .ah{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+  .ah .ic{width:19px;height:19px;flex:0 0 auto;color:var(--ac)}
+  .ah h4{font-size:15.5px;font-weight:700;color:var(--text)}
+  .ah .pill{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;
+    color:var(--ac);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14)}
+  .alead{font-size:13.5px;color:var(--text);line-height:1.72;margin-bottom:10px}
+  .alead b{color:var(--ac)}
+  .alist{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+  .alist li{position:relative;padding-left:15px;font-size:13px;color:var(--muted);line-height:1.68}
+  .alist li::before{content:"";position:absolute;left:2px;top:8.5px;width:5px;height:5px;border-radius:50%;background:var(--ac)}
+  .alist li b{color:var(--text);font-weight:600}
+  .abasis{font-size:12px;color:var(--text);background:var(--card-2);border-left:3px solid #3FB950;
+    padding:9px 12px;border-radius:0 8px 8px 0;line-height:1.66}
+  .abasis b{color:#3FB950;font-family:var(--mono)}
+  .abasis.soft{border-left-color:var(--border-strong);color:var(--muted)}
+  .abasis.soft b{color:var(--text)}
+  .atpl{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 2px}
+  .atpl .tpc{font-size:12px;padding:6px 11px;border-radius:8px;background:var(--card-2);
+    border:1px dashed var(--border-strong);color:var(--muted);cursor:pointer;font-family:var(--font);
+    transition:.16s;text-align:left;line-height:1.5}
+  .atpl .tpc:hover{border-color:var(--ac);color:var(--text)}
+  .atpl .tpc.done{border-style:solid;border-color:#3FB950;color:#3FB950}
+  .adv-empty{display:none;text-align:center;padding:46px 20px;color:var(--muted);font-size:14px;line-height:1.8;
     border:1px dashed var(--border-strong);border-radius:14px}
-  .vid-empty.show{display:block}
-  .vid-empty b{color:var(--pink)}
+  .adv-empty.show{display:block}
+  .adv-empty b{color:var(--pink)}
+  .adv-copy{font-size:12.5px;padding:7px 14px;border-radius:9px;background:var(--card);
+    border:1px solid var(--border);color:var(--muted);cursor:pointer;font-family:var(--font);
+    transition:.16s;white-space:nowrap;align-self:flex-end}
+  .adv-copy:hover{border-color:var(--pink);color:var(--text)}
+  .adv-copy.done{border-color:#3FB950;color:#3FB950}
+  .ah .ic svg{width:100%;height:100%;display:block}
+  .dgrp{margin-bottom:10px}
+  .dgrp:last-child{margin-bottom:0}
+  .dgrp .row{display:flex;align-items:baseline;justify-content:space-between;gap:9px;font-size:12.5px;margin-bottom:5px}
+  .dgrp .k{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dgrp .v{font-family:var(--mono);font-weight:600}
+  .dgrp .v.up{color:#3FB950}
+  .dgrp .v.down{color:var(--pink)}
+  .dgrp .v em{font-style:normal;color:var(--faint);font-size:10.5px;margin-left:3px}
+  .ibar .iv em{font-style:normal;color:var(--faint);font-size:10.5px;margin-left:4px}
   .insight-sec{padding:10px 0 2px}
   .insight .hero-note{text-align:center;margin-top:16px}
 
@@ -180,6 +245,16 @@
     .nav-links a{padding:13px 0;font-size:16px;border-bottom:1px solid var(--border)}
     .nav-links a:last-child{border-bottom:none}
     .ibar{grid-template-columns:96px 1fr 64px}
+    .adv-grid{grid-template-columns:1fr;gap:14px}
+    .diag{position:static}
+    .dg-top{gap:14px}
+  }
+  @media (max-width:520px){
+    .ring{width:78px;height:78px}
+    .ring svg{width:78px;height:78px}
+    .ring .rn b{font-size:23px}
+    .acard{padding:15px 16px 15px 17px}
+    .adv-meta-inline{display:none}
   }
 </style>
 </head>
@@ -210,7 +285,7 @@
   <div class="container hero-inner">
     <span class="badge"><span class="dot"></span>内容方向搜索 · 基于真实数据</span>
     <h1 class="headline">分区选题辅助引擎</h1>
-    <p class="subhead">输入关键词，即时检索「游戏 · GMOD 区」可吸粉的内容方向与爆款规律。每条建议都附带你的真实互动数据佐证，帮你决定下一期拍什么。</p>
+    <p class="subhead">输入关键词，即时生成针对性选题建议 —— 这条题材值不值得做、标题怎么写、封面怎么打、达标线在哪。每条建议都附带你 30 条视频的真实数据佐证，帮你决定下一期拍什么。</p>
 
     <div class="search-block">
       <div class="search-box">
@@ -231,30 +306,29 @@
         <span class="ht" data-k="迷宫">迷宫</span>
         <span class="ht" data-k="僵尸">僵尸</span>
       </div>
-      <div class="res-meta">找到 <b id="rcContent">--</b> 条相关内容 · <b id="rcCard">--</b> 条选题策略</div>
+      <div class="res-meta">实时生成 <b id="rcAdvice">--</b> 条建议 · <b id="rcCard">--</b> 条选题策略</div>
     </div>
 
   </div>
 </section>
 
-<!-- 相关内容（搜索结果 · 真实视频快照） -->
-<section class="content-sec" id="contentSec">
+<!-- 实时建议引擎（输入即生成，无输入则按账号当前状态给建议） -->
+<section class="adv-sec" id="adviceSec">
   <div class="container">
-    <div class="sec-head">
-      <div class="sec-title">
-        <h2><span id="contentTitleTxt">分区热门内容</span> <span class="cnt" id="contentCnt">--</span></h2>
-        <div class="sub" id="contentSub">真实快照 · 点击卡片可跳转 B 站原片</div>
+    <div class="adv-top">
+      <div class="tt">
+        <h2><span id="advTitle">实时选题建议</span> <span class="cnt" id="advCnt">--</span></h2>
+        <div class="sub" id="advSub">未输入关键词 · 已按你账号的当前状态给出建议</div>
       </div>
-      <div class="sorts" id="sorts">
-        <button data-s="relevance" class="on">相关度</button>
-        <button data-s="play">播放最高</button>
-        <button data-s="favorite">收藏最高</button>
-        <button data-s="new">最新发布</button>
+      <button class="adv-copy" id="advCopy">复制全部建议</button>
+    </div>
+    <div class="adv-grid">
+      <aside class="diag" id="diag" data-lv="hold"></aside>
+      <div>
+        <div class="adv-list" id="advList"></div>
+        <div class="adv-empty" id="advEmpty"></div>
       </div>
     </div>
-    <div class="hint" id="hint" style="display:none"></div>
-    <div class="vid-grid" id="vidGrid"></div>
-    <div class="vid-empty" id="vidEmpty"></div>
   </div>
 </section>
 
@@ -310,54 +384,26 @@
   </div>
 </footer>
 
-<!-- 真实视频快照数据层：本人 30 条 + 5 位头部 UP 共 60 条（复用「我的视频」数据） -->
-<script src="./videos/data.js"></script>
+<!-- 真实基线：由 2026-09-24 快照的 30 条视频离线预计算，本页运行时零外部依赖 -->
 <script>
 'use strict';
-// ===== 真实数据规律（本人 30 条视频，倍数＝题材均值 ÷ 全量均值） =====
+// ===== 真实基线（离线预计算 · 口径：本人 30 条视频全量均值） =====
+const BASE = {
+  n:30, followers:240597, snapshot:'2026-09-24 18:05', gapDays:8,
+  play:1370763, playMed:677098, playMax:6983594,
+  like:22500, favorite:29074, comment:329, coin:3274, share:608, danmaku:3632,
+  interRate:5.16, favRate:2.02, minutes:7.7
+};
+// ===== 真实数据规律（题材组均值 ÷ 全量均值 · mult=总互动倍率 · n=该组条数） =====
 const INSIGHTS = [
-  { label:'追逐 / 逃杀', mult:1.80 },
-  { label:'场景化探索', mult:1.44 },
-  { label:'恐怖 / 惊悚', mult:1.28 },
-  { label:'NextBot 整活', mult:1.11 },
-  { label:'多人 / 联动', mult:1.08 },
-  { label:'节日 / 梗蹭', mult:0.96 },
+  { label:'追逐 / 逃杀', mult:1.48, n:11 },
+  { label:'恐怖 / 惊悚', mult:1.00, n:12 },
+  { label:'NextBot / 怪物', mult:0.91, n:11 },
+  { label:'场景化探索', mult:0.86, n:7 },
+  { label:'多人 / 联动', mult:0.71, n:5 },
+  { label:'整活 / 沙雕', mult:0.52, n:4 },
 ];
-// ===== 选题策略知识库 =====
-const CARDS = [
-  { rank:'①', title:'追逐 / 逃杀玩法', diff:'low', diffTxt:'低门槛', tags:['追逐','逃杀','刺激','NextBot','爆款'],
-    why:'强情绪 + 强完播——追逐天然制造紧张，算法偏爱高完播高互动。你已有稳定产出，是最该加量的方向。',
-    ev:'本人「追逐」类 7 条 总互动 ×1.80、收藏 ×2.20，远超基线。',
-    refs:'小潮院长 · 吊德斯DioDes' },
-  { rank:'②', title:'恐怖 / 惊悚氛围', diff:'mid', diffTxt:'中难度', tags:['恐怖','惊险','刺激','压迫感','黑暗','点赞'],
-    why:'情绪激昂→点赞冲动强；标题带「刺激/压迫/逃生」直接抬点击率。适合做系列化惊悚沙盒。',
-    ev:'本人恐怖向 7 条 点赞 ×1.38、总互动 ×1.28。',
-    refs:'-勾魂公狒狒-' },
-  { rank:'③', title:'高收藏率题材', diff:'mid', diffTxt:'中难度', tags:['收藏','场景化','迷宫','雪山','基地','存档'],
-    why:'收藏＝用户认为「以后有用/想重看」，算法权重高、长尾强。迷宫/基地/雪山类收藏率极高。',
-    ev:'场景化 2 条 收藏 ×2.14、总互动 ×1.44；追逐收藏 ×2.20。',
-    refs:'吊德斯DioDes' },
-  { rank:'④', title:'NextBot / 怪物整活', diff:'low', diffTxt:'低门槛', tags:['NextBot','怪物','奥巴嘎','整活','人设'],
-    why:'辨识度高→粉丝记住你，系列化可做个人 IP。奥巴嘎/魔物是你的招牌标签。',
-    ev:'怪物类收藏 ×1.20，稳定高于基线，适合长期做。',
-    refs:'-勾魂公狒狒- · 小潮院长' },
-  { rank:'⑤', title:'多人联机 / 沙雕联动', diff:'mid', diffTxt:'中难度', tags:['联动','多人','沙雕','反应','破圈'],
-    why:'多人反应素材天然有梗、易传播；联动可借对方流量互推，是破圈最快路径。',
-    ev:'多人向 3 条 总互动 ×1.08，中规中矩，做精有空间。',
-    refs:'地瓜BB（成长中，可互推）' },
-  { rank:'⑥', title:'标题与封面（点击率命门）', diff:'low', diffTxt:'改文案即可', tags:['标题','封面','点击率','句式'],
-    why:'你的「场景化+情绪词」标题收藏强；但硬蹭节日（月饼类）点赞 ×0.56 反而弱——别硬蹭，做题材。',
-    ev:'节日 / 梗类 4 条 点赞 ×0.56，明显偏弱。',
-    refs:'全部' },
-  { rank:'⑦', title:'更新频率与系列化', diff:'mid', diffTxt:'中难度', tags:['更新频率','节奏','系列化','追更'],
-    why:'稳定更新→账号活跃权重；系列化→追更留存。别断更，头部 UP 靠周更维持推荐池。',
-    ev:'本人 30 条 稳定产出；头部精选 6 条均高互动，靠更新节奏维持。',
-    refs:'小潮院长（周更） · 吊德斯DioDes' },
-  { rank:'⑧', title:'开头 3 秒钩子', diff:'low', diffTxt:'低门槛', tags:['开头','钩子','完播率','节奏'],
-    why:'完播率决定推荐量级。前 3 秒给冲突/悬念/反差，完播↑→推荐↑。追逐/恐怖的高倍数已印证。',
-    ev:'追逐 ×1.80 / 恐怖 ×1.28，高互动与高完播强相关。',
-    refs:'全部' },
-];
+// ===== 选题策略知识库已合并进 KB（见下方「实时建议引擎」） =====
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -378,16 +424,17 @@ function renderInsights(){
     return `<div class="ibar">
       <span class="il">${esc(i.label)}</span>
       <span class="it"><span class="if" style="width:${w}%"></span></span>
-      <span class="iv ${cls}">×${i.mult.toFixed(2)}</span>
+      <span class="iv ${cls}">×${i.mult.toFixed(2)}<em>n=${i.n}</em></span>
     </div>`;
   }).join('');
 }
 
-// ===== 渲染策略卡 =====
+// ===== 渲染策略卡（数据源与实时建议引擎共用 KB） =====
 function matchCards(terms){
-  if (!terms.length) return CARDS.slice();
-  return CARDS.filter(c => {
-    const hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.why + ' ' + c.ev).toLowerCase();
+  if (!terms.length) return KB.slice();
+  return KB.filter(c => {
+    const hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.alias.join(' ') + ' ' + c.why + ' ' +
+      c.ev + ' ' + c.lead + ' ' + (c.actions || []).join(' ')).toLowerCase();
     return terms.every(t => hay.includes(t.toLowerCase()));
   });
 }
@@ -417,181 +464,647 @@ function renderCards(terms){
 }
 
 /* =========================================================
-   相关内容检索（真实视频快照）
-   数据源：videos/data.js → VIDEOS_DATA（本人 30 条 + 5 位头部 UP 共 60 条）
+   实时建议引擎（Live Advisor）
+   数据源：BASE（离线预计算真实基线）+ KB（题材 / 技法知识库）
+   · 有输入 → 即时按关键词生成建议（题材判断 / 标题 / 封面 / 钩子 / 达标线）
+   · 无输入 → 按账号「当前状态」生成建议（断更天数 / 优势题材 / 本周期配比）
+   所有倍率、样本量均来自 2026-09-24 快照的 30 条视频，非估算。
    ========================================================= */
-const DEFAULT_LIMIT = 12;
 
-// 题材词表：把视频标题归到「题材」，让「恐怖 / 追逐」等概念词也能落到真实内容
-const TOPICS = [
-  { id:'chase', label:'追逐 / 逃杀', alias:['追逐','逃杀','追逐战','跑酷','逃亡','追逃'],
-    kw:['追逐','追人','追','逃杀','逃生','逃出','跑','躲猫猫','鸟叫','轧穿'] },
-  { id:'horror', label:'恐怖 / 惊悚', alias:['恐怖','惊悚','刺激','惊险','灵异','鬼','吓人','压迫感','高能'],
-    kw:['恐怖','惊悚','惊险','刺激','压迫','吓','黑暗','猎杀','索命','诈尸','猎祟','邪骸','活剥','啃','僵尸','鹿人','恐惧','崩溃','血','SAN值','撕脸'] },
-  { id:'monster', label:'NextBot / 怪物', alias:['nextbot','怪物','奥巴噶','奥巴嘎','魔物','整活','哇啦哇啦共'],
-    kw:['nextbot','奥巴噶','奥巴嘎','怪物','魔物','哇啦','怪耳膜','怪','幽灵蛸','大蓝猫'] },
-  { id:'scene', label:'场景化探索', alias:['场景化','场景','探索','迷宫','基地','雪山','地图','收藏','高收藏'],
-    kw:['迷宫','雪山','基地','超市','工厂','树林','森林','太平间','地图','监狱','隔离区','沙漠','海岛','羊村','实验室'] },
-  { id:'multi', label:'多人 / 联动', alias:['联动','多人','联机','互推','多人游戏'],
-    kw:['vs','仨人','一起','双煞','张tam','卢山智明','多人','玩家','兄妹','互坑','挑战'] },
-  { id:'funny', label:'整活 / 沙雕', alias:['整活','沙雕','搞笑','玩梗','鬼畜','大乱斗'],
-    kw:['整活','沙雕','奇葩','搞笑','转盘秀','少萝','萝卜开会','憨鸡','香 蕉','hhhh','变身','大乱斗'] },
+const KB = [
+  /* ---------------- 题材类 ---------------- */
+  { id:'chase', kind:'topic', rank:'①', title:'追逐 / 逃杀玩法', diff:'low', diffTxt:'低门槛',
+    alias:['追逐','逃杀','追逐战','大逃杀','跑酷','逃亡','追逃','追人','逃生','追','逃'],
+    tags:['追逐','逃杀','刺激','NextBot','爆款'],
+    mult:1.48, sample:'11 条', kwRep:'追逐',
+    why:'强情绪 + 强完播 —— 追逐天然制造紧张，算法偏爱高完播高互动。这是你唯一显著跑赢基线的题材。',
+    ev:'本人「追逐」类 11 条：总互动 ×1.48、收藏 ×1.58、收藏率 2.43%（全量 2.02%）',
+    refs:'小潮院长 · 吊德斯DioDes',
+    lead:'「{kw}」踩在你的第一优势题材上 —— 直接加量，不用试探。',
+    actions:[
+      '本周期排 1 条，占更新量约 1/3，当冲量主力用',
+      '时长压在 <b>6–8 分钟</b>（你 30 条均长 7.7 分钟，是收藏率最高区间）',
+      '结尾留「下期去哪张地图」的钩子，把单条流量转成系列追更'
+    ],
+    titles:['我在{kw}里活到了最后一天','{kw}第一天 vs 第七天，差距有多大','三个人同时玩{kw}，谁先崩溃','被追了 20 分钟，我发现了{kw}的致命漏洞'],
+    cover:'主体占画面 1/2，追兵背影虚化；红蓝对比打光；右下角加「存活第 N 天」角标',
+    hook:'前 3 秒直接上最高能的一次贴脸追逐，先给结果、再倒叙怎么走到这一步' },
+
+  { id:'horror', kind:'topic', rank:'②', title:'恐怖 / 惊悚氛围', diff:'mid', diffTxt:'中难度',
+    alias:['恐怖','惊悚','惊险','刺激','压迫感','压迫','灵异','吓人','害怕','鬼','高能','黑暗','僵尸','丧尸','逃生类'],
+    tags:['恐怖','惊险','刺激','压迫感','黑暗','点赞'],
+    mult:1.00, sample:'12 条', kwRep:'恐怖',
+    why:'情绪激昂→点赞冲动强，但播放拉不动。你的恐怖类点赞 ×1.18、播放只有 ×0.84 —— 它是「涨赞」工具，不是「涨量」工具。',
+    ev:'本人恐怖向 12 条：点赞 ×1.18、总互动 ×1.00、播放 ×0.84、收藏 ×0.86',
+    refs:'-勾魂公狒狒-',
+    lead:'「{kw}」是持平项：点赞拿得到，播放不占优。适合当保底内容，别当主力。',
+    actions:[
+      '本周期最多 1 条，且<b>必须叠加强势题材</b>（恐怖 + 追逐）把播放拉起来',
+      '标题带「压迫感 / 逃不出去 / 全程高能」这类紧张词，直接抬点击率',
+      '别做纯氛围片：纯恐怖小样本里播放只到 ×0.53'
+    ],
+    titles:['{kw}里最不该打开的那扇门','凌晨三点玩{kw}，我的心跳没下过 120','{kw}全程高能，第 40 秒我就想关掉','没人告诉我{kw}会这么吓人'],
+    cover:'低照度高反差，主体只露轮廓 + 一点冷光源；别放血 / 鬼脸（封面审核会压）',
+    hook:'0–2 秒给「突然的异响 + 主角僵住」的空镜，制造预期落差' },
+
+  { id:'scene', kind:'topic', rank:'③', title:'高收藏率题材', diff:'mid', diffTxt:'中难度',
+    alias:['收藏','收藏率','高收藏','场景化','场景','探索','迷宫','雪山','基地','地图','存档','长尾','攻略'],
+    tags:['收藏','场景化','迷宫','雪山','基地','存档'],
+    mult:0.86, sample:'7 条', kwRep:'迷宫',
+    why:'收藏＝用户认为「以后有用 / 想重看」，长尾权重高。你的场景化类收藏率 2.34% 高于全量 2.02%，但播放 ×0.79 偏弱 —— 长尾内容，不是冲量内容。',
+    ev:'场景化 7 条：收藏率 2.34%（全量 2.02%）、总互动 ×0.86、播放 ×0.79',
+    refs:'吊德斯DioDes',
+    lead:'「{kw}」偏收藏向：播放不会好看，但会被反复搜到。当「资料型」内容补位。',
+    actions:[
+      '做成「攻略 / 地图全解 / 隐藏点位」结构，把<b>收藏理由写进标题</b>',
+      '片尾固定一句「存档点在第 X 分钟」，直接引导收藏',
+      '与强势题材混搭使用（场景 + 追逐 = 收藏 ×1.58 的验证组合）'
+    ],
+    titles:['{kw}全地图隐藏点位，一次讲完','我把{kw}的每个角落都翻了一遍','{kw}最安全的 5 个藏身点（建议收藏）','{kw}速通路线：从入口到出口 4 分钟'],
+    cover:'用地图 / 俯视视角做主体 + 红圈标出关键点位，一眼看出「有用」',
+    hook:'开头 3 秒直接给「这份清单能帮你省 30 分钟」，用利益点留人' },
+
+  { id:'monster', kind:'topic', rank:'④', title:'NextBot / 怪物整活', diff:'low', diffTxt:'低门槛',
+    alias:['nextbot','怪物','魔物','奥巴噶','奥巴嘎','怪耳膜','大蓝猫','幽灵蛸','怪','哇啦'],
+    tags:['NextBot','怪物','奥巴嘎','整活','人设'],
+    mult:0.91, sample:'11 条', kwRep:'怪物',
+    why:'辨识度高、粉丝记得住，但你拍了 11 条，数据只是略低于基线 —— 它是「人设稳定盘」，不是增长点。',
+    ev:'怪物类 11 条：总互动 ×0.91、播放 ×0.95、收藏 ×0.91',
+    refs:'-勾魂公狒狒- · 小潮院长',
+    lead:'「{kw}」是你的招牌标签：能固粉、难涨量。当人设内容做，别指望它冲播放。',
+    actions:[
+      '保持低频稳定产出（每 2–3 期 1 条），维持标签认知',
+      '把怪物塞进追逐 / 恐怖的结构里做<b>配角</b>，而不是单独成片',
+      '标题别只写怪物名，加一个动作或结果（「XX 追了我三条街」）'
+    ],
+    titles:['{kw}进化到第几代了？这次它学会了开门','用 4 个{kw}围堵一个人，会发生什么','{kw}追了我三条街，最后我输了','把{kw}的 AI 调到最高，我撑了 90 秒'],
+    cover:'怪物正脸占视觉中心 + 一个「人类视角的惊慌感」元素（模糊的手 / 门缝）',
+    hook:'开场就让怪物出现（不要铺垫），第 5 秒给一次「差点击中」的假危机' },
+
+  { id:'multi', kind:'topic', rank:'⑤', title:'多人联机 / 沙雕联动', diff:'mid', diffTxt:'中难度',
+    alias:['联动','多人','联机','互推','多人游戏','破圈','合作','双人'],
+    tags:['联动','多人','沙雕','反应','破圈'],
+    mult:0.71, sample:'5 条', kwRep:'联动',
+    why:'多人反应素材有梗、易传播，但你 5 条多人向播放 ×0.62 —— 联动是破圈手段，不是播放保障。',
+    ev:'多人向 5 条：总互动 ×0.71、播放 ×0.62、收藏 ×0.67',
+    refs:'地瓜BB（成长中，可互推）',
+    lead:'「{kw}」目前数据低于基线。做联动的价值在「借对方流量」，请把互推收益算进目标，别只看播放。',
+    actions:[
+      '一次只联动 1 位、体量相当的 UP（粉丝 1–5 万区间互推效率最高）',
+      '人手一份「预设反应脚本」，避免素材平淡',
+      '成片剪对方高光至少 1 次，方便对方转发'
+    ],
+    titles:['我和{kw}组队的第一天就翻车了','拉上朋友玩{kw}，友情到此为止','{kw}里谁先笑谁就输'],
+    cover:'双人分屏（左你右对方）各占一半 + 中间撞色分割线',
+    hook:'开场直接放两人同时惊呼 / 同时沉默的复读片段，2 秒内建立「有梗」预期' },
+
+  { id:'funny', kind:'topic', rank:'⑥', title:'整活 / 沙雕向', diff:'low', diffTxt:'低门槛',
+    alias:['整活','沙雕','搞笑','玩梗','鬼畜','大乱斗','奇葩','少萝','萝卜开会','转盘秀'],
+    tags:['整活','沙雕','鬼畜','玩梗'],
+    mult:0.52, sample:'4 条', kwRep:'整活',
+    why:'这是全库最弱的一组：播放 ×0.43、收藏 ×0.33。整活靠梗的时效性，你的受众更认「紧张感」而不是「沙雕」。',
+    ev:'整活 / 沙雕 4 条：总互动 ×0.52、播放 ×0.43、收藏 ×0.33、点赞 ×0.68',
+    refs:'—',
+    lead:'「{kw}」在你这里是数据洼地。如果非做不可，请当「调剂」，别占主力坑位。',
+    actions:[
+      '每 5 期最多 1 条，且控制在 6 分钟内（短平快，不指望完播）',
+      '别单独成片：把整活桥段剪进追逐 / 恐怖正片里当高光',
+      '标题不要玩只有老粉懂的梗，涨粉效率接近 0'
+    ],
+    titles:['{kw}，但我全程不说话','{kw}离谱程度测试：能撑过第几秒','当我认真对待{kw}，事情就失控了'],
+    cover:'强对比 + 夸张姿态特写，饱和度拉高',
+    hook:'不要预热，直接把最离谱的一帧放开头' },
+
+  /* ---------------- 技法类 ---------------- */
+  { id:'c-title', kind:'craft', rank:'⑦', title:'标题与封面（点击率命门）', diff:'low', diffTxt:'改文案即可',
+    alias:['标题','文案','点击率','命名','名字','句式','ctr','起名'],
+    tags:['标题','封面','点击率','句式'],
+    mult:null, sample:'方法论',
+    why:'标题决定点击率，点击率决定推荐量级。你数据最好的视频标题高度一致：具体动作 + 结果悬念 + 情绪词。',
+    ev:'标题含「追逐 / 刺激 / 压迫」的一组总互动 ×1.48（全库最高）；纯整活表意模糊的一组 ×0.52（最低）',
+    refs:'全部 30 条',
+    lead:'把「{kw}」写进标题时用「具体动作 + 结果悬念」，不要只放名词。',
+    actions:[
+      '公式：<b>具体动作 / 夸张结果 + 短情绪词 + 一个具体数字</b>',
+      '控制在 18–24 字，前 10 字必须出现核心词',
+      '避免纯名词标题（只写「{kw}」，信息量为 0，必被划走）',
+      '别为蹭节日改题材：你的节日向内容没有一条互动过基线'
+    ],
+    titles:['【GMOD】{kw}，但我只给自己 3 分钟','【GMOD】{kw}最离谱的一次，我笑到被追','【GMOD】玩{kw}千万别做这件事','【GMOD】{kw}里藏了 15 分钟的秘密'],
+    cover:'封面和标题不要重复同一句话：标题给悬念，封面给画面证据',
+    hook:'—' },
+
+  { id:'c-hook', kind:'craft', rank:'⑧', title:'开头 3 秒钩子', diff:'low', diffTxt:'低门槛',
+    alias:['开头','钩子','完播','完播率','前3秒','前三秒','留存','节奏','结构'],
+    tags:['开头','钩子','完播率','节奏'],
+    mult:null, sample:'方法论',
+    why:'完播率决定推荐量级。前 3 秒要给冲突 / 悬念 / 反差，而不是片头动画。',
+    ev:'你 30 条均长 7.7 分钟仍能跑出 ×1.48 的互动 —— 长视频能活下来，靠的就是硬钩子',
+    refs:'全部 30 条',
+    lead:'「{kw}」的开头不要介绍背景 —— 直接把最高能的结果甩出来。',
+    actions:[
+      '<b>0–3 秒</b>：给出全片最强的画面 + 一句话结果',
+      '<b>3–8 秒</b>：抛出疑问（为什么会这样），让人不敢划走',
+      '禁止片头 logo / 频道 intro：前 3 秒流失最贵'
+    ],
+    titles:[],
+    cover:'—',
+    hook:'模板：「先看这个 —— 我在{kw}里活到了最后一天。」然后倒叙怎么走到这一步' },
+
+  { id:'c-pace', kind:'craft', rank:'⑨', title:'更新频率与系列化', diff:'mid', diffTxt:'中难度',
+    alias:['更新频率','更新','频率','节奏','系列化','追更','断更','周更','发布'],
+    tags:['更新频率','节奏','系列化','追更'],
+    mult:null, sample:'30 条 / 1916 天',
+    why:'稳定更新维持账号活跃权重，系列化带来追更留存。你目前距上次更新已 8 天。',
+    ev:'30 条跨度 1916 天（首条 2021-06 → 最新 2026-09），最近一条距今 8 天',
+    refs:'小潮院长（周更）',
+    lead:'「{kw}」如果是系列选题，先定好更新节奏再开拍 —— 断更一次，追更留存掉一半。',
+    actions:[
+      '把更新固定在<b>每周同一天同一时段</b>（算法和观众都会记住）',
+      '系列化：每条结尾留「下期预告」，把单条流量转成订阅行为',
+      '断更超过 10 天，复更首条优先用「追逐类」这类验证过高互动的题材'
+    ],
+    titles:[],
+    cover:'系列封面统一版式 + 期数角标（第 N 期），强化追更感',
+    hook:'—' },
+
+  { id:'c-avoid', kind:'craft', rank:'⚠', title:'避雷 · 别把资源投在数据洼地', diff:'high', diffTxt:'重要',
+    alias:['避雷','踩坑','翻车','失败','风险','为什么差','没流量','掉播放'],
+    tags:['避雷','数据洼地','风险'],
+    mult:null, sample:'全量 30 条',
+    why:'低效方向能识别出来：纯整活（×0.52）、多人联动（×0.71）、纯场景片（播放 ×0.79）。',
+    ev:'整活 4 条 ×0.52、多人 5 条 ×0.71、场景 7 条播放 ×0.79 —— 全部低于全量基线 1.00',
+    refs:'—',
+    lead:'「{kw}」如果属于下列洼地，请缩小投入，或与强势题材混搭后再上。',
+    actions:[
+      '纯整活：每 5 期最多 1 条',
+      '纯联动：目标从「播放」改成「互推涨粉」，别用播放衡量',
+      '纯场景：做成资料型长尾，别当冲量主力'
+    ],
+    titles:[],
+    cover:'—',
+    hook:'—' }
 ];
-// 运营概念词 → 题材 id（让「收藏率 / 恐怖」这类词也能落到真实视频）
-const CONCEPT = {
-  '恐怖':'horror','惊悚':'horror','刺激':'horror','惊险':'horror','压迫':'horror','压迫感':'horror','灵异':'horror','吓人':'horror','鬼':'horror','高能':'horror',
-  '追逐':'chase','逃杀':'chase','追逐战':'chase','跑酷':'chase','逃亡':'chase',
-  '收藏':'scene','收藏率':'scene','高收藏':'scene','场景化':'scene','场景':'scene','探索':'scene',
-  '联动':'multi','多人':'multi','联机':'multi','互推':'multi','多人游戏':'multi',
-  '整活':'funny','沙雕':'funny','搞笑':'funny','玩梗':'funny','鬼畜':'funny',
-  'nextbot':'monster','怪物':'monster','魔物':'monster','奥巴噶':'monster','奥巴嘎':'monster'
+
+const ICONS = {
+  topic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 6.1 6.3.7-4.7 4.3 1.3 6.2L12 17.3 6.4 20.3l1.3-6.2L3 9.8l6.3-.7L12 3z"/></svg>',
+  title:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 11h11M4 16h7"/></svg>',
+  cover:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 15.5l5-4 3.5 2.8L15 11l6 4.5"/><circle cx="8.5" cy="9" r="1.3"/></svg>',
+  hook:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M13 2L4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5z"/></svg>',
+  pace:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3.2 2"/></svg>',
+  pass:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13l5 5L20 6"/></svg>',
+  avoid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l9 16.5H3l9-16.5z"/><path d="M12 9.5v4.5M12 17.2h.01"/></svg>',
+  state:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5l4.5-6 4 3.5L15 8l6 6"/><path d="M3 21h18"/></svg>',
+  fresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4.5 4.5M11 8.2v5.6M8.2 11h5.6"/></svg>'
 };
 
-function buildContent(){
+const LV = {
+  strong:{ data:'strong', txt:'强推', desc:'数据验证过的优势方向 —— 建议直接加量' },
+  ok:    { data:'ok',     txt:'可做', desc:'中性方向 —— 能出内容，但不保证超额表现' },
+  watch: { data:'watch',  txt:'观察', desc:'偏弱方向 —— 小成本试，或与强势题材混搭' },
+  hold:  { data:'hold',   txt:'未验证', desc:'你的 30 条里没有这个方向 —— 属新赛道' }
+};
+// 达标线：用你自己的真实分位值，而不是行业通用值
+const PASS = { play:BASE.playMed, fav:BASE.favRate, inter:BASE.interRate };
+
+function fmtCN(n){
+  if (n == null) return '--';
+  if (n >= 1e8) return (n / 1e8).toFixed(2).replace(/\.?0+$/, '') + '亿';
+  if (n >= 1e4) return (n / 1e4).toFixed(1).replace(/\.0$/, '') + '万';
+  return String(Math.round(n));
+}
+function normTerm(s){ return String(s).toLowerCase().replace(/\s+/g, ''); }
+
+// 命中判定：完全相等 / 包含 / 被包含（后者让「收藏率」也能命中「收藏」）
+function hitsOf(term){
+  const t = normTerm(term);
+  if (!t) return [];
   const out = [];
-  if (typeof VIDEOS_DATA === 'undefined' || !VIDEOS_DATA) return out;
-  const add = (v, owner, mid, face, followers, isSelf) => {
-    const title = v.title || '';
-    const tl = title.toLowerCase();
-    const matched = TOPICS.filter(t => t.kw.some(k => tl.includes(k.toLowerCase())));
-    const tags = [];
-    matched.forEach(t => { tags.push(t.label); t.alias.forEach(a => tags.push(a)); });
-    out.push(Object.assign({}, v, {
-      owner: owner, mid: mid, face: face, followers: followers, isSelf: isSelf,
-      _topics: matched.map(t => t.id),
-      _tags: tags,
-      _t: tl,
-      hay: (title + ' ' + owner + ' ' + tags.join(' ')).toLowerCase()
-    }));
-  };
-  const s = VIDEOS_DATA.self;
-  if (s) (s.videos || []).forEach(v => add(v, s.name, s.mid, s.face, s.followers, true));
-  (VIDEOS_DATA.peers || []).forEach(p => (p.videos || []).forEach(v => add(v, p.name, p.mid, p.face, p.followers, false)));
+  KB.forEach(function(k){
+    const ok = k.alias.some(function(a){
+      const s = normTerm(a);
+      if (t === s) return true;
+      if (t.length >= 2 && t.indexOf(s) >= 0) return true;
+      if (s.length >= 2 && s.indexOf(t) >= 0) return true;
+      return false;
+    });
+    if (ok) out.push(k);
+  });
   return out;
 }
-const CONTENT = buildContent();
-
-function matchContent(terms){
-  if (!terms.length) return CONTENT.slice();
-  return CONTENT.filter(c => terms.every(t => {
-    const tl = t.toLowerCase();
-    if (c.hay.includes(tl)) return true;
-    const id = CONCEPT[tl];
-    return !!(id && c._topics.indexOf(id) >= 0);
-  }));
+function levelOf(sc){
+  if (sc >= 80) return 'strong';
+  if (sc >= 60) return 'ok';
+  if (sc >= 45) return 'watch';
+  return 'hold';
 }
-function scoreOf(c, terms){
-  let s = 0;
-  terms.forEach(t => {
-    const tl = t.toLowerCase();
-    if (c._t.includes(tl)) s += 1000;
-    else if (c._tags.join(' ').toLowerCase().includes(tl)) s += 120;
-    if (c.owner.toLowerCase().includes(tl)) s += 300;
-    const id = CONCEPT[tl];
-    if (id && c._topics.indexOf(id) >= 0) s += 60;
+function analyze(terms){
+  const hits = [], miss = [];
+  terms.forEach(function(t){
+    const h = hitsOf(t);
+    if (!h.length){ miss.push(t); return; }
+    h.forEach(function(k){ if (hits.indexOf(k) < 0) hits.push(k); });
   });
-  return s;
-}
-function conceptHints(terms){
-  const used = [];
-  terms.forEach(t => {
-    const id = CONCEPT[t.toLowerCase()];
-    if (!id) return;
-    const tp = TOPICS.filter(x => x.id === id)[0];
-    if (tp && used.indexOf(t + ' → ' + tp.label) < 0) used.push(t + ' → ' + tp.label);
-  });
-  return used;
-}
-function fmtNum(n){
-  if (n == null) return '--';
-  if (n >= 1e8) return (n / 1e8).toFixed(1).replace(/\.0$/, '') + '亿';
-  if (n >= 1e4) return (n / 1e4).toFixed(1).replace(/\.0$/, '') + '万';
-  return String(n);
-}
-function coverSrc(c){ return c.cover ? './videos/' + c.cover : ''; }
-function faceSrc(c){ return c.face ? './videos/' + c.face : ''; }
-function urlSafe(u){ return /^https?:\/\//i.test(u || '') ? esc(u) : '#'; }
-
-let sortMode = 'relevance';
-function renderContent(terms){
-  const grid  = document.getElementById('vidGrid');
-  const empty = document.getElementById('vidEmpty');
-  const cntEl = document.getElementById('contentCnt');
-  const ttlEl = document.getElementById('contentTitleTxt');
-  const subEl = document.getElementById('contentSub');
-  const hintEl = document.getElementById('hint');
-  const searching = terms.length > 0;
-
-  const arr = matchContent(terms);
-  if (sortMode === 'play')          arr.sort((a, b) => b.play - a.play);
-  else if (sortMode === 'favorite') arr.sort((a, b) => b.favorite - a.favorite);
-  else if (sortMode === 'new')      arr.sort((a, b) => b.created - a.created);
-  else if (searching)               arr.sort((a, b) => scoreOf(b, terms) - scoreOf(a, terms) || b.play - a.play);
-  else                              arr.sort((a, b) => b.play - a.play);
-
-  const shown = searching ? arr : arr.slice(0, DEFAULT_LIMIT);
-
-  ttlEl.textContent = searching ? '相关内容' : '分区热门内容';
-  cntEl.textContent = searching ? ('命中 ' + arr.length + ' 条') : (CONTENT.length + ' 条快照');
-  subEl.textContent = searching
-    ? ('关键词「' + terms.join(' / ') + '」· 真实视频快照 · 点击卡片跳转 B 站原片')
-    : ('真实快照 · 按播放量取前 ' + DEFAULT_LIMIT + ' 条 · 点击卡片跳转 B 站原片');
-
-  const hints = conceptHints(terms);
-  if (hints.length){
-    hintEl.style.display = 'block';
-    hintEl.innerHTML = '智能映射：<b>' + esc(hints.join('；')) + '</b>（运营概念 → 对应题材的真实内容）';
+  const topics = hits.filter(function(k){ return k.kind === 'topic'; });
+  const crafts = hits.filter(function(k){ return k.kind === 'craft'; });
+  let score;
+  if (hits.length){
+    let base = 0;
+    if (topics.length) base = Math.max.apply(null, topics.map(function(k){ return 45 + (k.mult - 0.5) * 40; }));
+    if (crafts.length) base = Math.max(base, 66);
+    score = base + Math.min(14, (hits.length - 1) * 5);
   } else {
-    hintEl.style.display = 'none';
-    hintEl.innerHTML = '';
+    score = 28;                                  // 新方向：未验证，低分保守
+  }
+  score = Math.max(12, Math.min(96, Math.round(score)));
+  const best = topics.slice().sort(function(a, b){ return b.mult - a.mult; })[0] || null;
+  return { hits:hits, miss:miss, topics:topics, crafts:crafts, score:score,
+           lv:levelOf(score), best:best, mult:best ? best.mult : null };
+}
+// 预期播放区间：题材倍率 × 全量均值，再给 ±区间（未验证方向按 0.6 保守估）
+function expectRange(mult){
+  const m = (mult == null) ? 0.6 : mult;
+  const mid = BASE.play * m;
+  return { lo:Math.round(mid * 0.55), mid:Math.round(mid), hi:Math.round(mid * 1.7) };
+}
+function subst(s, kw){ return String(s).replace(/\{kw\}/g, kw || '这个题材'); }
+// 模板代入词：命中题材→用题材代表词；全新方向→用原词；只命中技法→泛指（避免把「标题」套进题材句式）
+function kwFor(a, terms){
+  if (a.best) return a.best.kwRep;
+  if (!a.hits.length) return terms[0] || '这个题材';
+  return '这个题材';
+}
+
+/* ---------------- 左栏：实时诊断台 ---------------- */
+function renderDiag(a, terms){
+  const dg = document.getElementById('diag');
+  const searching = terms.length > 0;
+  const lv = LV[a.lv];
+  dg.setAttribute('data-lv', searching ? lv.data : 'strong');
+
+  const TOP0 = KB.filter(function(k){ return k.kind === 'topic'; })
+    .sort(function(x, y){ return y.mult - x.mult; })[0];
+  const stateMult = TOP0 ? TOP0.mult : 1;
+  const stateScore = Math.round(45 + (stateMult - 0.5) * 40);   // 与 analyze() 同一套算分口径
+  const score = searching ? a.score : stateScore;
+  const R = 40, C = 2 * Math.PI * R;
+  const off = (C * (1 - score / 100)).toFixed(1);
+  const er = expectRange(searching ? a.mult : stateMult);
+
+  let chips = '';
+  a.hits.forEach(function(k){
+    chips += '<span class="ck">' + (k.kind === 'topic' ? '题材' : '技法') + ' · <b>' + esc(k.title) + '</b></span>';
+  });
+  a.miss.forEach(function(t){ chips += '<span class="ck fresh">新词 · <b>' + esc(t) + '</b></span>'; });
+  if (!chips){
+    chips = '<span class="ck">基线 · <b>本人 ' + BASE.n + ' 条</b></span>' +
+            '<span class="ck">距更新 · <b>' + BASE.gapDays + ' 天</b></span>' +
+            '<span class="ck">均值 · <b>' + fmtCN(BASE.play) + '</b></span>';
   }
 
-  grid.innerHTML = shown.map(c => {
-    const topicTxt = c._topics.map(id => {
-      const tp = TOPICS.filter(x => x.id === id)[0];
-      return tp ? tp.label : '';
-    }).filter(Boolean).join(' · ');
-    const vs = '<span' + (c.isSelf ? ' class="hi"' : '') + '>播放<b>' + fmtNum(c.play) + '</b></span>' +
-               '<span>点赞<b>' + fmtNum(c.like) + '</b></span>' +
-               '<span>收藏<b>' + fmtNum(c.favorite) + '</b></span>';
-    const own = '<span class="own' + (c.isSelf ? ' self' : '') + '">' +
-      (c.face ? '<img src="' + faceSrc(c) + '" alt="" loading="lazy">' : '') +
-      esc(c.owner) + (c.isSelf ? ' · 我的作品' : '') + '</span>';
-    return '<a class="vcard" href="' + urlSafe(c.url) + '" target="_blank" rel="noopener">' +
-      '<span class="thumb">' +
-        (c.cover ? '<img src="' + coverSrc(c) + '" alt="" loading="lazy">' : '') +
-        (c.length ? '<span class="dur">' + esc(c.length) + '</span>' : '') +
-      '</span>' +
-      '<span class="body">' +
-        '<span class="vt">' + hl(c.title, terms) + '</span>' +
-        '<span class="vm">' + own + (topicTxt ? '<span class="tp">' + esc(topicTxt) + '</span>' : '') + '</span>' +
-        '<span class="vs">' + vs + '</span>' +
-      '</span></a>';
+  const maxM = Math.max.apply(null, INSIGHTS.map(function(i){ return i.mult; })) || 1;
+  let bars = '';
+  INSIGHTS.slice(0, 3).forEach(function(i){
+    bars += '<div class="dgrp">' +
+      '<div class="row"><span class="k">' + esc(i.label) + '</span>' +
+      '<span class="v ' + (i.mult >= 1 ? 'up' : 'down') + '">×' + i.mult.toFixed(2) + ' <em>n=' + i.n + '</em></span></div>' +
+      '<div class="bmini"><i style="width:' + (i.mult / maxM * 100).toFixed(1) + '%"></i></div></div>';
+  });
+
+  dg.innerHTML =
+    '<div class="dg-top">' +
+      '<div class="ring">' +
+        '<svg viewBox="0 0 94 94">' +
+          '<circle class="rk" cx="47" cy="47" r="' + R + '"/>' +
+          '<circle class="rv" cx="47" cy="47" r="' + R + '" stroke-dasharray="' + C.toFixed(1) +
+            '" stroke-dashoffset="' + off + '"/>' +
+        '</svg>' +
+        '<span class="rn"><b>' + score + '</b><i>' + (searching ? '匹配度' : '推荐指数') + '</i></span>' +
+      '</div>' +
+      '<div class="dg-meta">' +
+        '<div class="lv">' + (searching ? lv.txt : '强推') +
+          '<span class="tag">' + (searching
+          ? (a.best ? '×' + a.mult.toFixed(2) : (a.hits.length ? '技法' : '新赛道'))
+          : '×' + stateMult.toFixed(2)) + '</span></div>' +
+        '<div class="desc">' + (searching ? lv.desc : ('距上次更新 ' + BASE.gapDays + ' 天 · 建议 3 天内复更')) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="dg-sec"><h5>识别结果</h5><div class="chips">' + chips + '</div></div>' +
+    '<div class="dg-sec"><h5>预期表现（播放）</h5><div class="dl">' +
+      '<div class="row"><span class="k">区间</span><span class="v acc">' + fmtCN(er.lo) + ' – ' + fmtCN(er.hi) + '</span></div>' +
+      '<div class="row"><span class="k">中位预期</span><span class="v">' + fmtCN(er.mid) + '</span></div>' +
+      '<div class="row"><span class="k">你的 30 条均值</span><span class="v">' + fmtCN(BASE.play) + '</span></div>' +
+    '</div></div>' +
+    '<div class="dg-sec"><h5>达标线（低于即不及格）</h5><div class="dl">' +
+      '<div class="row"><span class="k">播放</span><span class="v">≥ ' + fmtCN(PASS.play) + '</span></div>' +
+      '<div class="row"><span class="k">收藏率</span><span class="v">≥ ' + PASS.fav + '%</span></div>' +
+      '<div class="row"><span class="k">互动率</span><span class="v">≥ ' + PASS.inter + '%</span></div>' +
+    '</div></div>' +
+    '<div class="dg-sec"><h5>题材倍率 TOP3</h5>' + bars + '</div>' +
+    '<div class="dg-foot">基线口径：本人 30 条视频全量均值（快照 ' + BASE.snapshot +
+      '）· 倍率＝题材组均值 ÷ 全量均值，含题材交叉标签。</div>';
+}
+
+/* ---------------- 右栏：即时建议清单 ---------------- */
+function buildAdvice(a, terms){
+  const out = [];
+  const searching = terms.length > 0;
+  const kw = terms.join(' / ');
+  const tkw = kwFor(a, terms);
+
+  if (!searching){
+    /* === 无输入：按账号当前状态 === */
+    out.push({
+      cls:'ac-state', ic:'state', title:'账号状态检查', pill:'当前状态',
+      lead:'你已 <b>' + BASE.gapDays + ' 天</b>没有更新。活跃度权重正在掉，建议 <b>3 天内</b>复更一条。',
+      actions:[
+        '复更首条优先用验证过的高互动题材（追逐 / 逃杀 ×1.48）',
+        '把更新时间固定下来（每周同一天同一时段），算法和观众都会记住',
+        '不要在复更时试新方向 —— 断更后第一条就是要拉回推荐池'
+      ],
+      basis:'30 条跨度 1916 天，最近一条距今 ' + BASE.gapDays + ' 天'
+    });
+    out.push({
+      cls:'ac-topic', ic:'topic', title:'本周期主力题材', pill:'强推 ×1.48',
+      lead:'<b>追逐 / 逃杀</b>是你唯一显著跑赢基线的题材 —— 直接按主力排产。',
+      actions:[
+        '本周期排 1 条追逐类，占更新量约 1/3',
+        '时长压 6–8 分钟，标题前置结果悬念',
+        '结尾留「下期去哪张地图」把流量转成追更'
+      ],
+      basis:'追逐类 11 条：总互动 ×1.48、收藏 ×1.58、收藏率 2.43%（全量 2.02%）'
+    });
+    out.push({
+      cls:'ac-pace', ic:'pace', title:'三档配比建议', pill:'本周期排产',
+      lead:'按「主力 + 保底 + 长尾」三档排产，比单押一个方向更稳。',
+      actions:[
+        '<b>主力</b>：追逐 / 逃杀 ×1.48 —— 冲量与涨粉',
+        '<b>保底</b>：恐怖 / 惊悚 ×1.00（点赞 ×1.18）或 NextBot ×0.91（固人设）',
+        '<b>长尾</b>：场景化（收藏率 2.34%）—— 做攻略型内容吃搜索流量'
+      ],
+      basis:'三档均由真实分组倍率支撑，非经验值'
+    });
+    out.push({
+      cls:'ac-pass', ic:'pass', title:'发布后 48 小时自查', pill:'达标线',
+      lead:'用你自己的分位值当及格线，48 小时内就能判断这条要不要追加资源。',
+      actions:[
+        '播放 ≥ ' + fmtCN(PASS.play) + '（你的中位数）',
+        '收藏率 ≥ ' + PASS.fav + '%（全量 2.02%）',
+        '互动率 ≥ ' + PASS.inter + '%（全量 5.16%）',
+        '三条全不达 → 题材或标题有问题，别急着投下一条同类'
+      ],
+      basis:'基线来自本人 30 条视频真实快照（' + BASE.snapshot + '）'
+    });
+    out.push({
+      cls:'ac-avoid', ic:'avoid', title:'当前最该避开的坑', pill:'避雷',
+      lead:'这三个方向明显低于基线，别在断更复更期浪费坑位。',
+      actions:[
+        '纯整活 / 沙雕：总互动 ×0.52，全库最低',
+        '纯多人联动：播放 ×0.62（价值在互推，不在播放）',
+        '纯场景片：播放 ×0.79，只适合做资料型长尾'
+      ],
+      basis:'整活 4 条 ×0.52、多人 5 条 ×0.71、场景 7 条 ×0.86'
+    });
+    return out;
+  }
+
+  /* === 有输入：针对关键词 === */
+  if (a.topics.length){
+    a.topics.forEach(function(k){
+      const er = expectRange(k.mult);
+      const lvTxt = k.mult >= 1.3 ? '强推' : (k.mult >= 0.95 ? '可做' : '降投入');
+      out.push({
+        cls:'ac-topic', ic:'topic', title:'题材判断 · ' + k.title, pill:lvTxt + ' ×' + k.mult.toFixed(2),
+        lead: subst(k.lead, tkw),
+        actions: k.actions.slice(),
+        basis: k.ev + '<br>预期播放 ' + fmtCN(er.lo) + ' – ' + fmtCN(er.hi) + '（样本 ' + k.sample + '）'
+      });
+    });
+  }
+  if (!a.topics.length && a.hits.length){
+    // 只命中了技法词（如「标题」）—— 给出技法卡，不再编题材结论
+  }
+
+  // 标题建议：分三种情形，避免把「技法词」硬套进题材句式
+  const tCard = a.crafts.filter(function(k){ return k.id === 'c-title'; })[0];
+  let tpls = null, tLead = '', tBasis = '', tPill = '即时生成', tTitle = '标题方案（点即复制）';
+  if (a.best && a.best.titles && a.best.titles.length){
+    tpls = a.best.titles.map(function(x){ return subst(x, tkw); });
+    tLead = '针对「<b>' + esc(kw) + '</b>」实时生成 —— 句式取自你自己跑出高数据的视频，代入词用「' + esc(tkw) + '」。';
+    tBasis = a.best.ev;
+  } else if (!a.hits.length){
+    tpls = ['【GMOD】我在' + esc(tkw) + '里活到了最后一天',
+            '【GMOD】玩' + esc(tkw) + '，我撑了 3 分钟就崩了',
+            '【GMOD】' + esc(tkw) + '最不该做的一件事'];
+    tLead = '「<b>' + esc(kw) + '</b>」是你的新方向，没有历史标题可参照 —— 先用已验证句式降低试错成本。';
+    tBasis = '已验证句式取自「追逐 / 恐怖」两组的高互动视频标题';
+    tPill = '保守可用';
+    tTitle = '标题方案 · 先套用已验证句式';
+  } else if (tCard){
+    tpls = ['【GMOD】&lt;发生了什么&gt;，但我只给自己 3 分钟',
+            '【GMOD】&lt;最离谱的一次&gt;，我笑到被追',
+            '【GMOD】玩 &lt;你的题材&gt; 千万别做这件事'];
+    tLead = '你输入的是「技法」而不是具体题材 —— 下面是可直接套用的句式框架，把尖括号部分换成你的内容。';
+    tBasis = tCard.ev;
+    tPill = '句式框架';
+    tTitle = '标题方案 · 句式框架';
+  }
+  if (tpls){
+    out.push({
+      cls:'ac-title', ic:'title', title:tTitle, pill:tPill,
+      lead:tLead,
+      actions:[
+        '公式：具体动作 / 夸张结果 + 情绪词 + 一个具体数字',
+        '18–24 字，前 10 字必须出现核心词',
+        '别只写名词 —— 纯名词标题的点击率一定低'
+      ],
+      basis:tBasis,
+      tpls:tpls
+    });
+  }
+
+  // 封面
+  const cCard = a.crafts.filter(function(k){ return k.id === 'c-cover'; })[0] || a.best;
+  if (a.best && a.best.cover && a.best.cover !== '—'){
+    out.push({
+      cls:'ac-cover', ic:'cover', title:'封面打法', pill:'画面证据',
+      lead:'标题给悬念，封面给证据 —— 两者不要重复同一句话。',
+      actions:[a.best.cover, '缩略图尺寸下（约 160×100）先自测：一眼能否看出「发生了什么」', '封面上的字 ≤ 6 个字，且不是标题的复述'],
+      basis:'封面策略按题材差异给出（当前题材：' + a.best.title + '）'
+    });
+  } else {
+    out.push({
+      cls:'ac-cover', ic:'cover', title:'封面打法', pill:'通用',
+      lead:'新方向没有历史封面数据，用通用高辨识结构最稳。',
+      actions:['主体占画面 1/2，背景做虚化或低照度', '红蓝 / 冷暖撞色打光，缩略图下才有辨识度', '封面上不超过 6 个字'],
+      basis:'通用结构，未针对具体题材调优'
+    });
+  }
+
+  // 钩子
+  const hCard = a.crafts.filter(function(k){ return k.id === 'c-hook'; })[0] || a.best;
+  const hookTxt = (hCard && hCard.hook && hCard.hook !== '—') ? subst(hCard.hook, tkw) : null;
+  out.push({
+    cls:'ac-hook', ic:'hook', title:'开头 3 秒钩子', pill:'决定完播',
+    lead: hookTxt ? ('可直接用：<b>' + esc(hookTxt) + '</b>') : '前 3 秒直接给最强结果，别介绍背景。',
+    actions:[
+      '0–3 秒：全片最强画面 + 一句话结果',
+      '3–8 秒：抛出疑问（为什么会这样）',
+      '禁止片头 logo / 频道 intro'
+    ],
+    basis:'你 30 条均长 7.7 分钟仍能跑出 ×1.48 互动，靠的就是硬钩子'
+  });
+
+  // 达标线
+  out.push({
+    cls:'ac-pass', ic:'pass', title:'发布后 48 小时自查', pill:'达标线',
+    lead:'用你自己的分位值当及格线，48 小时内判断要不要为这条追加资源。',
+    actions:[
+      '播放 ≥ ' + fmtCN(PASS.play) + '（你的中位数）',
+      '收藏率 ≥ ' + PASS.fav + '%（全量 2.02%）',
+      '互动率 ≥ ' + PASS.inter + '%（全量 5.16%）'
+    ],
+    basis:'基线来自本人 30 条视频真实快照（' + BASE.snapshot + '）'
+  });
+
+  // 弱项 / 未验证补充
+  if (a.hits.length === 0){
+    const er = expectRange(null);
+    out.unshift({
+      cls:'ac-avoid', ic:'fresh', title:'新方向评估 · 「' + esc(kw) + '」未验证', pill:'新赛道',
+      lead:'你的 30 条里没有这个方向 —— 大概率是机会，也可能是坑，<b>用一条视频验证</b>，别一次押上三条。',
+      actions:[
+        '只拍 1 条试水，控制在 6 分钟内，降低试错成本',
+        '保守预估播放 ' + fmtCN(er.lo) + ' – ' + fmtCN(er.hi) + '（按 ×0.6 估，低于你的均值 ' + fmtCN(BASE.play) + '）',
+        '拍完不要看播放，先看<b>收藏率 ≥ ' + PASS.fav + '%</b> —— 它比播放更能说明这个方向值不值得做',
+        '若收藏率达标 → 追加 2 条；若不达标 → 回到「追逐 + 恐怖」的验证组合'
+      ],
+      basis:'判定标准基于你自己 30 条的收藏率分布，非行业通用值'
+    });
+  } else if (a.best && a.best.mult < 1){
+    out.push({
+      cls:'ac-avoid', ic:'avoid', title:'降投入提醒', pill:'低于基线',
+      lead:'「' + esc(a.best.title) + '」总互动 <b>×' + a.best.mult.toFixed(2) + '</b>，低于全量基线 —— 别给它主力坑位。',
+      actions:[
+        '与强势题材混搭后再上（例如' + esc(a.best.title.split(' / ')[0]) + ' + 追逐）',
+        '控制投入：时长压短、不做复杂场景',
+        '把它当「保底」而非「冲量」内容'
+      ],
+      basis: a.best.ev
+    });
+  }
+  return out;
+}
+
+let curText = '';
+function renderAdvice(a, terms){
+  const list = document.getElementById('advList');
+  const empty = document.getElementById('advEmpty');
+  const items = buildAdvice(a, terms);
+
+  if (!items.length){
+    list.innerHTML = '';
+    empty.classList.add('show');
+    empty.innerHTML = '没有可生成的建议 —— 换个词试试。';
+    curText = '';
+    return 0;
+  }
+  empty.classList.remove('show');
+
+  let txt = '';
+  list.innerHTML = items.map(function(it){
+    let h = '<div class="acard ' + it.cls + '">' +
+      '<div class="ah"><span class="ic">' + (ICONS[it.ic] || ICONS.topic) + '</span>' +
+        '<h4>' + it.title + '</h4>' +
+        (it.pill ? '<span class="pill">' + esc(it.pill) + '</span>' : '') + '</div>' +
+      '<div class="alead">' + it.lead + '</div>';
+    if (it.actions && it.actions.length){
+      h += '<ul class="alist">' + it.actions.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    }
+    if (it.tpls && it.tpls.length){
+      h += '<div class="atpl">' + it.tpls.map(function(t){
+        return '<button class="tpc" type="button" data-t="' + esc(t) + '">' + esc(t) + '</button>';
+      }).join('') + '</div>';
+    }
+    if (it.basis) h += '<div class="abasis' + (it.basisIsSoft ? ' soft' : '') + '"><b>依据</b> · ' + it.basis + '</div>';
+    h += '</div>';
+
+    // 纯文本版（供「复制全部建议」）
+    txt += '【' + it.title + (it.pill ? ' · ' + it.pill : '') + '】\n' + strip(it.lead) + '\n';
+    if (it.actions) it.actions.forEach(function(x){ txt += '  - ' + strip(x) + '\n'; });
+    if (it.tpls) it.tpls.forEach(function(t){ txt += '  标题候选：' + t + '\n'; });
+    if (it.basis) txt += '  依据：' + strip(it.basis) + '\n';
+    txt += '\n';
+    return h;
   }).join('');
 
-  if (shown.length){
-    empty.classList.remove('show');
-  } else {
-    empty.classList.add('show');
-    empty.innerHTML = '没有直接匹配「<b>' + esc(terms.join(' / ')) + '</b>」的视频快照 —— 换个词试试，或在下方的「吸粉选题策略库」里查看对应策略。';
-  }
-  return arr.length;
+  curText = 'BiliMetrics · 选题建议（' + (terms.length ? terms.join(' / ') : '当前账号状态') + '）\n' +
+            '基线：本人 30 条视频快照 ' + BASE.snapshot + '\n\n' + txt;
+
+  // 标题候选：点即复制
+  list.querySelectorAll('.tpc').forEach(function(b){
+    b.addEventListener('click', function(){
+      const t = b.getAttribute('data-t');
+      copyText(t, function(ok){
+        const bak = b.textContent;
+        b.classList.add('done');
+        b.textContent = ok ? '已复制 ✓' : t;
+        setTimeout(function(){ b.classList.remove('done'); b.textContent = bak; }, 1400);
+      });
+    });
+  });
+  return items.length;
 }
 
-// ===== 搜索逻辑（实时） =====
+function strip(html){ return String(html).replace(/<[^>]*>/g, ''); }
+function copyText(t, cb){
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(function(){ cb(true); }, function(){ cb(fallbackCopy(t)); });
+  } else {
+    cb(fallbackCopy(t));
+  }
+}
+function fallbackCopy(t){
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = t;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e){ return false; }
+}
+
+/* =========================================================
+   实时搜索 / 输入联动
+   ========================================================= */
 let activeTag = '';
 const qEl = document.getElementById('q');
+
 function apply(){
   const text = (qEl.value || activeTag || '').trim();
   const terms = text.split(/\s+/).filter(Boolean);
-  const cn = renderContent(terms);
+  const a = analyze(terms);
+  renderDiag(a, terms);
+  const n = renderAdvice(a, terms);
   const kn = renderCards(terms);
-  document.getElementById('rcContent').textContent = cn;
+
+  document.getElementById('rcAdvice').textContent = n;
   document.getElementById('rcCard').textContent = kn;
+  document.getElementById('advCnt').textContent = '共 ' + n + ' 条';
+  document.getElementById('advTitle').textContent = terms.length ? ('「' + terms.join(' / ') + '」实时建议') : '实时选题建议';
+  document.getElementById('advSub').textContent = terms.length
+    ? '随输入即时更新 · 依据你 30 条视频的真实表现基线'
+    : '未输入关键词 · 已按你账号的当前状态给出建议（断更天数 / 优势题材 / 本周期配比）';
 }
-qEl.addEventListener('input', () => { activeTag = ''; syncTags(); apply(); });
-document.getElementById('hotTags').querySelectorAll('.ht').forEach(t => {
-  t.addEventListener('click', () => {
+
+qEl.addEventListener('input', function(){ activeTag = ''; syncTags(); apply(); });
+document.getElementById('hotTags').querySelectorAll('.ht').forEach(function(t){
+  t.addEventListener('click', function(){
     const k = t.dataset.k;
     if (activeTag === k){ activeTag = ''; qEl.value = ''; }
     else { activeTag = k; qEl.value = k; }
@@ -599,18 +1112,19 @@ document.getElementById('hotTags').querySelectorAll('.ht').forEach(t => {
   });
 });
 function syncTags(){
-  document.getElementById('hotTags').querySelectorAll('.ht').forEach(t =>
-    t.classList.toggle('on', t.dataset.k === activeTag));
+  document.getElementById('hotTags').querySelectorAll('.ht').forEach(function(t){
+    t.classList.toggle('on', t.dataset.k === activeTag);
+  });
 }
-document.getElementById('sorts').querySelectorAll('button').forEach(b => {
-  b.addEventListener('click', () => {
-    sortMode = b.dataset.s;
-    document.getElementById('sorts').querySelectorAll('button').forEach(x =>
-      x.classList.toggle('on', x === b));
-    apply();
+
+document.getElementById('advCopy').addEventListener('click', function(){
+  const btn = this;
+  copyText(curText, function(ok){
+    btn.classList.add('done');
+    btn.textContent = ok ? '已复制全部建议 ✓' : '复制失败';
+    setTimeout(function(){ btn.classList.remove('done'); btn.textContent = '复制全部建议'; }, 1600);
   });
 });
-
 renderInsights();
 apply();
 </script>
