@@ -87,6 +87,48 @@
   .ibar .iv.up{color:var(--green)}
   .ibar .iv.down{color:var(--pink)}
 
+  /* ===== 相关内容（搜索结果 · 真实视频快照） ===== */
+  .content-sec{padding:6px 0 4px}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+  .sec-head .sec-title h2{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .sec-head .cnt{font-family:var(--mono);font-size:12px;color:var(--pink);border:1px solid rgba(251,114,153,.4);
+    background:rgba(251,114,153,.1);padding:2px 9px;border-radius:6px;font-weight:600}
+  .sec-head .sub{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
+  .sorts{display:flex;gap:6px;flex-wrap:wrap}
+  .sorts button{font-size:12.5px;padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--border);
+    color:var(--muted);cursor:pointer;font-family:var(--font);transition:.16s;white-space:nowrap}
+  .sorts button:hover{border-color:var(--border-strong);color:var(--text)}
+  .sorts button.on{background:rgba(0,174,236,.14);border-color:var(--blue);color:var(--blue);font-weight:600}
+  .hint{margin:0 0 14px;font-size:12.5px;color:var(--faint);line-height:1.7}
+  .hint b{color:var(--amber);font-weight:600}
+  .vid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(332px,1fr));gap:14px}
+  .vcard{display:flex;gap:13px;padding:12px;border-radius:14px;background:var(--card);border:1px solid var(--border);
+    transition:border-color .2s,transform .2s,box-shadow .2s;cursor:pointer}
+  .vcard:hover{border-color:rgba(251,114,153,.45);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.38)}
+  .vcard .thumb{position:relative;width:118px;height:72px;flex:0 0 auto;border-radius:9px;overflow:hidden;background:var(--card-2)}
+  .vcard .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .vcard .thumb .dur{position:absolute;right:4px;bottom:4px;font-family:var(--mono);font-size:10px;color:#fff;
+    background:rgba(0,0,0,.72);padding:1px 5px;border-radius:4px;letter-spacing:0}
+  .vcard .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+  .vcard .vt{font-size:13.5px;font-weight:600;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden}
+  .vcard .vm{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11.5px;color:var(--faint)}
+  .vcard .own{display:inline-flex;align-items:center;gap:5px;color:var(--muted)}
+  .vcard .own.self{color:var(--pink);font-weight:600}
+  .vcard .own img{width:16px;height:16px;border-radius:50%;object-fit:cover;background:var(--card-2)}
+  .vcard .tp{color:var(--blue);opacity:.85}
+  .vcard:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+  .vcard .vs{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .vcard .vs span{white-space:nowrap}
+  .vcard .vs span b{color:var(--text);font-weight:600;margin-left:3px}
+  .vcard .vs span.hi b{color:var(--pink)}
+  .vid-empty{display:none;text-align:center;padding:46px 20px;color:var(--muted);font-size:14px;line-height:1.8;
+    border:1px dashed var(--border-strong);border-radius:14px}
+  .vid-empty.show{display:block}
+  .vid-empty b{color:var(--pink)}
+  .insight-sec{padding:10px 0 2px}
+  .insight .hero-note{text-align:center;margin-top:16px}
+
   /* 策略卡 */
   .cards{padding:60px 0 30px}
   .cards-head{text-align:center;margin-bottom:30px}
@@ -178,23 +220,52 @@
       <div class="hot-tags" id="hotTags">
         <span class="ht" data-k="追逐">追逐</span>
         <span class="ht" data-k="恐怖">恐怖</span>
-        <span class="ht" data-k="收藏">收藏率</span>
-        <span class="ht" data-k="场景">场景化</span>
+        <span class="ht" data-k="收藏率">收藏率</span>
+        <span class="ht" data-k="场景化">场景化</span>
         <span class="ht" data-k="联动">联动</span>
         <span class="ht" data-k="标题">标题</span>
         <span class="ht" data-k="封面">封面</span>
-        <span class="ht" data-k="频率">更新频率</span>
+        <span class="ht" data-k="更新频率">更新频率</span>
         <span class="ht" data-k="开头">开头钩子</span>
+        <span class="ht" data-k="NextBot">NextBot</span>
+        <span class="ht" data-k="迷宫">迷宫</span>
+        <span class="ht" data-k="僵尸">僵尸</span>
       </div>
-      <div class="res-meta">命中 <b id="rc">8</b> / 8 条选题策略</div>
+      <div class="res-meta">找到 <b id="rcContent">--</b> 条相关内容 · <b id="rcCard">--</b> 条选题策略</div>
     </div>
 
-    <!-- 真实数据规律面板 -->
+  </div>
+</section>
+
+<!-- 相关内容（搜索结果 · 真实视频快照） -->
+<section class="content-sec" id="contentSec">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-title">
+        <h2><span id="contentTitleTxt">分区热门内容</span> <span class="cnt" id="contentCnt">--</span></h2>
+        <div class="sub" id="contentSub">真实快照 · 点击卡片可跳转 B 站原片</div>
+      </div>
+      <div class="sorts" id="sorts">
+        <button data-s="relevance" class="on">相关度</button>
+        <button data-s="play">播放最高</button>
+        <button data-s="favorite">收藏最高</button>
+        <button data-s="new">最新发布</button>
+      </div>
+    </div>
+    <div class="hint" id="hint" style="display:none"></div>
+    <div class="vid-grid" id="vidGrid"></div>
+    <div class="vid-empty" id="vidEmpty"></div>
+  </div>
+</section>
+
+<!-- 真实数据规律 -->
+<section class="insight-sec">
+  <div class="container">
     <div class="insight">
       <h3>你的真实数据规律 <span class="src">30 条视频快照</span></h3>
       <div id="insightBars"></div>
+      <p class="hero-note">注：倍数＝该题材视频互动 ÷ 你全部视频均值。数据快照 2026-09-24 服务端真实抓取；本页为「真实视频快照 + 离线知识库」检索，非实时联网（真·实时见页脚说明）。</p>
     </div>
-    <div class="hero-note">注：倍数＝该题材视频互动 ÷ 你全部视频均值。数据快照 2026-09-24 服务端真实抓取；本页为「离线知识库 + 真实规律」检索，非实时联网（真·实时见页脚说明）。</div>
   </div>
 </section>
 
@@ -239,6 +310,8 @@
   </div>
 </footer>
 
+<!-- 真实视频快照数据层：本人 30 条 + 5 位头部 UP 共 60 条（复用「我的视频」数据） -->
+<script src="./videos/data.js"></script>
 <script>
 'use strict';
 // ===== 真实数据规律（本人 30 条视频，倍数＝题材均值 ÷ 全量均值） =====
@@ -310,43 +383,210 @@ function renderInsights(){
   }).join('');
 }
 
-// 渲染卡片
+// ===== 渲染策略卡 =====
+function matchCards(terms){
+  if (!terms.length) return CARDS.slice();
+  return CARDS.filter(c => {
+    const hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.why + ' ' + c.ev).toLowerCase();
+    return terms.every(t => hay.includes(t.toLowerCase()));
+  });
+}
 function renderCards(terms){
   const grid = document.getElementById('cardGrid');
   const empty = document.getElementById('emptyState');
   const kw = document.getElementById('emptyKw');
-  const list = CARDS.filter(c => {
-    if (!terms.length) return true;
-    const hay = (c.title + ' ' + c.tags.join(' ') + ' ' + c.why + ' ' + c.ev).toLowerCase();
-    return terms.every(t => hay.includes(t.toLowerCase()));
-  });
-  grid.innerHTML = list.map(c => `
-    <div class="scard">
-      <h4><span class="rk">${esc(c.rank)}</span>${hl(c.title, terms)}</h4>
-      <div class="tags">${c.tags.map(t => `<span class="tg">${hl(t, terms)}</span>`).join('')}</div>
-      <div class="why">${hl(c.why, terms)}</div>
-      <div class="ev">${hl(c.ev, terms)}</div>
-      <div class="row2">
-        <span class="refs">参考 <b>${esc(c.refs)}</b></span>
-        <span class="diff ${c.diff}">${esc(c.diffTxt)}</span>
-      </div>
-    </div>`).join('');
-  document.getElementById('rc').textContent = list.length;
+  const list = matchCards(terms);
+  grid.innerHTML = list.map(c =>
+    '<div class="scard">' +
+      '<h4><span class="rk">' + esc(c.rank) + '</span>' + hl(c.title, terms) + '</h4>' +
+      '<div class="tags">' + c.tags.map(t => '<span class="tg">' + hl(t, terms) + '</span>').join('') + '</div>' +
+      '<div class="why">' + hl(c.why, terms) + '</div>' +
+      '<div class="ev">' + hl(c.ev, terms) + '</div>' +
+      '<div class="row2">' +
+        '<span class="refs">参考 <b>' + esc(c.refs) + '</b></span>' +
+        '<span class="diff ' + c.diff + '">' + esc(c.diffTxt) + '</span>' +
+      '</div>' +
+    '</div>').join('');
   if (list.length === 0){
     empty.classList.add('show');
     kw.textContent = terms.join(' / ');
   } else {
     empty.classList.remove('show');
   }
+  return list.length;
 }
 
-// 搜索逻辑（实时）
+/* =========================================================
+   相关内容检索（真实视频快照）
+   数据源：videos/data.js → VIDEOS_DATA（本人 30 条 + 5 位头部 UP 共 60 条）
+   ========================================================= */
+const DEFAULT_LIMIT = 12;
+
+// 题材词表：把视频标题归到「题材」，让「恐怖 / 追逐」等概念词也能落到真实内容
+const TOPICS = [
+  { id:'chase', label:'追逐 / 逃杀', alias:['追逐','逃杀','追逐战','跑酷','逃亡','追逃'],
+    kw:['追逐','追人','追','逃杀','逃生','逃出','跑','躲猫猫','鸟叫','轧穿'] },
+  { id:'horror', label:'恐怖 / 惊悚', alias:['恐怖','惊悚','刺激','惊险','灵异','鬼','吓人','压迫感','高能'],
+    kw:['恐怖','惊悚','惊险','刺激','压迫','吓','黑暗','猎杀','索命','诈尸','猎祟','邪骸','活剥','啃','僵尸','鹿人','恐惧','崩溃','血','SAN值','撕脸'] },
+  { id:'monster', label:'NextBot / 怪物', alias:['nextbot','怪物','奥巴噶','奥巴嘎','魔物','整活','哇啦哇啦共'],
+    kw:['nextbot','奥巴噶','奥巴嘎','怪物','魔物','哇啦','怪耳膜','怪','幽灵蛸','大蓝猫'] },
+  { id:'scene', label:'场景化探索', alias:['场景化','场景','探索','迷宫','基地','雪山','地图','收藏','高收藏'],
+    kw:['迷宫','雪山','基地','超市','工厂','树林','森林','太平间','地图','监狱','隔离区','沙漠','海岛','羊村','实验室'] },
+  { id:'multi', label:'多人 / 联动', alias:['联动','多人','联机','互推','多人游戏'],
+    kw:['vs','仨人','一起','双煞','张tam','卢山智明','多人','玩家','兄妹','互坑','挑战'] },
+  { id:'funny', label:'整活 / 沙雕', alias:['整活','沙雕','搞笑','玩梗','鬼畜','大乱斗'],
+    kw:['整活','沙雕','奇葩','搞笑','转盘秀','少萝','萝卜开会','憨鸡','香 蕉','hhhh','变身','大乱斗'] },
+];
+// 运营概念词 → 题材 id（让「收藏率 / 恐怖」这类词也能落到真实视频）
+const CONCEPT = {
+  '恐怖':'horror','惊悚':'horror','刺激':'horror','惊险':'horror','压迫':'horror','压迫感':'horror','灵异':'horror','吓人':'horror','鬼':'horror','高能':'horror',
+  '追逐':'chase','逃杀':'chase','追逐战':'chase','跑酷':'chase','逃亡':'chase',
+  '收藏':'scene','收藏率':'scene','高收藏':'scene','场景化':'scene','场景':'scene','探索':'scene',
+  '联动':'multi','多人':'multi','联机':'multi','互推':'multi','多人游戏':'multi',
+  '整活':'funny','沙雕':'funny','搞笑':'funny','玩梗':'funny','鬼畜':'funny',
+  'nextbot':'monster','怪物':'monster','魔物':'monster','奥巴噶':'monster','奥巴嘎':'monster'
+};
+
+function buildContent(){
+  const out = [];
+  if (typeof VIDEOS_DATA === 'undefined' || !VIDEOS_DATA) return out;
+  const add = (v, owner, mid, face, followers, isSelf) => {
+    const title = v.title || '';
+    const tl = title.toLowerCase();
+    const matched = TOPICS.filter(t => t.kw.some(k => tl.includes(k.toLowerCase())));
+    const tags = [];
+    matched.forEach(t => { tags.push(t.label); t.alias.forEach(a => tags.push(a)); });
+    out.push(Object.assign({}, v, {
+      owner: owner, mid: mid, face: face, followers: followers, isSelf: isSelf,
+      _topics: matched.map(t => t.id),
+      _tags: tags,
+      _t: tl,
+      hay: (title + ' ' + owner + ' ' + tags.join(' ')).toLowerCase()
+    }));
+  };
+  const s = VIDEOS_DATA.self;
+  if (s) (s.videos || []).forEach(v => add(v, s.name, s.mid, s.face, s.followers, true));
+  (VIDEOS_DATA.peers || []).forEach(p => (p.videos || []).forEach(v => add(v, p.name, p.mid, p.face, p.followers, false)));
+  return out;
+}
+const CONTENT = buildContent();
+
+function matchContent(terms){
+  if (!terms.length) return CONTENT.slice();
+  return CONTENT.filter(c => terms.every(t => {
+    const tl = t.toLowerCase();
+    if (c.hay.includes(tl)) return true;
+    const id = CONCEPT[tl];
+    return !!(id && c._topics.indexOf(id) >= 0);
+  }));
+}
+function scoreOf(c, terms){
+  let s = 0;
+  terms.forEach(t => {
+    const tl = t.toLowerCase();
+    if (c._t.includes(tl)) s += 1000;
+    else if (c._tags.join(' ').toLowerCase().includes(tl)) s += 120;
+    if (c.owner.toLowerCase().includes(tl)) s += 300;
+    const id = CONCEPT[tl];
+    if (id && c._topics.indexOf(id) >= 0) s += 60;
+  });
+  return s;
+}
+function conceptHints(terms){
+  const used = [];
+  terms.forEach(t => {
+    const id = CONCEPT[t.toLowerCase()];
+    if (!id) return;
+    const tp = TOPICS.filter(x => x.id === id)[0];
+    if (tp && used.indexOf(t + ' → ' + tp.label) < 0) used.push(t + ' → ' + tp.label);
+  });
+  return used;
+}
+function fmtNum(n){
+  if (n == null) return '--';
+  if (n >= 1e8) return (n / 1e8).toFixed(1).replace(/\.0$/, '') + '亿';
+  if (n >= 1e4) return (n / 1e4).toFixed(1).replace(/\.0$/, '') + '万';
+  return String(n);
+}
+function coverSrc(c){ return c.cover ? './videos/' + c.cover : ''; }
+function faceSrc(c){ return c.face ? './videos/' + c.face : ''; }
+function urlSafe(u){ return /^https?:\/\//i.test(u || '') ? esc(u) : '#'; }
+
+let sortMode = 'relevance';
+function renderContent(terms){
+  const grid  = document.getElementById('vidGrid');
+  const empty = document.getElementById('vidEmpty');
+  const cntEl = document.getElementById('contentCnt');
+  const ttlEl = document.getElementById('contentTitleTxt');
+  const subEl = document.getElementById('contentSub');
+  const hintEl = document.getElementById('hint');
+  const searching = terms.length > 0;
+
+  const arr = matchContent(terms);
+  if (sortMode === 'play')          arr.sort((a, b) => b.play - a.play);
+  else if (sortMode === 'favorite') arr.sort((a, b) => b.favorite - a.favorite);
+  else if (sortMode === 'new')      arr.sort((a, b) => b.created - a.created);
+  else if (searching)               arr.sort((a, b) => scoreOf(b, terms) - scoreOf(a, terms) || b.play - a.play);
+  else                              arr.sort((a, b) => b.play - a.play);
+
+  const shown = searching ? arr : arr.slice(0, DEFAULT_LIMIT);
+
+  ttlEl.textContent = searching ? '相关内容' : '分区热门内容';
+  cntEl.textContent = searching ? ('命中 ' + arr.length + ' 条') : (CONTENT.length + ' 条快照');
+  subEl.textContent = searching
+    ? ('关键词「' + terms.join(' / ') + '」· 真实视频快照 · 点击卡片跳转 B 站原片')
+    : ('真实快照 · 按播放量取前 ' + DEFAULT_LIMIT + ' 条 · 点击卡片跳转 B 站原片');
+
+  const hints = conceptHints(terms);
+  if (hints.length){
+    hintEl.style.display = 'block';
+    hintEl.innerHTML = '智能映射：<b>' + esc(hints.join('；')) + '</b>（运营概念 → 对应题材的真实内容）';
+  } else {
+    hintEl.style.display = 'none';
+  }
+
+  grid.innerHTML = shown.map(c => {
+    const topicTxt = c._topics.map(id => {
+      const tp = TOPICS.filter(x => x.id === id)[0];
+      return tp ? tp.label : '';
+    }).filter(Boolean).join(' · ');
+    const vs = '<span' + (c.isSelf ? ' class="hi"' : '') + '>播放<b>' + fmtNum(c.play) + '</b></span>' +
+               '<span>点赞<b>' + fmtNum(c.like) + '</b></span>' +
+               '<span>收藏<b>' + fmtNum(c.favorite) + '</b></span>';
+    const own = '<span class="own' + (c.isSelf ? ' self' : '') + '">' +
+      (c.face ? '<img src="' + faceSrc(c) + '" alt="" loading="lazy">' : '') +
+      esc(c.owner) + (c.isSelf ? ' · 我的作品' : '') + '</span>';
+    return '<a class="vcard" href="' + urlSafe(c.url) + '" target="_blank" rel="noopener">' +
+      '<span class="thumb">' +
+        (c.cover ? '<img src="' + coverSrc(c) + '" alt="" loading="lazy">' : '') +
+        (c.length ? '<span class="dur">' + esc(c.length) + '</span>' : '') +
+      '</span>' +
+      '<span class="body">' +
+        '<span class="vt">' + hl(c.title, terms) + '</span>' +
+        '<span class="vm">' + own + (topicTxt ? '<span class="tp">' + esc(topicTxt) + '</span>' : '') + '</span>' +
+        '<span class="vs">' + vs + '</span>' +
+      '</span></a>';
+  }).join('');
+
+  if (shown.length){
+    empty.classList.remove('show');
+  } else {
+    empty.classList.add('show');
+    empty.innerHTML = '没有直接匹配「<b>' + esc(terms.join(' / ')) + '</b>」的视频快照 —— 换个词试试，或在下方的「吸粉选题策略库」里查看对应策略。';
+  }
+  return arr.length;
+}
+
+// ===== 搜索逻辑（实时） =====
 let activeTag = '';
 const qEl = document.getElementById('q');
 function apply(){
   const text = (qEl.value || activeTag || '').trim();
   const terms = text.split(/\s+/).filter(Boolean);
-  renderCards(terms);
+  const cn = renderContent(terms);
+  const kn = renderCards(terms);
+  document.getElementById('rcContent').textContent = cn;
+  document.getElementById('rcCard').textContent = kn;
 }
 qEl.addEventListener('input', () => { activeTag = ''; syncTags(); apply(); });
 document.getElementById('hotTags').querySelectorAll('.ht').forEach(t => {
@@ -361,9 +601,17 @@ function syncTags(){
   document.getElementById('hotTags').querySelectorAll('.ht').forEach(t =>
     t.classList.toggle('on', t.dataset.k === activeTag));
 }
+document.getElementById('sorts').querySelectorAll('button').forEach(b => {
+  b.addEventListener('click', () => {
+    sortMode = b.dataset.s;
+    document.getElementById('sorts').querySelectorAll('button').forEach(x =>
+      x.classList.toggle('on', x === b));
+    apply();
+  });
+});
 
 renderInsights();
-renderCards([]);
+apply();
 </script>
 </body>
 </html>
