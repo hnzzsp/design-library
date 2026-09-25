@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="6dYuOWYclN4Q2KHpwMAOGM">
-<head data-page-node-id="mXASDIpLuGIs3Bgw1RoDLT">
-<meta charset="UTF-8" data-page-node-id="edp8pZV6KjQt1vGHvNJAvt">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="8Tprdv9FWQCU49sDk0Ygln">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>数据总览仪表盘 · BiliMetrics 哔哩大数据</title>
-<meta name="description" content="B站大数据实时监控仪表盘：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区内容分布。支持时间范围切换、关键词检索、多列排序与自动刷新。" data-page-node-id="GWrkzxrW9F15vFp4UJyeQU">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml" data-page-node-id="DydKs8WRo7cgLMLR3jWX2c">
+<meta name="description" content="B站大数据实时监控仪表盘：实时热门视频核心互动数据、爆款话题榜、上升热点榜、热度趋势与生命周期曲线、分区内容分布、互动构成与播放-互动率关系。支持时间范围切换、分区筛选、关键词检索、多列排序与自动刷新。">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <style>
   :root{
     --bg:#0D1117; --card:#161B22; --card-2:#1C2230; --card-3:#212936;
     --border:rgba(240,246,252,.1); --border-2:rgba(240,246,252,.18);
     --text:#E8ECF4; --muted:#98A2B3; --faint:#6E7681;
     --pink:#FB7299; --blue:#00AEEC; --green:#3FB950; --red:#F85149;
-    --amber:#D29922; --purple:#A371F7;
+    --amber:#D29922; --purple:#A371F7; --orange:#F0A23B;
     --font:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
     --mono:ui-monospace,"Cascadia Code",Consolas,"SF Mono",monospace;
     --r:14px;
@@ -22,18 +22,20 @@
     -webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:40px}
   a{text-decoration:none;color:inherit}
   .wrap{max-width:1520px;margin:0 auto;padding:22px 20px 0}
+  ::selection{background:rgba(251,114,153,.3)}
+  :focus-visible{outline:2px solid var(--pink);outline-offset:2px;border-radius:6px}
 
   /* ============ 顶部工具条 ============ */
   .topbar{position:sticky;top:0;z-index:30;background:rgba(13,17,23,.92);backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--border);padding:16px 0;margin-bottom:22px}
-  .topbar .wrap{padding-top:0;padding-bottom:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .brand{display:flex;align-items:center;gap:13px;flex:0 0 auto}
-  .brand .logo{width:44px;height:44px;flex:0 0 auto}
-  .brand h1{font-size:21px;font-weight:700;letter-spacing:-.2px;line-height:1.3}
-  .brand .sub{font-size:12.5px;color:var(--muted)}
+    border-bottom:1px solid var(--border);padding:14px 0;margin-bottom:6px}
+  .topbar .wrap{padding-top:0;padding-bottom:0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  .brand .logo{width:42px;height:42px;flex:0 0 auto}
+  .brand h1{font-size:20px;font-weight:700;letter-spacing:-.2px;line-height:1.25}
+  .brand .sub{font-size:12px;color:var(--muted)}
   .tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-left:auto}
 
-  .search{position:relative;width:290px}
+  .search{position:relative;width:280px}
   .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none}
   #q{width:100%;padding:10px 34px 10px 38px;border-radius:10px;background:var(--card);
     border:1px solid var(--border);color:var(--text);font-size:13.5px;font-family:var(--font);outline:none;
@@ -42,7 +44,7 @@
   #q:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(251,114,153,.13)}
   .search .kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:10.5px;
     font-family:var(--mono);color:var(--faint);border:1px solid var(--border);border-radius:5px;padding:1px 5px;pointer-events:none}
-  #q:focus ~ .kbd{opacity:0}
+  #q:focus ~ .kbd{display:none}
   .search .clr{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:19px;height:19px;border:none;
     border-radius:50%;background:var(--card-3);color:var(--muted);cursor:pointer;display:none;align-items:center;
     justify-content:center;font-size:13px;line-height:1;padding:0}
@@ -51,7 +53,7 @@
 
   .seg{display:flex;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px}
   .seg button{border:none;background:transparent;color:var(--muted);font-size:13px;font-family:var(--font);
-    padding:6px 15px;border-radius:7px;cursor:pointer;transition:background .2s,color .2s;font-weight:500;white-space:nowrap}
+    padding:6px 14px;border-radius:7px;cursor:pointer;transition:background .2s,color .2s;font-weight:500;white-space:nowrap}
   .seg button:hover{color:var(--text)}
   .seg button.on{background:var(--pink);color:#fff;font-weight:600;box-shadow:0 2px 10px rgba(251,114,153,.3)}
 
@@ -65,8 +67,19 @@
   .live .t{color:var(--text)}
   .live.paused .t{color:var(--faint)}
 
+  /* ============ 分区筛选条 ============ */
+  .filterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0 16px}
+  .filterbar .flbl{font-size:12.5px;color:var(--muted);flex:0 0 auto}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{font-size:12.5px;padding:6px 13px;border-radius:999px;background:var(--card);border:1px solid var(--border);
+    color:var(--muted);cursor:pointer;transition:.18s;white-space:nowrap;font-family:var(--font)}
+  .chip:hover{border-color:var(--border-2);color:var(--text)}
+  .chip.on{background:rgba(0,174,236,.14);border-color:var(--blue);color:var(--blue);font-weight:600}
+  .filterbar .clear{font-size:12px;color:var(--faint);cursor:pointer;margin-left:2px}
+  .filterbar .clear:hover{color:var(--pink)}
+
   /* ============ KPI ============ */
-  .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:18px}
+  .kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:16px;margin-bottom:18px}
   .kpi{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--r);
     padding:16px 18px;overflow:hidden;transition:border-color .22s,transform .22s,box-shadow .22s}
   .kpi::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:var(--kc,var(--pink));
@@ -75,7 +88,7 @@
   .kpi:hover{border-color:var(--border-2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.32)}
   .kpi .ic{width:22px;height:22px;margin-bottom:12px;display:block}
   .kpi .lbl{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .kpi .val{font-family:var(--mono);font-size:clamp(24px,2vw,31px);font-weight:700;letter-spacing:-1px;line-height:1.28;margin-top:3px}
+  .kpi .val{font-family:var(--mono);font-size:clamp(22px,1.9vw,30px);font-weight:700;letter-spacing:-1px;line-height:1.28;margin-top:3px}
   .kpi .delta{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:12px;
     font-family:var(--mono);font-weight:600;padding:2px 8px;border-radius:6px}
   .kpi .delta.up{color:var(--green);background:rgba(63,185,80,.11)}
@@ -83,7 +96,7 @@
   .kpi .delta .note{color:var(--muted);font-weight:400;font-family:var(--font)}
 
   /* ============ 榜单三栏 ============ */
-  .board-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px}
+  .board-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
   .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
   .card-head{display:flex;align-items:center;gap:9px;padding:15px 18px;border-bottom:1px solid var(--border)}
   .card-head .ic{width:18px;height:18px;flex:0 0 auto}
@@ -97,7 +110,7 @@
   .item{display:flex;align-items:center;gap:11px;padding:9px 18px;cursor:pointer;transition:background .16s;
     position:relative}
   .item:hover{background:rgba(255,255,255,.035)}
-  .item.dim{opacity:.24}
+  .item.dim{opacity:.22}
   .item.hit{background:rgba(251,114,153,.09)}
   .item .rk{width:19px;flex:0 0 auto;font-family:var(--mono);font-size:13px;font-weight:700;text-align:center}
   .item .rk.t1{color:var(--pink)}.item .rk.t2{color:var(--blue)}.item .rk.t3{color:var(--amber)}
@@ -109,12 +122,13 @@
   .item .go{position:absolute;right:14px;font-size:11px;color:var(--pink);opacity:0;transition:opacity .18s}
   .item:hover .go{opacity:1}
   .item:hover .vv{opacity:0}
+  .list .empty{text-align:center;padding:26px 14px;color:var(--faint);font-size:13px;font-family:var(--font)}
   mark{background:rgba(251,114,153,.34);color:#fff;border-radius:3px;padding:0 2px}
 
   /* ============ 大表 ============ */
   .table-card{margin-bottom:18px}
   .table-scroll{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:13px;min-width:960px}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:1010px}
   thead th{position:sticky;top:0;background:var(--card);text-align:right;padding:11px 14px;font-size:12px;
     color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;user-select:none;
     transition:color .18s;z-index:2}
@@ -135,18 +149,18 @@
   td .up-name{color:var(--muted);font-family:var(--font);font-size:12.5px}
   td .rk-n{font-family:var(--mono);font-weight:700;color:var(--faint)}
   td .rk-n.t1{color:var(--pink)}td .rk-n.t2{color:var(--blue)}td .rk-n.t3{color:var(--amber)}
-  td .spark{display:inline-block;vertical-align:middle;margin-left:8px;opacity:.85}
+  td .eng.poor{color:var(--red)}td .eng.mid{color:var(--amber)}td .eng.good{color:var(--green)}
   .flash{animation:flash .9s ease-out}
   @keyframes flash{0%{color:var(--green);background:rgba(63,185,80,.14)}100%{background:transparent}}
   .empty-row td{text-align:center;padding:44px 14px;color:var(--muted);font-family:var(--font);font-size:14px}
 
-  /* ============ 底部三图 ============ */
-  .chart-row{display:grid;grid-template-columns:1.15fr 1.15fr 1fr;gap:16px}
+  /* ============ 图表区 ============ */
+  .chart-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px}
   .chart-body{padding:16px 18px 12px}
   .chart-body svg{display:block;width:100%;height:auto;overflow:visible}
   .tip{position:fixed;z-index:60;pointer-events:none;opacity:0;transition:opacity .14s;
     background:rgba(28,34,48,.97);border:1px solid var(--border-2);border-radius:9px;padding:8px 12px;
-    font-size:12px;box-shadow:0 8px 26px rgba(0,0,0,.5);white-space:nowrap}
+    font-size:12px;box-shadow:0 8px 26px rgba(0,0,0,.5);white-space:nowrap;max-width:240px}
   .tip.on{opacity:1}
   .tip b{font-family:var(--mono);color:var(--pink);font-size:13.5px}
   .tip .tt-l{color:var(--muted);display:block;font-size:11.5px;margin-bottom:2px}
@@ -163,6 +177,28 @@
   .stage-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--muted)}
   .stage-legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
 
+  /* 环形图 */
+  .donut-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .donut-wrap svg{flex:0 0 auto}
+  .donut-legend{flex:1;min-width:130px;display:flex;flex-direction:column;gap:7px}
+  .donut-legend .dl{display:flex;align-items:center;gap:8px;font-size:12.5px}
+  .donut-legend .dl i{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
+  .donut-legend .dl .dn{color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .donut-legend .dl .dv{font-family:var(--mono);color:var(--muted)}
+
+  /* 互动构成堆叠条 */
+  .comp-bar{display:flex;height:26px;border-radius:8px;overflow:hidden;background:var(--card-2);margin:4px 0 14px}
+  .comp-seg{height:100%;transition:filter .18s;cursor:pointer}
+  .comp-seg:hover{filter:brightness(1.18)}
+  .comp-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:9px 14px}
+  .comp-legend .cl{display:flex;align-items:center;gap:7px;font-size:12px}
+  .comp-legend .cl i{width:9px;height:9px;border-radius:3px;flex:0 0 auto}
+  .comp-legend .cl .cn{color:var(--text)}
+  .comp-legend .cl .cv{margin-left:auto;font-family:var(--mono);color:var(--muted)}
+
+  /* 散点图 */
+  .scatter-empty{text-align:center;padding:48px 14px;color:var(--faint);font-size:13px;font-family:var(--font)}
+
   /* ============ 页脚 ============ */
   .foot{margin-top:26px;padding-top:18px;border-top:1px solid var(--border);
     display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
@@ -174,204 +210,267 @@
 
   .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-  /* 常规桌面窗口（≈1200-1400px）保持设计稿的 5 列 KPI / 3 列图表排布 */
+  /* ============ 骨架屏 ============ */
+  @keyframes shimmer{100%{background-position:-220% 0}}
+  .sk{background:linear-gradient(90deg,var(--card-2) 25%,var(--card-3) 37%,var(--card-2) 63%);
+    background-size:220% 100%;border-radius:8px;animation:shimmer 1.4s infinite linear}
+  .sk-kpi{height:104px}
+  .sk-line{height:14px;margin:9px 18px}
+  .sk-line.w70{width:70%}.sk-line.w50{width:50%}.sk-line.w90{width:90%}
+  .sk-row{height:40px;margin:6px 0}
+  .sk-chart{height:170px;margin:8px 18px}
+  #loadbar{position:fixed;top:0;left:0;height:2px;z-index:80;width:0;
+    background:linear-gradient(90deg,var(--pink),var(--blue));transition:width .3s ease,opacity .3s}
+  #loadbar.done{opacity:0}
+
+  /* ============ 响应式 ============ */
   @media (max-width:1080px){
-    .kpi-row{grid-template-columns:repeat(3,1fr)}
+    .board-row{grid-template-columns:1fr 1fr}
+    .board-row .card:nth-child(3){grid-column:1/-1}
     .chart-row{grid-template-columns:1fr 1fr}
     .chart-row .card:nth-child(3){grid-column:1/-1}
     .search{width:220px}
     .brand .sub{display:none}
   }
-  @media (max-width:940px){
-    .board-row{grid-template-columns:1fr}
-    .search{width:200px}
-  }
   @media (max-width:760px){
-    .kpi-row{grid-template-columns:repeat(2,1fr)}
+    .topbar .wrap{gap:10px}
+    .tools{width:100%;margin-left:0}
+    .search{width:100%;order:-1;flex:1 1 100%}
+    .seg{width:100%;justify-content:space-between}
+    .seg button{flex:1}
+    .live{margin-left:auto}
+    .board-row{grid-template-columns:1fr}
+    .board-row .card:nth-child(3){grid-column:auto}
     .chart-row{grid-template-columns:1fr}
     .chart-row .card:nth-child(3){grid-column:auto}
-    .tools{width:100%}
-    .search{width:100%}
     .brand h1{font-size:18px}
-    .kpi .val{font-size:26px}
+    .wrap{padding-left:14px;padding-right:14px}
+    .kpi .val{font-size:24px}
   }
 </style>
 </head>
-<body data-page-node-id="KuVZz2I0LSBGhKm1VHTXA5">
+<body>
+
+<div id="loadbar"></div>
 
 <!-- ================= 顶部工具条 ================= -->
-<header class="topbar" data-page-node-id="N8Kd7TSPOjTDc1mxIAkipw">
-  <div class="wrap" data-page-node-id="rFqI5WJv86pIBY2HmDdziG">
-    <a class="brand" href="./index.html" data-page-node-id="nSN09ev8XbwKaNQDolayIw">
-      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-page-node-id="IMEp1p9RuB813qz8ocikoS">
-        <rect x="3" y="7" width="22" height="15" rx="4" stroke="#FB7299" stroke-width="2" data-page-node-id="QwNFFJHiXapGkHY2zF4I0p"/>
-        <path d="M10.5 11l6 3-6 3v-6z" fill="#FB7299" data-page-node-id="m6Y1pMq2CyiQG5rySqRsMb"/>
-        <path d="M7 3.5l3 3.5M21 3.5l-3 3.5" stroke="#FB7299" stroke-width="2" stroke-linecap="round" data-page-node-id="uviPGpIlZCRjhcP0X60K7b"/>
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <svg class="logo" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="7" width="22" height="15" rx="4" stroke="#FB7299" stroke-width="2"/>
+        <path d="M10.5 11l6 3-6 3v-6z" fill="#FB7299"/>
+        <path d="M7 3.5l3 3.5M21 3.5l-3 3.5" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/>
       </svg>
-      <div data-page-node-id="SKMGZooei0RnYZXzasOehX">
-        <h1 data-page-node-id="dDOSKw1HqFuDcHDN48mnj7">BiliMetrics 哔哩大数据</h1>
-        <div class="sub" data-page-node-id="HYFj10oxnRTPuBv92aMwVD">实时数据监控中心 · 爆款话题洞察</div>
+      <div>
+        <h1>BiliMetrics 哔哩大数据</h1>
+        <div class="sub">实时数据监控中心 · 爆款话题洞察</div>
       </div>
     </a>
 
-    <div class="tools" data-page-node-id="IFyx3wKP1orGN9tQYfqye6">
-      <div class="search" id="searchBox" data-page-node-id="Z1SoYfuwmbr0ZrAVAEMFdn">
-        <svg viewBox="0 0 24 24" fill="none" data-page-node-id="bwOH50t5WPFetqK83qjtFv"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" data-page-node-id="Ns3K6IfAPON6tSpfLpF86m"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" data-page-node-id="bqHKGkXkMcKRA1dn7zaz5X"/></svg>
-        <input id="q" type="text" placeholder="搜索热门视频 / 话题 / UP主" autocomplete="off" spellcheck="false" data-page-node-id="htypujffrtuoQ9Kg5qDGCj">
-        <span class="kbd" data-page-node-id="ZYUjM3hJdYF8jwxvyApx52">/</span>
-        <button class="clr" id="clrQ" title="清空" aria-label="清空搜索" data-page-node-id="icP1nwGPbsHbGvreTMkWco">×</button>
+    <div class="tools">
+      <div class="search" id="searchBox">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="q" type="text" placeholder="搜索视频 / 话题 / UP主" autocomplete="off" spellcheck="false">
+        <span class="kbd">/</span>
+        <button class="clr" id="clrQ" title="清空" aria-label="清空搜索">×</button>
       </div>
 
-      <div class="seg" role="group" aria-label="时间范围" data-page-node-id="LA2jpdTPvh0Oluh3hpt4Am">
-        <button data-range="today" data-page-node-id="riyb9Q9LF8KrT2d5grecKh">今日</button>
-        <button data-range="week" class="on" data-page-node-id="kdDE2gKhJfEeMDGBROKqp7">近7天</button>
-        <button data-range="month" data-page-node-id="FIhi2BDZj00Y5oAQVBR4Kp">近30天</button>
+      <div class="seg" role="group" aria-label="时间范围">
+        <button data-range="today">今日</button>
+        <button data-range="week" class="on">近7天</button>
+        <button data-range="month">近30天</button>
       </div>
 
-      <div class="live" id="liveBtn" title="点击暂停 / 继续自动刷新" data-page-node-id="LETJ409paiKTUXn8ywqkBr">
-        <span class="dot" data-page-node-id="HXBEABgrNPApoyaNvEWGzw"></span><span data-page-node-id="lWYjkuaQUEArRoYdK71pGE">实时</span><span class="t" id="clock" data-page-node-id="EmXf0ozSFUXvbBkemAurIr">--:--</span>
+      <div class="live" id="liveBtn" title="点击暂停 / 继续自动刷新" role="button" tabindex="0">
+        <span class="dot"></span><span>实时</span><span class="t" id="clock">--:--</span>
       </div>
     </div>
   </div>
 </header>
 
-<div class="wrap" data-page-node-id="PQGrjb3xjf1pZocvsVJB4I">
+<div class="wrap">
+
+  <!-- ================= 分区筛选 ================= -->
+  <div class="filterbar" id="filterbar">
+    <span class="flbl">分区</span>
+    <div class="chips" id="catChips" role="group" aria-label="分区筛选">
+      <button class="chip on" data-cat="all">全部</button>
+      <button class="chip" data-cat="动画">动画</button>
+      <button class="chip" data-cat="游戏">游戏</button>
+      <button class="chip" data-cat="知识">知识</button>
+      <button class="chip" data-cat="生活">生活</button>
+      <button class="chip" data-cat="影视">影视</button>
+    </div>
+    <span class="clear" id="catClear" hidden>清除筛选</span>
+  </div>
 
   <!-- ================= KPI ================= -->
-  <section class="kpi-row" id="kpiRow" aria-label="核心指标概览" data-page-node-id="vHzNBMaH1EMbYLx8dHSKNQ"></section>
+  <section class="kpi-row" id="kpiRow" aria-label="核心指标概览"></section>
 
   <!-- ================= 三大榜单 ================= -->
-  <section class="board-row" data-page-node-id="6jcQCaEE5pLOKPzNWHNDpI">
-    <div class="card" data-page-node-id="pAZg6zTtAQOHbalxlhwrqO">
-      <div class="card-head" data-page-node-id="iPwyz54bBzcSORt2JxtFGk">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="NPIe6qqdAk9ZjuF27H1qdU"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2" data-page-node-id="vCZeBHWS11TZlTvlY2SzoU"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299" data-page-node-id="co6UhJbRM25ZIDDnxG8vfV"/></svg>
-        <h2 data-page-node-id="ytAgOj8af5hNwfcf5mTDri">实时热门视频榜</h2>
-        <span class="tag" data-page-node-id="xlHXmJFs1fEqC2t8jQqAdn">TOP 10 · 按播放量</span>
+  <section class="board-row">
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="3" stroke="#FB7299" stroke-width="2"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="#FB7299"/></svg>
+        <h2>实时热门视频榜</h2>
+        <span class="tag">TOP 10 · 按播放量</span>
       </div>
-      <div class="list" id="videoList" data-page-node-id="DTQVCNyzKIu5FQnIDlm78O"></div>
+      <div class="list" id="videoList"></div>
     </div>
 
-    <div class="card" data-page-node-id="D8tBXv1h4t8VMfxErvMGug">
-      <div class="card-head" data-page-node-id="fxXPrP5OuZcCtEJEFWGOs5">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="0ZgR7qZv6GG5qPbG7zKy1B"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round" data-page-node-id="vMFh1kjstcopQxmDaG5S5z"/></svg>
-        <h2 data-page-node-id="XFlRkdYKL6ZGSaTrCBYUEH">爆款话题榜</h2>
-        <span class="tag" data-page-node-id="07ap29kgUZKaZHMpKWEEq7">热度值</span>
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8L12 3z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round"/></svg>
+        <h2>爆款话题榜</h2>
+        <span class="tag">热度值</span>
       </div>
-      <div class="list" id="topicList" data-page-node-id="b3SGAT9lSxAoBoLAIVn44s"></div>
+      <div class="list" id="topicList"></div>
     </div>
 
-    <div class="card" data-page-node-id="D3uAVCTtzTECCCeztYEs2r">
-      <div class="card-head" data-page-node-id="OrR7i5Jhos4GCqCqYAz8qV">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="j3KMUnDAdfdwhyOGUUvHiD"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="jZP8QAojBqhc6udvpNOYFU"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="sgtzguNdg1mHvvC4fgMcfB"/></svg>
-        <h2 data-page-node-id="WJXcraGtE2781G3BFcDxBa">上升热点榜</h2>
-        <span class="tag" data-page-node-id="bPIKmvrzxPRLPOb2aJZPb9">24h 飙升</span>
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2>上升热点榜</h2>
+        <span class="tag">24h 飙升</span>
       </div>
-      <div class="list" id="risingList" data-page-node-id="L65RXO5VEEf9PRb0O4gg0d"></div>
+      <div class="list" id="risingList"></div>
     </div>
   </section>
 
   <!-- ================= 核心互动数据表 ================= -->
-  <section class="card table-card" data-page-node-id="cn22n8qulvh1rUGKOvCakQ">
-    <div class="card-head" data-page-node-id="7jHPmd5AihcRFFbkCzXAQO">
-      <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="VItlMdUwMuE3T4Xwxiti4E"><rect x="3" y="3.5" width="18" height="17" rx="3" stroke="#00AEEC" stroke-width="2" data-page-node-id="TGCl6mJkZiZ8MXMZr4HW7i"/><path d="M8.5 20.5v-17M3 9.5h18M3 15h18" stroke="#00AEEC" stroke-width="1.6" data-page-node-id="91zdwrJTrakFYb3gZP5rCz"/></svg>
-      <h2 data-page-node-id="mmN4jaltQBypqCa8pZVN6X">实时热门视频 · 核心互动数据</h2>
-      <span class="badge-live" id="refreshBadge" data-page-node-id="nT3F2ipMrElvY8J1EDEbjZ">● 每 30 秒自动刷新</span>
+  <section class="card table-card">
+    <div class="card-head">
+      <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="3.5" width="18" height="17" rx="3" stroke="#00AEEC" stroke-width="2"/><path d="M8.5 20.5v-17M3 9.5h18M3 15h18" stroke="#00AEEC" stroke-width="1.6"/></svg>
+      <h2>实时热门视频 · 核心互动数据</h2>
+      <span class="badge-live" id="refreshBadge">● 每 30 秒自动刷新</span>
     </div>
-    <div class="table-scroll" data-page-node-id="1RHq22AFspsHR5NJIUZI22">
-      <table data-page-node-id="3LOMOEUPJrSrM8wHPAmM0h">
-        <thead data-page-node-id="LuTxuV39zRfPDJKXGaIMJ2">
-          <tr data-page-node-id="hMoWXdjRG5oSYyeM5h9PH0">
-            <th class="l" style="width:64px" data-page-node-id="WAi4qHgVhdkJaaWHu2d9XC">排名</th>
-            <th class="l" data-page-node-id="HAekkT2zy3pspShfYZ6B4G">视频标题</th>
-            <th class="l" style="width:132px" data-page-node-id="VNkkbCVwUq6pqmnUpUeiDL">UP主</th>
-            <th class="sortable" data-key="play" data-page-node-id="K94e3FaoCzwyRV12MO59BI">播放<span class="arw" data-page-node-id="K83JieKdpVRexRU7oOUHex">▾</span></th>
-            <th class="sortable" data-key="like" data-page-node-id="YNKQQNadCuLgErf1hF3GK7">点赞<span class="arw" data-page-node-id="1DejRdsyXOgcwuI37Fl6DF">▾</span></th>
-            <th class="sortable" data-key="coin" data-page-node-id="OIsDlMmIPQrTztfRry9tF6">投币<span class="arw" data-page-node-id="wMtplAAOprW95yPOalb4yB">▾</span></th>
-            <th class="sortable" data-key="fav" data-page-node-id="mQAMwp10gfSYrEZLrRM7jd">收藏<span class="arw" data-page-node-id="HThCC95v5Jn2IzCpSMjT4H">▾</span></th>
-            <th class="sortable" data-key="danmaku" data-page-node-id="Jk1a1IClniJ7o4T4G8VCVr">弹幕<span class="arw" data-page-node-id="kkAtm2lNK1CHDuSxOYLJ56">▾</span></th>
-            <th class="sortable" data-key="comment" data-page-node-id="04bvUflKwKM7CENSR3s5Xh">评论<span class="arw" data-page-node-id="9aK6HqaaFZfDzNXmIavIQG">▾</span></th>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="l" style="width:64px">排名</th>
+            <th class="l">视频标题</th>
+            <th class="l" style="width:120px">UP主</th>
+            <th class="l" style="width:78px">分区</th>
+            <th class="sortable" data-key="play">播放<span class="arw">▾</span></th>
+            <th class="sortable" data-key="like">点赞<span class="arw">▾</span></th>
+            <th class="sortable" data-key="coin">投币<span class="arw">▾</span></th>
+            <th class="sortable" data-key="fav">收藏<span class="arw">▾</span></th>
+            <th class="sortable" data-key="danmaku">弹幕<span class="arw">▾</span></th>
+            <th class="sortable" data-key="comment">评论<span class="arw">▾</span></th>
+            <th class="sortable" data-key="eng">互动率<span class="arw">▾</span></th>
           </tr>
         </thead>
-        <tbody id="tbody" data-page-node-id="TkYpLRDVdkEqDsLIMAAW6r"></tbody>
+        <tbody id="tbody"></tbody>
       </table>
     </div>
   </section>
 
   <!-- ================= 底部三图 ================= -->
-  <section class="chart-row" data-page-node-id="fxtq4hV97uEE3YUxRS7R5H">
-    <div class="card" data-page-node-id="1FBC6IRpg6GUX8y0ZLBEsz">
-      <div class="card-head" data-page-node-id="Lcu5UUalE2C6eaqPF0OK8R">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="8RFEBa91EQUgkI8TLEtXmP"><path d="M4 19V5M4 19h16" stroke="#FB7299" stroke-width="2" stroke-linecap="round" data-page-node-id="doiRp4Wa6MJQUTxI7mUNTG"/><path d="M7 15l4-4 3 3 5-6" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="LBTAQWGFi6XLjvZBHbMHX9"/></svg>
-        <h2 data-page-node-id="UP78ipH3F5WNiOWZC5sc4b">话题热度趋势</h2>
-        <span class="tag" id="trendTag" data-page-node-id="aGHFZgC5oOZgE3CDHtWcLU">近7天</span>
+  <section class="chart-row">
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16" stroke="#FB7299" stroke-width="2" stroke-linecap="round"/><path d="M7 15l4-4 3 3 5-6" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2>话题热度趋势</h2>
+        <span class="tag" id="trendTag">近7天</span>
       </div>
-      <div class="chart-body" data-page-node-id="56wNJm0UL8fDaXBN07BlzA">
-        <svg id="trendChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题热度趋势折线图" data-page-node-id="Tn353tUWsqgpDufFszDUce"></svg>
+      <div class="chart-body">
+        <svg id="trendChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题热度趋势折线图"></svg>
       </div>
     </div>
 
-    <div class="card" data-page-node-id="lIpWXhCuBsUEF50QUZuauW">
-      <div class="card-head" data-page-node-id="cru3QPiAFHeWDLewo1mZNt">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="SmI8TIfW1PU8N9r1FJbxYq"><path d="M3 18c3 0 4.5-14 8-14s5.5 14 8 14" stroke="#00AEEC" stroke-width="2" stroke-linecap="round" data-page-node-id="59Fch8fmJOYVBsnua8GMF4"/></svg>
-        <h2 data-page-node-id="hRuG8dKvoB4TO2k5SqzRbR">爆款话题生命周期</h2>
-        <span class="tag" data-page-node-id="myrjSc2DNaRlUNHn9etsxk">模型预测</span>
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 18c3 0 4.5-14 8-14s5.5 14 8 14" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>
+        <h2>爆款话题生命周期</h2>
+        <span class="tag">模型预测</span>
       </div>
-      <div class="chart-body" data-page-node-id="VElB3ce8iOmLRwQiOWYxLB">
-        <svg id="lifeChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题生命周期曲线" data-page-node-id="DIecNK2m5pK2kF7ih4Fc4I"></svg>
-        <div class="stage-legend" data-page-node-id="KegxbLBfibkelz5GOjdHIa">
-          <span data-page-node-id="M0dvmzDm7UhZ0QrvMDDZLz"><i style="background:var(--faint)" data-page-node-id="ZVf6bXME9OcESvv16DYbhM"></i>萌芽</span>
-          <span data-page-node-id="a9QJkH5E66ngqibQNCAHDF"><i style="background:var(--blue)" data-page-node-id="I6IuBlpaWWCWEdmqVa1jxv"></i>爆发</span>
-          <span data-page-node-id="IGMCbgQGyLE3bFMctJGXlM"><i style="background:var(--pink)" data-page-node-id="4Stv4eBzxKqrIWSTcywZUI"></i>平台</span>
-          <span data-page-node-id="Y0grcXx2AgcmxFaIAkrZPR"><i style="background:var(--green)" data-page-node-id="5dIRSKRhCG3GXDwiRSVX5G"></i>衰退</span>
+      <div class="chart-body">
+        <svg id="lifeChart" viewBox="0 0 420 190" preserveAspectRatio="none" role="img" aria-label="话题生命周期曲线"></svg>
+        <div class="stage-legend">
+          <span><i style="background:var(--faint)"></i>萌芽</span>
+          <span><i style="background:var(--blue)"></i>爆发</span>
+          <span><i style="background:var(--pink)"></i>平台</span>
+          <span><i style="background:var(--green)"></i>衰退</span>
         </div>
       </div>
     </div>
 
-    <div class="card" data-page-node-id="cAuO4Q674zc0yIGYHPQfqG">
-      <div class="card-head" data-page-node-id="CUDMVXBF8fRnkb2RXA0GF6">
-        <svg class="ic" viewBox="0 0 24 24" fill="none" data-page-node-id="E2IrbaJFQdiMKBkX3CViL4"><path d="M5 20V11M12 20V5M19 20v-6" stroke="#A371F7" stroke-width="2.2" stroke-linecap="round" data-page-node-id="fINpQExBA8w9MMsnhx9BPg"/></svg>
-        <h2 data-page-node-id="sJqnBYzH9beyjGgYgHgamN">分区内容分布</h2>
-        <span class="tag" data-page-node-id="uNQYVVXUYztzaFglDlP3HX">占比 TOP5</span>
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="#A371F7" stroke-width="2"/><path d="M12 3v9l6 3" stroke="#A371F7" stroke-width="2" stroke-linecap="round"/></svg>
+        <h2>分区内容分布</h2>
+        <span class="tag">占比 TOP5</span>
       </div>
-      <div class="chart-body" id="partBars" data-page-node-id="G6ToLleP2WK8ZTfzTeqtW9"></div>
+      <div class="chart-body donut-wrap" id="donut"></div>
     </div>
   </section>
 
-  <div class="foot" data-page-node-id="l7mHQLVVEb7IDu4iY3EH2t">
-    <span data-page-node-id="xAHHfcE9WLa3iBekYS76kP">数据为演示用合成样本，接入 B 站开放接口后可直接替换 <code style="font-family:var(--mono);color:var(--muted)" data-page-node-id="6fGX4borUfAUCVRyBaHSP2">DATA</code> 数据源 · 更新于 <span id="stamp" data-page-node-id="3DCNLJNxA9URQGpNj9RL3z">--</span></span>
-    <span class="nav-mini" data-page-node-id="sjeH60yUCvenHDwoF3POTw">
-      <a href="./index.html" data-page-node-id="xFaGHKdnjKz3ga5q1Hph4H">BiliMetrics 首页</a>
-      <a href="./dashboard.html" class="on" data-page-node-id="O7uGAokes0R4OBvT59SmkM">数据总览</a>
-      <a href="./videos/" data-page-node-id="obmeaObyBjKEquJCxpAbkK">我的视频</a>
-      <a href="./analysis.html" data-page-node-id="BvFN64Dlytgqiy6BUB9LtN">选题分析</a>
-      <a href="../bilimetrics-compare/" data-page-node-id="iiiUXdO8pdvjItdaZQsUhu">UP 对比</a>
+  <!-- ================= 新增：互动构成 + 播放-互动率 ================= -->
+  <section class="chart-row">
+    <div class="card">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="3" stroke="#F0A23B" stroke-width="2"/><path d="M7 9h10M7 13h7" stroke="#F0A23B" stroke-width="2" stroke-linecap="round"/></svg>
+        <h2>整体互动构成</h2>
+        <span class="tag">按类型占比</span>
+      </div>
+      <div class="chart-body">
+        <div class="comp-bar" id="compBar"></div>
+        <div class="comp-legend" id="compLegend"></div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:span 2">
+      <div class="card-head">
+        <svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="15" r="3" stroke="#3FB950" stroke-width="2"/><circle cx="17" cy="9" r="3" stroke="#00AEEC" stroke-width="2"/></svg>
+        <h2>播放量 × 互动率</h2>
+        <span class="tag">气泡＝总互动量</span>
+      </div>
+      <div class="chart-body">
+        <svg id="scatterChart" viewBox="0 0 820 240" preserveAspectRatio="none" role="img" aria-label="播放量与互动率散点图"></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>数据为演示用合成样本，接入 B 站开放接口后可直接替换 <code style="font-family:var(--mono);color:var(--muted)">DATA</code> 数据源 · 更新于 <span id="stamp">--</span></span>
+    <span class="nav-mini">
+      <a href="./index.html">BiliMetrics 首页</a>
+      <a href="./dashboard.html" class="on">数据总览</a>
+      <a href="./videos/">我的视频</a>
+      <a href="./analysis.html">选题分析</a>
+      <a href="../bilimetrics-compare/">UP 对比</a>
     </span>
   </div>
 </div>
 
-<div class="tip" id="tip" data-page-node-id="QYFQ01ceJRmcubvdkv4Uia"></div>
+<div class="tip" id="tip"></div>
 
 <script>
 /* =========================================================
-   BiliMetrics · 数据总览仪表盘
+   BiliMetrics · 数据总览仪表盘（优化版）
+   - 分类筛选 / 加载骨架屏 / 空状态兜底
+   - 新增环形图、互动构成堆叠条、播放-互动率散点图
+   - 表格新增「互动率」维度
    数据为演示样本（结构对齐后续真实接口）
    ========================================================= */
 
 /* ---------- 工具函数 ---------- */
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-
 const pad2 = n => String(n).padStart(2, '0');
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // 中文数字：亿 / 万 / 千分位
 function fmtCN(n, opt = {}) {
   if (n == null || isNaN(n)) return '--';
-  const { dec2 = true, wanDec = 0 } = opt;
+  const { dec2 = true } = opt;
   if (n >= 1e8) return (n / 1e8).toFixed(dec2 ? 2 : 1).replace(/\.0+$/, '') + '亿';
-  if (n >= 1e4) return (n / 1e4).toFixed(wanDec).replace(/\.0+$/, '') + '万';
+  if (n >= 1e4) return (n / 1e4).toFixed(0).replace(/\.0+$/, '') + '万';
   return n.toLocaleString('zh-CN');
 }
-const fmtInt = n => Math.round(n).toLocaleString('zh-CN');
+const fmtInt = n => Math.round(n).toLocaleString('en-US');
 
 // 数字滚动
 function tween(el, from, to, ms, render) {
@@ -386,12 +485,22 @@ function tween(el, from, to, ms, render) {
   })(t0);
 }
 
+// 视频 → 分区（演示样本按标题归类）
+const CAT_OF = {
+  '当我用AI重现童年动画':'动画', '2026高考志愿填报指南':'知识', '城市夜骑Vlog · 郑州':'生活',
+  '三分钟看懂量子计算':'知识', '考研调剂避雷合集':'知识', '复古游戏机改造记':'游戏',
+  '一个人吃遍郑州夜市':'生活', '把宿舍改成迷你影院':'生活', '大学生特种兵式旅行复盘':'生活',
+  '十年老键盘翻新实录':'知识'
+};
+const catOf = t => CAT_OF[t] || '知识';
+// 视频 → 互动率（%）
+const engOf = v => (v.like + v.coin + v.fav + v.danmaku + v.comment) / Math.max(v.play, 1) * 100;
+const engClass = e => e >= 12 ? 'good' : e >= 8 ? 'mid' : 'poor';
+
 /* ---------- 演示数据集 ---------- */
-// 说明：真实接入时，把 DATA[range] 换成接口返回的同构对象即可。
 const DATA = {
   today: {
     label: '今日',
-    kpiTotalLabel: '实时总播放量',
     kpis: [
       { icon: 'play',  color: '#FB7299', label: '实时总播放量', value: 128400000, delta: 12.4, note: '较昨日' },
       { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 36420000,  delta: 8.1,  note: '较昨日' },
@@ -440,15 +549,13 @@ const DATA = {
     parts: [
       { name: '动画', value: 92, color: '#FB7299' },
       { name: '游戏', value: 78, color: '#00AEEC' },
-      { name: '知识', value: 64, color: '#FB7299' },
-      { name: '生活', value: 53, color: '#00AEEC' },
-      { name: '影视', value: 41, color: '#3FB950' }
+      { name: '知识', value: 64, color: '#A371F7' },
+      { name: '生活', value: 53, color: '#3FB950' },
+      { name: '影视', value: 41, color: '#F0A23B' }
     ]
   },
-
   week: {
     label: '近7天',
-    kpiTotalLabel: '累计总播放量',
     kpis: [
       { icon: 'play',  color: '#FB7299', label: '累计总播放量', value: 876000000, delta: 9.6,  note: '较上周期' },
       { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 242000000, delta: 7.2,  note: '较上周期' },
@@ -497,15 +604,13 @@ const DATA = {
     parts: [
       { name: '动画', value: 88, color: '#FB7299' },
       { name: '游戏', value: 81, color: '#00AEEC' },
-      { name: '知识', value: 69, color: '#FB7299' },
-      { name: '生活', value: 58, color: '#00AEEC' },
-      { name: '影视', value: 47, color: '#3FB950' }
+      { name: '知识', value: 69, color: '#A371F7' },
+      { name: '生活', value: 58, color: '#3FB950' },
+      { name: '影视', value: 47, color: '#F0A23B' }
     ]
   },
-
   month: {
     label: '近30天',
-    kpiTotalLabel: '累计总播放量',
     kpis: [
       { icon: 'play',  color: '#FB7299', label: '累计总播放量', value: 3260000000, delta: 6.8,  note: '较上周期' },
       { icon: 'heart', color: '#A371F7', label: '互动总量',     value: 918000000,  delta: 5.4,  note: '较上周期' },
@@ -554,12 +659,22 @@ const DATA = {
     parts: [
       { name: '动画', value: 85, color: '#FB7299' },
       { name: '游戏', value: 79, color: '#00AEEC' },
-      { name: '知识', value: 72, color: '#FB7299' },
-      { name: '生活', value: 61, color: '#00AEEC' },
-      { name: '影视', value: 52, color: '#3FB950' }
+      { name: '知识', value: 72, color: '#A371F7' },
+      { name: '生活', value: 61, color: '#3FB950' },
+      { name: '影视', value: 52, color: '#F0A23B' }
     ]
   }
 };
+// 为每段数据补一个「平均互动率」KPI（动态，体现更多数据维度）
+Object.values(DATA).forEach(d => {
+  const tot = d.videos.reduce((a, v) => a + v.like + v.coin + v.fav + v.danmaku + v.comment, 0);
+  const plays = d.videos.reduce((a, v) => a + v.play, 0);
+  const eng = +(tot / plays * 100).toFixed(2);
+  const engDelta = d === DATA.today ? 2.1 : d === DATA.week ? 1.4 : 0.8;
+  d.kpis.splice(2, 0, {
+    icon: 'rate', color: '#F0A23B', label: '平均互动率', value: eng, delta: engDelta, note: '较上周期', pct: true
+  });
+});
 
 /* ---------- 图标 ---------- */
 const ICONS = {
@@ -567,17 +682,19 @@ const ICONS = {
   heart: '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.4-7-9.2A3.8 3.8 0 0 1 12 8.4a3.8 3.8 0 0 1 7 2.4C19 15.6 12 20 12 20z" stroke="#A371F7" stroke-width="2" stroke-linejoin="round"/></svg>',
   fire:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3c3 4 6 6.4 6 10a6 6 0 0 1-12 0c0-2 1-3.6 2.4-5" stroke="#FB7299" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14.5" r="2.2" fill="#FB7299"/></svg>',
   up:    '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h5v5" stroke="#3FB950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  user:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#00AEEC" stroke-width="2"/><path d="M4.5 20c0-3.7 3.4-6.2 7.5-6.2s7.5 2.5 7.5 6.2" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>'
+  user:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#00AEEC" stroke-width="2"/><path d="M4.5 20c0-3.7 3.4-6.2 7.5-6.2s7.5 2.5 7.5 6.2" stroke="#00AEEC" stroke-width="2" stroke-linecap="round"/></svg>',
+  rate:  '<svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke="#F0A23B" stroke-width="2"/><path d="M12 7v5l3 2" stroke="#F0A23B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 
 /* ---------- 状态 ---------- */
 const state = {
   range: 'week',
   query: '',
+  cats: new Set(),            // 空 = 全部
   sortKey: null,
   sortDir: 'desc',
   paused: false,
-  tick: 0        // 模拟刷新轮次
+  tick: 0
 };
 
 /* =========================================================
@@ -588,14 +705,14 @@ function renderKpi() {
   const row = $('#kpiRow');
   const kpis = DATA[state.range].kpis;
 
-  if (!row.children.length) {
+  if (!row.querySelector('.val')) {
     row.innerHTML = kpis.map((k, i) => `
       <div class="kpi" style="--kc:${k.color}">
         ${ICONS[k.icon]}
         <div class="lbl">${k.label}</div>
         <div class="val" data-i="${i}">--</div>
         <div class="delta ${k.delta >= 0 ? 'up' : 'down'}">
-          ${k.delta >= 0 ? '▲' : '▼'} ${Math.abs(k.delta)}${k.abs ? '' : '%'}
+          ${k.delta >= 0 ? '▲' : '▼'} <span class="dnum">${Math.abs(k.delta)}${k.abs ? '' : (k.pct ? '%' : '%')}</span>
           <span class="note">${k.note}</span>
         </div>
       </div>`).join('');
@@ -607,17 +724,14 @@ function renderKpi() {
     const valEl = $('.val', card);
     const lblEl = $('.lbl', card);
     const dEl = $('.delta', card);
-
     if (lblEl.textContent !== k.label) lblEl.textContent = k.label;
     dEl.className = 'delta ' + (k.delta >= 0 ? 'up' : 'down');
-    dEl.innerHTML = `${k.delta >= 0 ? '▲' : '▼'} ${Math.abs(k.delta)}${k.abs ? '' : '%'}
+    dEl.innerHTML = `${k.delta >= 0 ? '▲' : '▼'} <span class="dnum">${Math.abs(k.delta)}${k.abs ? '' : '%'}</span>
       <span class="note">${k.note}</span>`;
-
     const from = lastKpiValues[i] != null ? lastKpiValues[i] : k.value;
-    const target = k.value;
-    if (k.abs) tween(valEl, from, target, 700, v => fmtInt(v));
-    else       tween(valEl, from, target, 700, v => fmtCN(v));
-    lastKpiValues[i] = target;
+    const render = k.pct ? (v => v.toFixed(2) + '%') : (k.abs ? (v => fmtInt(v)) : (v => fmtCN(v)));
+    tween(valEl, from, k.value, 700, render);
+    lastKpiValues[i] = k.value;
   });
 }
 
@@ -630,67 +744,71 @@ function highlight(text, q) {
   if (!q) return text;
   const idx = text.toLowerCase().indexOf(q.toLowerCase());
   if (idx < 0) return text;
-  return text.slice(0, idx) +
-    '<mark>' + text.slice(idx, idx + q.length) + '</mark>' +
-    text.slice(idx + q.length);
+  return text.slice(0, idx) + '<mark>' + text.slice(idx, idx + q.length) + '</mark>' + text.slice(idx + q.length);
+}
+
+// 当前视频（受搜索 + 分区筛选）
+function filteredVideos() {
+  const d = DATA[state.range];
+  let rows = d.videos.slice();
+  const q = state.query.trim().toLowerCase();
+  if (q) rows = rows.filter(v => v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
+  if (state.cats.size) rows = rows.filter(v => state.cats.has(catOf(v.title)));
+  return rows;
 }
 
 function renderBoards() {
   const d = DATA[state.range];
   const q = state.query.trim().toLowerCase();
 
-  // 实时热门视频榜
-  $('#videoList').innerHTML = d.videos.slice(0, 10).map((v, i) => {
+  // 实时热门视频榜（受搜索 + 分区筛选）
+  const vids = filteredVideos().slice(0, 10);
+  $('#videoList').innerHTML = vids.length ? vids.map((v, i) => {
     const hit = q && (v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
-    const dim = q && !hit;
-    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="video" data-rank="${v.rank}">
-      <span class="rk ${rankCls(i)}">${v.rank}</span>
+    return `<div class="item ${hit ? 'hit' : ''}" data-kind="video" data-rank="${v.rank}">
+      <span class="rk ${rankCls(v.rank - 1)}">${v.rank}</span>
       <span class="tt">${highlight(v.title, q)}</span>
       <span class="vv hot">${fmtCN(v.play)}</span>
       <span class="go">查看 →</span>
     </div>`;
-  }).join('');
+  }).join('') : `<div class="empty">该筛选下暂无视频</div>`;
 
-  // 爆款话题榜
-  $('#topicList').innerHTML = d.topics.slice(0, 10).map((t, i) => {
+  // 爆款话题榜（受搜索筛选）
+  const tophits = d.topics.filter(t => !q || t.name.toLowerCase().includes(q)).slice(0, 10);
+  $('#topicList').innerHTML = tophits.length ? tophits.map((t, i) => {
     const hit = q && t.name.toLowerCase().includes(q);
-    const dim = q && !hit;
-    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="topic" data-rank="${t.rank}">
+    return `<div class="item ${hit ? 'hit' : ''}" data-kind="topic" data-rank="${t.rank}">
       <span class="rk ${rankCls(i)}">${t.rank}</span>
       <span class="tt">${highlight(t.name, q)}</span>
       <span class="vv">${fmtInt(t.heat)}</span>
       <span class="go">查看 →</span>
     </div>`;
-  }).join('');
+  }).join('') : `<div class="empty">未匹配到话题</div>`;
 
-  // 上升热点榜
-  $('#risingList').innerHTML = d.rising.slice(0, 10).map((r, i) => {
+  // 上升热点榜（受搜索筛选）
+  const risehits = d.rising.filter(r => !q || r.name.toLowerCase().includes(q)).slice(0, 10);
+  $('#risingList').innerHTML = risehits.length ? risehits.map((r, i) => {
     const hit = q && r.name.toLowerCase().includes(q);
-    const dim = q && !hit;
-    return `<div class="item ${dim ? 'dim' : ''} ${hit ? 'hit' : ''}" data-kind="rising" data-rank="${r.rank}">
+    return `<div class="item ${hit ? 'hit' : ''}" data-kind="rising" data-rank="${r.rank}">
       <span class="rk ${rankCls(i)}">${r.rank}</span>
       <span class="tt">${highlight(r.name, q)}</span>
       <span class="vv up">+${r.pct}%</span>
       <span class="go">查看 →</span>
     </div>`;
-  }).join('');
+  }).join('') : `<div class="empty">未匹配到热点</div>`;
 }
 
 /* =========================================================
    渲染：核心互动数据表
    ========================================================= */
-const COLS = ['play', 'like', 'coin', 'fav', 'danmaku', 'comment'];
+const COLS = ['play', 'like', 'coin', 'fav', 'danmaku', 'comment', 'eng'];
 
 function currentRows() {
-  const d = DATA[state.range];
-  let rows = d.videos.slice();
-
-  const q = state.query.trim().toLowerCase();
-  if (q) rows = rows.filter(v => v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
-
+  let rows = filteredVideos();
   if (state.sortKey) {
     const k = state.sortKey, dir = state.sortDir === 'desc' ? -1 : 1;
-    rows.sort((a, b) => (a[k] - b[k]) * dir);
+    const val = r => k === 'eng' ? engOf(r) : r[k];
+    rows.sort((a, b) => (val(a) - val(b)) * dir);
   }
   return rows;
 }
@@ -698,40 +816,34 @@ function currentRows() {
 function renderTable(flashKeys) {
   const tbody = $('#tbody');
   const rows = currentRows();
-
   if (!rows.length) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="9">没有匹配「${state.query}」的视频，换个关键词试试</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="11">没有匹配「${state.query || [...state.cats].join('/')}」的视频，换个关键词或分区试试</td></tr>`;
     return;
   }
-
+  const q = state.query.trim().toLowerCase();
   tbody.innerHTML = rows.map(v => {
     const rankClsN = v.rank === 1 ? 't1' : v.rank === 2 ? 't2' : v.rank === 3 ? 't3' : '';
-    const q = state.query.trim().toLowerCase();
     const hit = q && (v.title.toLowerCase().includes(q) || v.up.toLowerCase().includes(q));
-    return `<tr class="${hit ? '' : ''}">
+    const eng = engOf(v);
+    return `<tr>
       <td class="l"><span class="rk-n ${rankClsN}">${v.rank}</span></td>
       <td class="l" title="${v.title}">${highlight(v.title, q)}</td>
       <td class="l"><span class="up-name">${highlight(v.up, q)}</span></td>
+      <td class="l"><span class="up-name">${catOf(v.title)}</span></td>
       <td data-k="play">${fmtCN(v.play)}</td>
       <td data-k="like">${fmtCN(v.like)}</td>
       <td data-k="coin">${fmtCN(v.coin)}</td>
       <td data-k="fav">${fmtCN(v.fav)}</td>
       <td data-k="danmaku">${fmtCN(v.danmaku)}</td>
       <td data-k="comment">${fmtCN(v.comment)}</td>
+      <td data-k="eng" class="eng ${engClass(eng)}">${eng.toFixed(2)}%</td>
     </tr>`;
   }).join('');
 
-  // 刷新时给数字加个闪一下的反馈
   if (flashKeys) {
-    $$('#tbody tr').forEach(tr => {
-      $$('td[data-k]', tr).forEach(td => {
-        if (flashKeys.includes(td.dataset.k)) {
-          td.classList.remove('flash');
-          void td.offsetWidth;
-          td.classList.add('flash');
-        }
-      });
-    });
+    $$('#tbody tr').forEach(tr => $$('td[data-k]', tr).forEach(td => {
+      if (flashKeys.includes(td.dataset.k)) { td.classList.remove('flash'); void td.offsetWidth; td.classList.add('flash'); }
+    }));
   }
 }
 
@@ -744,27 +856,22 @@ function syncSortHeaders() {
 }
 
 /* =========================================================
-   渲染：趋势折线图（SVG）
+   图表：趋势折线
    ========================================================= */
 let trendPts = [];
 function renderTrend() {
   const d = DATA[state.range].trend;
   const svg = $('#trendChart');
   $('#trendTag').textContent = d.tag;
-
   const W = 420, H = 190, pl = 30, pr = 12, pt = 16, pb = 26;
   const iw = W - pl - pr, ih = H - pt - pb;
   const max = Math.max(...d.values) * 1.14;
   const n = d.values.length;
-
   const pts = d.values.map((v, i) => ({
     x: pl + (n === 1 ? iw / 2 : (iw * i) / (n - 1)),
-    y: pt + ih - (v / max) * ih,
-    v, label: d.labels[i]
+    y: pt + ih - (v / max) * ih, v, label: d.labels[i]
   }));
   trendPts = pts;
-
-  // 平滑曲线（Catmull-Rom → 三次贝塞尔）
   function smooth(p) {
     if (p.length < 2) return '';
     let dstr = `M${p[0].x},${p[0].y}`;
@@ -776,59 +883,36 @@ function renderTrend() {
     }
     return dstr;
   }
-
   const line = smooth(pts);
   const area = line + ` L${pts[pts.length - 1].x},${pt + ih} L${pts[0].x},${pt + ih} Z`;
-
   const grid = [0, .25, .5, .75, 1].map(f => {
     const y = pt + ih * f;
     return `<line x1="${pl}" y1="${y}" x2="${W - pr}" y2="${y}" stroke="rgba(240,246,252,.06)" stroke-width="1"/>`;
   }).join('');
-
-  const xlab = pts.map(p => `<text x="${p.x}" y="${H - 7}" fill="#6E7681" font-size="10.5"
-      text-anchor="middle" font-family="Noto Sans SC,sans-serif">${p.label}</text>`).join('');
-
-  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="${i === pts.length - 1 ? 4 : 3}"
-      fill="#0D1117" stroke="#FB7299" stroke-width="2.4"/>`).join('');
-
+  const xlab = pts.map(p => `<text x="${p.x}" y="${H - 7}" fill="#6E7681" font-size="10.5" text-anchor="middle" font-family="Noto Sans SC,sans-serif">${p.label}</text>`).join('');
+  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="${i === pts.length - 1 ? 4 : 3}" fill="#0D1117" stroke="#FB7299" stroke-width="2.4"/>`).join('');
   svg.innerHTML = `
-    <defs>
-      <linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#FB7299" stop-opacity=".34"/>
-        <stop offset="100%" stop-color="#FB7299" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    ${grid}
-    <path d="${area}" fill="url(#tg)"/>
+    <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FB7299" stop-opacity=".34"/><stop offset="100%" stop-color="#FB7299" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${grid}<path d="${area}" fill="url(#tg)"/>
     <path d="${line}" fill="none" stroke="#FB7299" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-    ${dots}
-    ${xlab}
-    <line id="tHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(251,114,153,.5)"
-      stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
+    ${dots}${xlab}
+    <line id="tHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(251,114,153,.5)" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
     <g id="tHot" opacity="0"><circle r="5.5" fill="#FB7299" stroke="#0D1117" stroke-width="2.5"/></g>
-    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="tHit" style="cursor:crosshair"/>
-  `;
-
+    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="tHit" style="cursor:crosshair"/>`;
   bindChartHover(svg, pts, 'tHover', 'tHot', d.labels, v => `${v} 热度指数`);
 }
 
 /* =========================================================
-   渲染：生命周期曲线
+   图表：生命周期
    ========================================================= */
 function renderLife() {
   const d = DATA[state.range].life;
   const svg = $('#lifeChart');
   const W = 420, H = 190, pl = 26, pr = 26, pt = 22, pb = 46;
-  const iw = W - pl - pr, ih = H - pt - pb;
-  const max = 108;
-  const n = d.values.length;
-
-  const pts = d.values.map((v, i) => ({
-    x: pl + (iw * i) / (n - 1),
-    y: pt + ih - (v / max) * ih,
-    v, label: d.labels[i]
-  }));
-
+  const iw = W - pl - pr, ih = H - pt - pb, max = 108, n = d.values.length;
+  const pts = d.values.map((v, i) => ({ x: pl + (iw * i) / (n - 1), y: pt + ih - (v / max) * ih, v, label: d.labels[i] }));
   function smooth(p) {
     let dstr = `M${p[0].x},${p[0].y}`;
     for (let i = 0; i < p.length - 1; i++) {
@@ -841,72 +925,44 @@ function renderLife() {
   }
   const line = smooth(pts);
   const area = line + ` L${pts[pts.length - 1].x},${pt + ih} L${pts[0].x},${pt + ih} Z`;
-
   const segColors = ['#3FB950', '#00AEEC', '#FB7299', '#6E7681'];
-  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${segColors[i]}"
-      stroke="#0D1117" stroke-width="2.4"/>`).join('');
-
+  const dots = pts.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${segColors[i]}" stroke="#0D1117" stroke-width="2.4"/>`).join('');
   const labels = pts.map((p, i) => `
-    <text x="${p.x}" y="${pt + ih + 20}" fill="#98A2B3" font-size="11" text-anchor="middle"
-      font-family="Noto Sans SC,sans-serif">${p.label}</text>
-    <text x="${p.x}" y="${pt + ih + 36}" fill="${segColors[i]}" font-size="11" text-anchor="middle"
-      font-family="ui-monospace,Consolas,monospace" font-weight="700">${p.v}</text>`).join('');
-
+    <text x="${p.x}" y="${pt + ih + 20}" fill="#98A2B3" font-size="11" text-anchor="middle" font-family="Noto Sans SC,sans-serif">${p.label}</text>
+    <text x="${p.x}" y="${pt + ih + 36}" fill="${segColors[i]}" font-size="11" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" font-weight="700">${p.v}</text>`).join('');
   svg.innerHTML = `
     <defs>
-      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#00AEEC" stop-opacity=".30"/>
-        <stop offset="55%" stop-color="#A371F7" stop-opacity=".22"/>
-        <stop offset="100%" stop-color="#FB7299" stop-opacity=".10"/>
-      </linearGradient>
-      <linearGradient id="ls" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#00AEEC"/>
-        <stop offset="55%" stop-color="#A371F7"/>
-        <stop offset="100%" stop-color="#FB7299"/>
-      </linearGradient>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00AEEC" stop-opacity=".30"/><stop offset="55%" stop-color="#A371F7" stop-opacity=".22"/><stop offset="100%" stop-color="#FB7299" stop-opacity=".10"/></linearGradient>
+      <linearGradient id="ls" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#00AEEC"/><stop offset="55%" stop-color="#A371F7"/><stop offset="100%" stop-color="#FB7299"/></linearGradient>
     </defs>
-    <path d="${area}" fill="url(#lg)"/>
-    <path d="${line}" fill="none" stroke="url(#ls)" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="${area}" fill="url(#lg)"/><path d="${line}" fill="none" stroke="url(#ls)" stroke-width="2.6" stroke-linecap="round"/>
     ${dots}${labels}
-    <line id="lHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(163,113,247,.5)"
-      stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
+    <line id="lHover" x1="0" y1="${pt}" x2="0" y2="${pt + ih}" stroke="rgba(163,113,247,.5)" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>
     <g id="lHot" opacity="0"><circle r="6" fill="#A371F7" stroke="#0D1117" stroke-width="2.5"/></g>
-    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="lHit" style="cursor:crosshair"/>
-  `;
-
+    <rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="lHit" style="cursor:crosshair"/>`;
   bindChartHover(svg, pts, 'lHover', 'lHot', d.labels, v => `${v} · 生命周期热度`);
 }
 
 /* 图表 hover 绑定：就近吸附 + tooltip */
 function bindChartHover(svg, pts, hoverId, hotId, labels, fmtVal) {
-  const hit = svg.querySelector('rect[id$="Hit"]');
-  const hl = svg.querySelector('#' + hoverId);
-  const hot = svg.querySelector('#' + hotId);
-  const tip = $('#tip');
-  const box = svg.getBoundingClientRect();
-
+  const hit = svg.querySelector('#' + hoverId.replace('#', '') + '');
+  const hl = svg.querySelector('#' + hoverId), hot = svg.querySelector('#' + hotId), tip = $('#tip');
   function move(e) {
     const r = svg.getBoundingClientRect();
-    const scale = 420 / r.width;                       // viewBox → 屏幕
+    const scale = 420 / r.width;
     const x = (e.clientX - r.left) * scale;
     let best = 0, bd = Infinity;
     pts.forEach((p, i) => { const dd = Math.abs(p.x - x); if (dd < bd) { bd = dd; best = i; } });
     const p = pts[best];
-
     hl.setAttribute('x1', p.x); hl.setAttribute('x2', p.x); hl.setAttribute('opacity', '1');
     hot.setAttribute('transform', `translate(${p.x},${p.y})`); hot.setAttribute('opacity', '1');
-
     tip.classList.add('on');
     tip.innerHTML = `<span class="tt-l">${labels[best]}</span><b>${fmtVal(p.v)}</b>`;
     const tr = tip.getBoundingClientRect();
     tip.style.left = Math.min(window.innerWidth - tr.width - 12, e.clientX + 14) + 'px';
     tip.style.top = Math.max(8, e.clientY - tr.height - 14) + 'px';
   }
-  function out() {
-    hl.setAttribute('opacity', '0');
-    hot.setAttribute('opacity', '0');
-    tip.classList.remove('on');
-  }
+  function out() { hl.setAttribute('opacity', '0'); hot.setAttribute('opacity', '0'); tip.classList.remove('on'); }
   hit.addEventListener('mousemove', move);
   hit.addEventListener('mouseleave', out);
   hit.addEventListener('touchmove', e => { if (e.touches[0]) move(e.touches[0]); }, { passive: true });
@@ -914,24 +970,136 @@ function bindChartHover(svg, pts, hoverId, hotId, labels, fmtVal) {
 }
 
 /* =========================================================
-   渲染：分区分布条形
+   图表：分区环形图（新增）
    ========================================================= */
-function renderParts() {
+function renderDonut() {
   const parts = DATA[state.range].parts;
-  $('#partBars').innerHTML = parts.map(p => `
-    <div class="bar-row">
-      <div class="bar-top">
-        <span class="bn">${p.name}</span>
-        <span class="bv">${p.value}${p.value > 0 ? '' : ''}</span>
-      </div>
-      <div class="bar-track">
-        <div class="bar-fill" data-w="${p.value}" style="background:linear-gradient(90deg,${p.color},${p.color}cc)"></div>
-      </div>
-    </div>`).join('');
-
-  requestAnimationFrame(() => {
-    $$('#partBars .bar-fill').forEach(el => { el.style.width = Math.min(100, el.dataset.w) + '%'; });
+  const svg = $('#donut');
+  const total = parts.reduce((a, p) => a + p.value, 0);
+  const cx = 92, cy = 92, r = 70, sw = 22;
+  let ang = -Math.PI / 2;
+  const segs = parts.map(p => {
+    const frac = p.value / total, a2 = ang + frac * Math.PI * 2, large = frac > 0.5 ? 1 : 0;
+    const x1 = cx + r * Math.cos(ang), y1 = cy + r * Math.sin(ang);
+    const x2 = cx + r * Math.cos(a2), y2 = cy + r * Math.sin(a2);
+    ang = a2;
+    return { d: `M${x1.toFixed(1)} ${y1.toFixed(1)} A${r} ${r} 0 ${large} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`,
+      color: p.color, name: p.name, pct: (frac * 100).toFixed(1), value: p.value };
   });
+  const arcs = segs.map((s, i) => `<path d="${s.d}" fill="none" stroke="${s.color}" stroke-width="${sw}" stroke-linecap="butt"
+      class="donut-seg" data-i="${i}" style="cursor:pointer;transition:stroke-width .15s"/>`).join('');
+  const svgMarkup = `<svg viewBox="0 0 184 184" width="184" height="184" role="img" aria-label="分区内容分布环形图">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--card-2)" stroke-width="${sw}"/>
+    ${arcs}
+    <text x="${cx}" y="${cy - 4}" text-anchor="middle" fill="#E8ECF4" font-size="26" font-family="ui-monospace,monospace" font-weight="700">${parts.length}</text>
+    <text x="${cx}" y="${cy + 16}" text-anchor="middle" fill="#98A2B3" font-size="11" font-family="Noto Sans SC">大分区</text>
+  </svg>`;
+  const legend = parts.map((p, i) => `<div class="dl"><i style="background:${p.color}"></i>
+      <span class="dn">${p.name}</span><span class="dv">${(p.value / total * 100).toFixed(1)}%</span></div>`).join('');
+  svg.innerHTML = svgMarkup + `<div class="donut-legend">${legend}</div>`;
+  // hover 高亮 + tooltip
+  $$('#donut .donut-seg').forEach(seg => {
+    const s = segs[+seg.dataset.i];
+    const tip = $('#tip');
+    seg.addEventListener('mouseenter', () => {
+      seg.setAttribute('stroke-width', sw + 5);
+      tip.classList.add('on');
+      tip.innerHTML = `<span class="tt-l">${s.name} 分区</span><b>${s.pct}%</b>`;
+    });
+    seg.addEventListener('mousemove', e => {
+      const tr = tip.getBoundingClientRect();
+      tip.style.left = Math.min(window.innerWidth - tr.width - 12, e.clientX + 14) + 'px';
+      tip.style.top = Math.max(8, e.clientY - tr.height - 14) + 'px';
+    });
+    seg.addEventListener('mouseleave', () => { seg.setAttribute('stroke-width', sw); tip.classList.remove('on'); });
+  });
+}
+
+/* =========================================================
+   图表：整体互动构成（新增，堆叠条）
+   ========================================================= */
+function renderComposition() {
+  const d = DATA[state.range];
+  const defs = [
+    { key: 'like', label: '点赞', color: '#FB7299' },
+    { key: 'coin', label: '投币', color: '#F0A23B' },
+    { key: 'fav', label: '收藏', color: '#3FB950' },
+    { key: 'comment', label: '评论', color: '#00AEEC' },
+    { key: 'danmaku', label: '弹幕', color: '#A371F7' }
+  ];
+  const sums = defs.map(x => d.videos.reduce((a, v) => a + v[x.key], 0));
+  const tot = sums.reduce((a, b) => a + b, 0);
+  const bar = $('#compBar'), legend = $('#compLegend'), tip = $('#tip');
+  bar.innerHTML = defs.map((x, i) => {
+    const w = sums[i] / tot * 100;
+    return `<div class="comp-seg" style="width:${w}%;background:${x.color}" data-label="${x.label}" data-pct="${w.toFixed(1)}" data-val="${fmtCN(sums[i])}"></div>`;
+  }).join('');
+  legend.innerHTML = defs.map((x, i) => `<div class="cl"><i style="background:${x.color}"></i>
+      <span class="cn">${x.label}</span><span class="cv">${sums[i] / tot * 100 | 0}%</span></div>`).join('');
+  $$('#compBar .comp-seg').forEach(seg => {
+    seg.addEventListener('mouseenter', () => {
+      tip.classList.add('on');
+      tip.innerHTML = `<span class="tt-l">${seg.dataset.label}</span><b>${seg.dataset.val}</b> · ${seg.dataset.pct}%`;
+    });
+    seg.addEventListener('mousemove', e => {
+      const tr = tip.getBoundingClientRect();
+      tip.style.left = Math.min(window.innerWidth - tr.width - 12, e.clientX + 14) + 'px';
+      tip.style.top = Math.max(8, e.clientY - tr.height - 14) + 'px';
+    });
+    seg.addEventListener('mouseleave', () => tip.classList.remove('on'));
+  });
+}
+
+/* =========================================================
+   图表：播放量 × 互动率 散点（新增）
+   ========================================================= */
+let scatterPts = [];
+function renderScatter() {
+  const svg = $('#scatterChart');
+  const rows = currentRows();
+  const W = 820, H = 240, pl = 56, pr = 20, pt = 16, pb = 38;
+  const iw = W - pl - pr, ih = H - pt - pb;
+  if (!rows.length) { svg.innerHTML = `<text class="scatter-empty" x="${pl + iw / 2}" y="${pt + ih / 2}" fill="#6E7681" font-size="13" text-anchor="middle" font-family="Noto Sans SC,sans-serif">当前筛选无视频</text>`; return; }
+  const xs = rows.map(v => v.play), ys = rows.map(engOf);
+  const xmax = Math.max(...xs) * 1.08, ymax = Math.max(...ys) * 1.18, ymin = Math.min(...ys) * 0.7;
+  const X = v => pl + (v / xmax) * iw;
+  const Y = v => pt + ih - ((v - ymin) / (ymax - ymin)) * ih;
+  const gridY = [0, .25, .5, .75, 1].map(f => {
+    const y = pt + ih * f, val = ymax - (ymax - ymin) * f;
+    return `<line x1="${pl}" y1="${y}" x2="${W - pr}" y2="${y}" stroke="rgba(240,246,252,.06)"/><text x="${pl - 8}" y="${y + 4}" fill="#6E7681" font-size="10" text-anchor="end">${val.toFixed(1)}%</text>`;
+  }).join('');
+  const gridX = [0, .5, 1].map(f => {
+    const x = pl + iw * f, val = xmax * f;
+    return `<line x1="${x}" y1="${pt}" x2="${x}" y2="${pt + ih}" stroke="rgba(240,246,252,.05)"/><text x="${x}" y="${H - 14}" fill="#6E7681" font-size="10" text-anchor="middle">${fmtCN(val)}</text>`;
+  }).join('');
+  const pts = rows.map((v, i) => {
+    const tot = v.like + v.coin + v.fav + v.danmaku + v.comment;
+    const r = clamp(6 + Math.sqrt(tot) / 900, 6, 20);
+    const col = v.rank === 1 ? '#FB7299' : v.rank <= 3 ? '#00AEEC' : '#A371F7';
+    return { cx: X(v.play), cy: Y(engOf(v)), r, col, v };
+  });
+  scatterPts = pts;
+  const dots = pts.map(p => `<circle cx="${p.cx.toFixed(1)}" cy="${p.cy.toFixed(1)}" r="${p.r.toFixed(1)}" fill="${p.col}" fill-opacity=".55" stroke="${p.col}" stroke-width="1.5" class="sc-dot" data-i="${pts.indexOf(p)}" style="cursor:pointer"/>`).join('');
+  const axisLbl = `<text x="${pl - 8}" y="${pt - 4}" fill="#98A2B3" font-size="11" text-anchor="start">互动率↑</text>
+    <text x="${W - pr}" y="${H - 2}" fill="#98A2B3" font-size="11" text-anchor="end">播放量→</text>`;
+  svg.innerHTML = `<rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" id="scHit"/>${gridY}${gridX}${dots}${axisLbl}`;
+  const hit = svg.querySelector('#scHit'), tip = $('#tip');
+  function mv(e) {
+    const r = svg.getBoundingClientRect(), scale = W / r.width;
+    const x = (e.clientX - r.left) * scale, y = (e.clientY - r.top) * scale;
+    let best = 0, bd = Infinity;
+    pts.forEach((p, i) => { const dd = (p.cx - x) ** 2 + (p.cy - y) ** 2; if (dd < bd) { bd = dd; best = i; } });
+    const p = pts[best];
+    tip.classList.add('on');
+    tip.innerHTML = `<span class="tt-l">${p.v.title}</span><b>${fmtCN(p.v.play)} · ${engOf(p.v).toFixed(2)}%</b>`;
+    const tr = tip.getBoundingClientRect();
+    tip.style.left = Math.min(window.innerWidth - tr.width - 12, e.clientX + 14) + 'px';
+    tip.style.top = Math.max(8, e.clientY - tr.height - 14) + 'px';
+  }
+  hit.addEventListener('mousemove', mv);
+  hit.addEventListener('mouseleave', () => tip.classList.remove('on'));
+  hit.addEventListener('touchmove', e => { if (e.touches[0]) mv(e.touches[0]); }, { passive: true });
+  hit.addEventListener('touchend', () => tip.classList.remove('on'));
 }
 
 /* =========================================================
@@ -944,24 +1112,43 @@ function render(flashKeys) {
   renderTable(flashKeys);
   renderTrend();
   renderLife();
-  renderParts();
+  renderDonut();
+  renderComposition();
+  renderScatter();
   $('#stamp').textContent = new Date().toLocaleString('zh-CN', { hour12: false });
 }
 
 /* =========================================================
    交互绑定
    ========================================================= */
-
 // 时间范围
-$$('.seg button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (btn.dataset.range === state.range) return;
-    $$('.seg button').forEach(b => b.classList.toggle('on', b === btn));
-    state.range = btn.dataset.range;
-    state.tick = 0;
-    lastKpiValues = [];
-    render();
-  });
+$$('.seg button').forEach(btn => btn.addEventListener('click', () => {
+  if (btn.dataset.range === state.range) return;
+  $$('.seg button').forEach(b => b.classList.toggle('on', b === btn));
+  state.range = btn.dataset.range;
+  state.tick = 0; lastKpiValues = [];
+  render();
+}));
+
+// 分区筛选
+$('#catChips').querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+  const c = chip.dataset.cat;
+  if (c === 'all') { state.cats.clear(); }
+  else {
+    if (state.cats.has(c)) state.cats.delete(c); else state.cats.add(c);
+  }
+  // 同步 UI
+  const allOn = state.cats.size === 0;
+  $('#catChips').querySelectorAll('.chip').forEach(ch =>
+    ch.classList.toggle('on', ch.dataset.cat === 'all' ? allOn : state.cats.has(ch.dataset.cat)));
+  $('#catClear').hidden = allOn;
+  renderBoards(); renderTable(); renderScatter();
+}));
+$('#catClear').addEventListener('click', () => {
+  state.cats.clear();
+  $('#catChips').querySelectorAll('.chip').forEach(ch => ch.classList.toggle('on', ch.dataset.cat === 'all'));
+  $('#catClear').hidden = true;
+  renderBoards(); renderTable(); renderScatter();
 });
 
 // 搜索
@@ -970,35 +1157,27 @@ let qTimer = null;
 qEl.addEventListener('input', () => {
   sBox.classList.toggle('has-val', !!qEl.value);
   clearTimeout(qTimer);
-  qTimer = setTimeout(() => {
-    state.query = qEl.value;
-    renderBoards();
-    renderTable();
-  }, 110);
+  qTimer = setTimeout(() => { state.query = qEl.value; renderBoards(); renderTable(); renderScatter(); }, 110);
 });
 $('#clrQ').addEventListener('click', () => {
   qEl.value = ''; state.query = ''; sBox.classList.remove('has-val');
-  renderBoards(); renderTable(); qEl.focus();
+  renderBoards(); renderTable(); renderScatter(); qEl.focus();
 });
-// / 快捷键聚焦，Esc 清空
 document.addEventListener('keydown', e => {
   if (e.key === '/' && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
   if (e.key === 'Escape' && document.activeElement === qEl) {
     qEl.value = ''; state.query = ''; sBox.classList.remove('has-val');
-    renderBoards(); renderTable(); qEl.blur();
+    renderBoards(); renderTable(); renderScatter(); qEl.blur();
   }
 });
 
 // 表头排序
-$$('thead th.sortable').forEach(th => {
-  th.addEventListener('click', () => {
-    const k = th.dataset.key;
-    if (state.sortKey === k) state.sortDir = state.sortDir === 'desc' ? 'asc' : 'desc';
-    else { state.sortKey = k; state.sortDir = 'desc'; }
-    syncSortHeaders();
-    renderTable();
-  });
-});
+$$('thead th.sortable').forEach(th => th.addEventListener('click', () => {
+  const k = th.dataset.key;
+  if (state.sortKey === k) state.sortDir = state.sortDir === 'desc' ? 'asc' : 'desc';
+  else { state.sortKey = k; state.sortDir = 'desc'; }
+  syncSortHeaders(); renderTable();
+}));
 
 // 榜单点击 → 联动搜索
 document.addEventListener('click', e => {
@@ -1011,22 +1190,15 @@ document.addEventListener('click', e => {
   if (item.dataset.kind === 'video') text = d.videos.slice(0, 10)[idx].up;
   else if (item.dataset.kind === 'topic') text = d.topics.slice(0, 10)[idx].name;
   else text = d.rising.slice(0, 10)[idx].name;
-
-  // 再点一次同一个 → 取消筛选
-  if (state.query === text) { text = ''; }
-  qEl.value = text;
-  state.query = text;
+  if (state.query === text) text = '';
+  qEl.value = text; state.query = text;
   sBox.classList.toggle('has-val', !!text);
-  renderBoards(); renderTable();
+  renderBoards(); renderTable(); renderScatter();
 });
 
 // 实时时钟
-function tickClock() {
-  const now = new Date();
-  $('#clock').textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
-}
-tickClock();
-setInterval(tickClock, 20000);
+function tickClock() { $('#clock').textContent = `${pad2(new Date().getHours())}:${pad2(new Date().getMinutes())}`; }
+tickClock(); setInterval(tickClock, 20000);
 
 // 自动刷新（30s）
 $('#liveBtn').addEventListener('click', () => {
@@ -1036,17 +1208,14 @@ $('#liveBtn').addEventListener('click', () => {
   $('#refreshBadge').style.color = state.paused ? 'var(--faint)' : '';
   $('#refreshBadge').style.borderColor = state.paused ? 'var(--border)' : '';
 });
-
 setInterval(() => {
   if (state.paused) return;
   state.tick++;
   const d = DATA[state.range];
-  // KPI 微增
   d.kpis.forEach(k => {
     if (k.abs) k.value += Math.max(1, Math.round(Math.random() * 2));
-    else k.value = Math.round(k.value * (1 + (Math.random() * 0.006 + 0.001)));
+    else if (!k.pct) k.value = Math.round(k.value * (1 + (Math.random() * 0.006 + 0.001)));
   });
-  // 表格数字微增
   d.videos.forEach(v => {
     v.play    = Math.round(v.play    * (1 + Math.random() * 0.004));
     v.like    = Math.round(v.like    * (1 + Math.random() * 0.003));
@@ -1055,13 +1224,46 @@ setInterval(() => {
     v.danmaku = Math.round(v.danmaku * (1 + Math.random() * 0.003));
     v.comment = Math.round(v.comment * (1 + Math.random() * 0.003));
   });
-  renderKpi();
-  renderTable(['play', 'like']);
+  renderKpi(); renderTable(['play', 'like']);
   $('#stamp').textContent = new Date().toLocaleString('zh-CN', { hour12: false });
 }, 30000);
 
-/* ---------- 入场 ---------- */
-render();
+/* =========================================================
+   骨架屏 → 真实渲染（模拟首屏加载，亦适用于接远程数据）
+   ========================================================= */
+function showSkeleton() {
+  const bar = $('#loadbar');
+  bar.style.width = '35%';
+  $('#kpiRow').innerHTML = Array(6).fill('<div class="kpi sk sk-kpi"></div>').join('');
+  const listSk = '<div class="empty"><span class="sk" style="display:inline-block;width:60%;height:14px"></span></div>';
+  $('#videoList').innerHTML = $('#topicList').innerHTML = $('#risingList').innerHTML = listSk;
+  $('#tbody').innerHTML = Array(6).fill('<tr><td colspan="11"><div class="sk sk-row"></div></td></tr>').join('');
+  // 图表区：在 chart-body 上铺骨架（SVG 内不可直接放 HTML div）
+  ['.chart-body', '#donut', '#compBar'].forEach(sel => {
+    $$(sel).forEach(b => {
+      b.style.background = 'linear-gradient(90deg,var(--card-2) 25%,var(--card-3) 37%,var(--card-2) 63%)';
+      b.style.backgroundSize = '220% 100%';
+      b.style.animation = 'shimmer 1.4s infinite linear';
+    });
+  });
+  ['#trendChart', '#lifeChart', '#scatterChart'].forEach(id => $(id).innerHTML = '');
+}
+function clearSkeletonStyle() {
+  ['.chart-body', '#donut', '#compBar'].forEach(sel => $$(sel).forEach(b => {
+    b.style.background = ''; b.style.backgroundSize = ''; b.style.animation = '';
+  }));
+}
+function startLoad() {
+  showSkeleton();
+  // 模拟网络延迟后注入真实数据（接真实接口时改为 fetch().then(render)）
+  setTimeout(() => {
+    $('#loadbar').style.width = '100%';
+    clearSkeletonStyle();
+    render();
+    setTimeout(() => $('#loadbar').classList.add('done'), 300);
+  }, 480);
+}
+startLoad();
 </script>
 </body>
 </html>
