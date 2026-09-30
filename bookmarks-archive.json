@@ -520,7 +520,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 401,
+   "visits": 416,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -580,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 384,
+   "visits": 418,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -654,7 +654,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 110,
+   "visits": 124,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -662,7 +662,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=2&t=1788838594263",
-   "visits": 110,
+   "visits": 124,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -678,7 +678,7 @@
    "folder": "收藏夹栏",
    "title": "视觉传达 · 大二成长规划器",
    "url": "https://05dc241f85d341f2a0764a7dd413a880.app.workbuddy.link/",
-   "visits": 38,
+   "visits": 39,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -699,18 +699,18 @@
    "is_local": false
   },
   {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "浚县泥咕咕信息海报第一张.ai-金属标志牌（900 x 1200毫米）",
-   "url": "https://www.canva.cn/design/DAG3gX4w548/mTNOBMYAxsaGz8-AJi4LKg/edit",
+   "folder": "收藏夹栏",
+   "title": "素材库 · 设计素材速查站",
+   "url": "https://3c6ac5c3a4ef43de81441796b347d6c7.app.workbuddy.link/",
    "visits": 19,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
   {
-   "folder": "收藏夹栏",
-   "title": "素材库 · 设计素材速查站",
-   "url": "https://3c6ac5c3a4ef43de81441796b347d6c7.app.workbuddy.link/",
-   "visits": 19,
+   "folder": "其他收藏夹 / 新建文件夹",
+   "title": "浚县泥咕咕信息海报第一张.ai-金属标志牌（900 x 1200毫米）",
+   "url": "https://www.canva.cn/design/DAG3gX4w548/mTNOBMYAxsaGz8-AJi4LKg/edit",
+   "visits": 18,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -922,7 +922,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 2298,
+   "visits": 2278,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -941,6 +941,14 @@
    "title": "30,000+ 免费高级版 |编辑并在线下载",
    "url": "https://mockey.ai/mockups",
    "visits": 31,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "updream官网-AI视频创作助手",
+   "url": "https://www.updream.cn/",
+   "visits": 18,
    "category": "📦 软件与工具站",
    "is_local": false
   },
