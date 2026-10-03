@@ -14,6 +14,7 @@ import sqlite3
 import sys
 import tempfile
 import socket
+import time
 import urllib.request
 import urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -535,7 +536,20 @@ def check_url(url):
             return _verify_dead(u)
         return 'alive'
     except urllib.error.URLError as e:
-        return 'dead' if _is_dns_fail(getattr(e, 'reason', e)) else 'alive'
+        if not _is_dns_fail(getattr(e, 'reason', e)):
+            return 'alive'
+        # DNS 失败可能只是本机解析服务瞬时抖动（2026-10-03 一次抖动误杀了 54 个域名），
+        # 隔 2 秒重试一次，仍然失败才认定为硬死链。
+        time.sleep(2)
+        try:
+            with urllib.request.urlopen(_req(u, 'HEAD'), timeout=12) as r:
+                return 'alive'
+        except urllib.error.HTTPError as e2:
+            return 'dead' if (e2.code == 404 and _verify_dead(u) == 'dead') else 'alive'
+        except urllib.error.URLError as e2:
+            return 'dead' if _is_dns_fail(getattr(e2, 'reason', e2)) else 'alive'
+        except Exception:
+            return 'alive'
     except socket.timeout:
         return 'alive'
     except Exception:
@@ -1283,7 +1297,14 @@ def main(prune=False, dry_run=False):
         if dry_run:
             print('（dry-run：未删除、未写黑名单、未重新生成）')
             return
-        if dead:
+        # 熔断：无效比例异常高时，几乎可以肯定是本机网络/DNS 整体故障而非站点真死。
+        # 2026-10-03 曾因此一次拉黑 54 个活域名、把存档从 125 条打到 70 条。
+        # 超过阈值就整批放弃，不做任何删除，等下次网络正常时再检测。
+        ratio = len(dead) / max(len(urls), 1)
+        if dead and ratio > 0.25:
+            print('  ⚠ 无效比例 %.0f%% 异常偏高，判定为网络故障，'
+                  '本次不写黑名单、不删除任何条目。' % (ratio * 100))
+        elif dead:
             add_dead_links(set(dead))
             bookmarks = filter_blacklist(bookmarks)
             print('已将上述无效链接记入黑名单，后续同步将自动排除。')
