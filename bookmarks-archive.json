@@ -2,6 +2,14 @@
  "🎨 设计社区": [
   {
    "folder": "收藏夹栏",
+   "title": "花瓣网 · 设计灵感采集",
+   "url": "https://huaban.com/discovery",
+   "visits": 560,
+   "category": "🎨 设计社区",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "500px摄影社区-与全球摄影师交流分享",
    "url": "https://500px.com.cn/",
    "visits": 0,
@@ -92,14 +100,6 @@
    "folder": "收藏夹栏",
    "title": "站酷挑战赛_设计赛事聚合页-站酷ZCOOL",
    "url": "https://www.zcool.com.cn/events/challenge",
-   "visits": 0,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "花瓣网 · 设计灵感采集",
-   "url": "https://huaban.com/discovery",
    "visits": 0,
    "category": "🎨 设计社区",
    "is_local": false
@@ -520,7 +520,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 9,
+   "visits": 27,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -528,7 +528,7 @@
    "folder": "收藏夹栏",
    "title": "TRAE · The Real AI Engineer",
    "url": "https://www.trae.cn/",
-   "visits": 4,
+   "visits": 21,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   }
@@ -580,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 23,
+   "visits": 62,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -654,7 +654,15 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 19,
+   "visits": 31,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "其他收藏夹 / 新建文件夹",
+   "title": "浚县泥咕咕信息海报第一张.ai-金属标志牌（900 x 1200毫米）",
+   "url": "https://www.canva.cn/design/DAG3gX4w548/mTNOBMYAxsaGz8-AJi4LKg/edit",
+   "visits": 16,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -771,14 +779,6 @@
    "is_local": true
   },
   {
-   "folder": "其他收藏夹 / 新建文件夹",
-   "title": "浚县泥咕咕信息海报第一张.ai-金属标志牌（900 x 1200毫米）",
-   "url": "https://www.canva.cn/design/DAG3gX4w548/mTNOBMYAxsaGz8-AJi4LKg/edit",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
    "folder": "收藏夹栏",
    "title": "站点生成与预览工具 · Portfolio Builder",
    "url": "https://hnzzsp.github.io/portfolio/builder.html",
@@ -856,7 +856,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "萌百娘 - 萌娘百科 万物皆可萌的百科全书",
    "url": "https://mzh.moegirl.org.cn/%E8%90%8C%E7%99%BE%E5%A8%98",
-   "visits": 4,
+   "visits": 5,
    "category": "🎮 游戏与二次元",
    "is_local": false
   },
@@ -968,17 +968,17 @@
  "📺 社媒与日常": [
   {
    "folder": "收藏夹栏",
-   "title": "B站",
-   "url": "https://www.bilibili.com/",
-   "visits": 157,
+   "title": "小红书",
+   "url": "https://www.xiaohongshu.com/explore",
+   "visits": 449,
    "category": "📺 社媒与日常",
    "is_local": false
   },
   {
    "folder": "收藏夹栏",
-   "title": "小红书",
-   "url": "https://www.xiaohongshu.com/explore",
-   "visits": 72,
+   "title": "B站",
+   "url": "https://www.bilibili.com/",
+   "visits": 202,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -1010,17 +1010,17 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "一直走 · 冷帧手记",
-   "url": "https://coldframe-dreamcore.app.workbuddy.host/",
-   "visits": 8,
+   "title": "抖音精选电脑版 - 抖音旗下优质视频平台",
+   "url": "https://www.douyin.com/jingxuan",
+   "visits": 10,
    "category": "📦 软件与工具站",
    "is_local": false
   },
   {
    "folder": "收藏夹栏",
-   "title": "抖音精选电脑版 - 抖音旗下优质视频平台",
-   "url": "https://www.douyin.com/jingxuan",
-   "visits": 7,
+   "title": "一直走 · 冷帧手记",
+   "url": "https://coldframe-dreamcore.app.workbuddy.host/",
+   "visits": 8,
    "category": "📦 软件与工具站",
    "is_local": false
   },
