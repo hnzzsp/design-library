@@ -520,7 +520,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 100,
+   "visits": 106,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -1013,6 +1013,14 @@
    "title": "天国拯救2 · 骰子戏 — Farkle",
    "url": "https://kcd2-farkle-dice.app.workbuddy.host/",
    "visits": 17,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "云产品免费体验馆_云产品免费试用_个人云产品试用-腾讯云",
+   "url": "https://cloud.tencent.com/act/pro/free?from_scene=register",
+   "visits": 12,
    "category": "📦 软件与工具站",
    "is_local": false
   },
