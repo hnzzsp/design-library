@@ -4,7 +4,15 @@
    "folder": "收藏夹栏",
    "title": "花瓣网 · 设计灵感采集",
    "url": "https://huaban.com/discovery",
-   "visits": 1792,
+   "visits": 1795,
+   "category": "🎨 设计社区",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "古田路9号-品牌创意/版权保护平台",
+   "url": "https://www.gtn9.com/index.aspx",
+   "visits": 9,
    "category": "🎨 设计社区",
    "is_local": false
   },
@@ -44,14 +52,6 @@
    "folder": "收藏夹栏",
    "title": "创意星球 - 首页",
    "url": "https://www.5iidea.com/",
-   "visits": 0,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "古田路9号-品牌创意/版权保护平台",
-   "url": "https://www.gtn9.com/index.aspx",
    "visits": 0,
    "category": "🎨 设计社区",
    "is_local": false
@@ -106,6 +106,14 @@
   }
  ],
  "✨ 设计灵感": [
+  {
+   "folder": "收藏夹栏",
+   "title": "近期 — 设计灵感",
+   "url": "https://recent.design/",
+   "visits": 5,
+   "category": "✨ 设计灵感",
+   "is_local": false
+  },
   {
    "folder": "收藏夹栏",
    "title": "Deck.gallery - 精心设计的套牌，精心策划",
@@ -198,14 +206,6 @@
    "folder": "收藏夹栏",
    "title": "组件画廊",
    "url": "https://component.gallery/",
-   "visits": 0,
-   "category": "✨ 设计灵感",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "近期 — 设计灵感",
-   "url": "https://recent.design/",
    "visits": 0,
    "category": "✨ 设计灵感",
    "is_local": false
@@ -414,7 +414,7 @@
    "folder": "收藏夹栏",
    "title": "AI-agenPPT Skill｜设计经验 tenerating polished HTML slide decks: editorial magazine and Swiss layouts, image prompts, social covers, and a WebGL/low-power presentation runtime. · GitHub",
    "url": "https://github.com/op7418/guizang-ppt-skill",
-   "visits": 0,
+   "visits": 1,
    "category": "🤖 AI 创作与生成工具",
    "is_local": false
   },
@@ -422,7 +422,7 @@
    "folder": "收藏夹栏 / 设计规划器",
    "title": "GitHub - Vincentwei1021/video-shotcraft: AI video skill for Claude Code & Codex — cinematic product videos with Remotion: 152 shot recipe cards, 209 motion previews, a production-ready template · GitHub",
    "url": "https://github.com/Vincentwei1021/video-shotcraft",
-   "visits": 0,
+   "visits": 1,
    "category": "🤖 AI 创作与生成工具",
    "is_local": false
   },
@@ -520,7 +520,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 123,
+   "visits": 144,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -528,7 +528,7 @@
    "folder": "收藏夹栏",
    "title": "TRAE · The Real AI Engineer",
    "url": "https://www.trae.cn/",
-   "visits": 21,
+   "visits": 22,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   }
@@ -538,7 +538,7 @@
    "folder": "收藏夹栏",
    "title": "60fps - UI/UX animation inspiration for mobile & web apps",
    "url": "https://60fps.design/",
-   "visits": 0,
+   "visits": 18,
    "category": "🎬 视频与动效资源",
    "is_local": false
   },
@@ -580,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 213,
+   "visits": 280,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -602,16 +602,24 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "630万+张惊艳免费图片，随处使用——Pixabay",
-   "url": "https://pixabay.com/",
-   "visits": 0,
+   "title": "Freepik 现已是 Magnific",
+   "url": "https://www.magnific.com/cn/freepik",
+   "visits": 2,
    "category": "📷 图片与素材",
    "is_local": false
   },
   {
    "folder": "收藏夹栏",
-   "title": "Freepik 现已是 Magnific",
-   "url": "https://www.magnific.com/cn/freepik",
+   "title": "高质量免费图片下载 | Magnific（前身为 Freepik）",
+   "url": "https://www.magnific.com/cn/%E5%9B%BE%E7%89%87#from_element=mainmenu",
+   "visits": 2,
+   "category": "📷 图片与素材",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "630万+张惊艳免费图片，随处使用——Pixabay",
+   "url": "https://pixabay.com/",
    "visits": 0,
    "category": "📷 图片与素材",
    "is_local": false
@@ -639,14 +647,6 @@
    "visits": 0,
    "category": "📷 图片与素材",
    "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "高质量免费图片下载 | Magnific（前身为 Freepik）",
-   "url": "https://www.magnific.com/cn/%E5%9B%BE%E7%89%87#from_element=mainmenu",
-   "visits": 0,
-   "category": "📷 图片与素材",
-   "is_local": false
   }
  ],
  "🎓 学习规划与个人项目": [
@@ -654,7 +654,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 80,
+   "visits": 94,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -668,17 +668,73 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "视觉传达 · UI 与 B 端方向学习计划 - TraeWork",
-   "url": "https://share.traecontent.cn/artifact/Z9K7-6MUD3RLM4",
+   "title": "BiliMetrics · B 站大数据洞察平台",
+   "url": "https://hnzzsp.github.io/design-library/bilimetrics/index.html",
    "visits": 2,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
   {
    "folder": "收藏夹栏",
-   "title": "BiliMetrics · B 站大数据洞察平台",
-   "url": "https://hnzzsp.github.io/design-library/bilimetrics/index.html",
-   "visits": 0,
+   "title": "SUN · 简历",
+   "url": "https://hnzzsp.github.io/portfolio/resume.html",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "SUN · 视觉传达设计 / 品牌视觉 · UI · 设计工程 — 个人作品集",
+   "url": "https://hnzzsp.github.io/portfolio/",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "今日速览 · DailyPeek",
+   "url": "https://hnzzsp.github.io/news-peek/",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "后台管理 · 个人作品集",
+   "url": "https://hnzzsp.github.io/portfolio/admin.html",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "大二上动态规划表 · 课程×周计划并线",
+   "url": "https://hnzzsp.github.io/sophomore-planner/#week",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站点生成与预览工具 · Portfolio Builder",
+   "url": "https://hnzzsp.github.io/portfolio/builder.html",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "素材库 · 设计素材速查站",
+   "url": "https://hnzzsp.github.io/design-library/",
+   "visits": 2,
+   "category": "🎓 学习规划与个人项目",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "视觉传达 · UI 与 B 端方向学习计划 - TraeWork",
+   "url": "https://share.traecontent.cn/artifact/Z9K7-6MUD3RLM4",
+   "visits": 2,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -708,43 +764,11 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "SUN · 简历",
-   "url": "https://hnzzsp.github.io/portfolio/resume.html",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "SUN · 视觉传达设计 / 品牌视觉 · UI · 设计工程 — 个人作品集",
-   "url": "https://hnzzsp.github.io/portfolio/",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
    "title": "_包装盒刀线预览.html",
    "url": "file:///C:/Users/hnzzs/WorkBuddy/2026-08-24-19-01-29/_%E5%8C%85%E8%A3%85%E7%9B%92%E5%88%80%E7%BA%BF%E9%A2%84%E8%A7%88.html",
    "visits": -1,
    "category": "🎓 学习规划与个人项目",
    "is_local": true
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "后台管理 · 个人作品集",
-   "url": "https://hnzzsp.github.io/portfolio/admin.html",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "大二上动态规划表 · 课程×周计划并线",
-   "url": "https://hnzzsp.github.io/sophomore-planner/#week",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
   },
   {
    "folder": "收藏夹栏",
@@ -777,22 +801,6 @@
    "visits": -1,
    "category": "🎓 学习规划与个人项目",
    "is_local": true
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站点生成与预览工具 · Portfolio Builder",
-   "url": "https://hnzzsp.github.io/portfolio/builder.html",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "素材库 · 设计素材速查站",
-   "url": "https://hnzzsp.github.io/design-library/",
-   "visits": 0,
-   "category": "🎓 学习规划与个人项目",
-   "is_local": false
   },
   {
    "folder": "收藏夹栏 / 设计规划器",
@@ -856,7 +864,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "萌百娘 - 萌娘百科 万物皆可萌的百科全书",
    "url": "https://mzh.moegirl.org.cn/%E8%90%8C%E7%99%BE%E5%A8%98",
-   "visits": 14,
+   "visits": 17,
    "category": "🎮 游戏与二次元",
    "is_local": false
   },
@@ -970,7 +978,7 @@
    "folder": "收藏夹栏",
    "title": "小红书",
    "url": "https://www.xiaohongshu.com/explore",
-   "visits": 1392,
+   "visits": 1613,
    "category": "📺 社媒与日常",
    "is_local": false
   },
@@ -978,7 +986,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 380,
+   "visits": 446,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -1002,6 +1010,14 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "云产品免费体验馆_云产品免费试用_个人云产品试用-腾讯云",
+   "url": "https://cloud.tencent.com/act/pro/free?from_scene=register",
+   "visits": 37,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "updream官网-AI视频创作助手",
    "url": "https://www.updream.cn/",
    "visits": 26,
@@ -1012,15 +1028,7 @@
    "folder": "收藏夹栏",
    "title": "天国拯救2 · 骰子戏 — Farkle",
    "url": "https://kcd2-farkle-dice.app.workbuddy.host/",
-   "visits": 17,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "云产品免费体验馆_云产品免费试用_个人云产品试用-腾讯云",
-   "url": "https://cloud.tencent.com/act/pro/free?from_scene=register",
-   "visits": 16,
+   "visits": 23,
    "category": "📦 软件与工具站",
    "is_local": false
   },
@@ -1058,6 +1066,22 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "Awwwards - 网站奖 - 最佳网页设计趋势",
+   "url": "https://www.awwwards.com/",
+   "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Framer Gallery: Explore the best websites built with Framer",
+   "url": "https://www.framer.com/community/gallery/",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "HAWK OPS | 三角洲哈夫克部队主题套装",
    "url": "https://hawk-ops-theme.pages.dev/",
    "visits": 3,
@@ -1066,8 +1090,40 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "Thrine — Free 3D Templates for Your Website",
+   "url": "https://thrine.app/",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "浏览自由反应组分 |React 比特",
+   "url": "https://reactbits.dev/get-started/index",
+   "visits": 3,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "AI Image Generator (Nano Banana Pro) | Edit image with chat",
    "url": "https://www.bananapro.site/zh?ref=gd",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "PixivNow - Enjoy Pixiv Now (pixiv.js.org)",
+   "url": "https://pixiv.js.org/",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "免费音效库 - SoundDino",
+   "url": "https://sounddino.com/zh/effects/",
    "visits": 2,
    "category": "📦 软件与工具站",
    "is_local": false
@@ -1132,14 +1188,6 @@
    "folder": "收藏夹栏",
    "title": "iconfont-阿里巴巴矢量图标库",
    "url": "https://www.iconfont.cn/",
-   "visits": 0,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "免费音效库 - SoundDino",
-   "url": "https://sounddino.com/zh/effects/",
    "visits": 0,
    "category": "📦 软件与工具站",
    "is_local": false
