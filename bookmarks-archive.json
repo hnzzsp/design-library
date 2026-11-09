@@ -4,7 +4,7 @@
    "folder": "收藏夹栏",
    "title": "花瓣网 · 设计灵感采集",
    "url": "https://huaban.com/discovery",
-   "visits": 1958,
+   "visits": 2015,
    "category": "🎨 设计社区",
    "is_local": false
   },
@@ -29,6 +29,22 @@
    "title": "ignoredone's space 设计网站",
    "url": "https://www.ignoredone.space/",
    "visits": 6,
+   "category": "🎨 设计社区",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站酷ZCOOL - 设计师们都在站酷",
+   "url": "https://www.zcool.com.cn/",
+   "visits": 2,
+   "category": "🎨 设计社区",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "站酷挑战赛_设计赛事聚合页-站酷ZCOOL",
+   "url": "https://www.zcool.com.cn/events/challenge",
+   "visits": 2,
    "category": "🎨 设计社区",
    "is_local": false
   },
@@ -84,22 +100,6 @@
    "folder": "收藏夹栏",
    "title": "灵感设计",
    "url": "https://superopc.app/work",
-   "visits": 0,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站酷ZCOOL - 设计师们都在站酷",
-   "url": "https://www.zcool.com.cn/",
-   "visits": 0,
-   "category": "🎨 设计社区",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "站酷挑战赛_设计赛事聚合页-站酷ZCOOL",
-   "url": "https://www.zcool.com.cn/events/challenge",
    "visits": 0,
    "category": "🎨 设计社区",
    "is_local": false
@@ -252,7 +252,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "分享一些免费可商用的SVG资源网站_svg素材库网站-CSDN博客",
    "url": "https://blog.csdn.net/qq_42120268/article/details/142915695",
-   "visits": 1,
+   "visits": 2,
    "category": "⭐ 图标与矢量素材",
    "is_local": false
   },
@@ -414,7 +414,7 @@
    "folder": "收藏夹栏",
    "title": "AI-agenPPT Skill｜设计经验 tenerating polished HTML slide decks: editorial magazine and Swiss layouts, image prompts, social covers, and a WebGL/low-power presentation runtime. · GitHub",
    "url": "https://github.com/op7418/guizang-ppt-skill",
-   "visits": 1,
+   "visits": 11,
    "category": "🤖 AI 创作与生成工具",
    "is_local": false
   },
@@ -422,7 +422,7 @@
    "folder": "收藏夹栏 / 设计规划器",
    "title": "GitHub - Vincentwei1021/video-shotcraft: AI video skill for Claude Code & Codex — cinematic product videos with Remotion: 152 shot recipe cards, 209 motion previews, a production-ready template · GitHub",
    "url": "https://github.com/Vincentwei1021/video-shotcraft",
-   "visits": 1,
+   "visits": 11,
    "category": "🤖 AI 创作与生成工具",
    "is_local": false
   },
@@ -520,7 +520,7 @@
    "folder": "收藏夹栏",
    "title": "WorkBuddy",
    "url": "https://www.workbuddy.cn/",
-   "visits": 159,
+   "visits": 181,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   },
@@ -580,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 313,
+   "visits": 353,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -654,7 +654,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 114,
+   "visits": 138,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -978,7 +978,7 @@
    "folder": "收藏夹栏",
    "title": "小红书",
    "url": "https://www.xiaohongshu.com/explore",
-   "visits": 1651,
+   "visits": 2060,
    "category": "📺 社媒与日常",
    "is_local": false
   },
@@ -986,7 +986,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 521,
+   "visits": 758,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -996,7 +996,7 @@
    "folder": "收藏夹栏",
    "title": "花生AI | 超好用的视频创作智能体",
    "url": "https://www.huasheng.cn/",
-   "visits": 469,
+   "visits": 468,
    "category": "📦 软件与工具站",
    "is_local": false
   },
@@ -1004,7 +1004,7 @@
    "folder": "收藏夹栏",
    "title": "花生AI | 超好用的视频创作智能体",
    "url": "https://www.huasheng.cn/?jumpfrom=home",
-   "visits": 469,
+   "visits": 468,
    "category": "📦 软件与工具站",
    "is_local": false
   },
@@ -1058,6 +1058,22 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "素材库 – 图景屋",
+   "url": "https://tujinghouse.com/recipes/",
+   "visits": 8,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Pacdora - 最大的样机和刀版模板平台",
+   "url": "https://www.pacdora.cn/?referrer=360_pacdora_pp&utm_compaign=richang_pp&utm_source=360_pacdora_pp&utm_medium=cpc&qhclickid=7639d06ffa6c623e",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "封面生成器",
    "url": "https://rahoo.online/",
    "visits": 6,
@@ -1069,6 +1085,14 @@
    "title": "Awwwards - 网站奖 - 最佳网页设计趋势",
    "url": "https://www.awwwards.com/",
    "visits": 4,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "FORMAT · 图片转排版",
+   "url": "https://app-b6b0a172acc744909405a9e844ef2936.apps.vibex.cn/?inviteCode=162ce0ae#convert",
+   "visits": 3,
    "category": "📦 软件与工具站",
    "is_local": false
   },
