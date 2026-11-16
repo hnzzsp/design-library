@@ -978,7 +978,7 @@
    "folder": "收藏夹栏",
    "title": "小红书",
    "url": "https://www.xiaohongshu.com/explore",
-   "visits": 2143,
+   "visits": 2231,
    "category": "📺 社媒与日常",
    "is_local": false
   },
@@ -986,7 +986,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 865,
+   "visits": 864,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -1162,6 +1162,14 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "小红书去水印 - 小红书视频无水印下载",
+   "url": "https://www.hellotik.app/zh/rednote",
+   "visits": 2,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "群星壁纸 - 顶级免费群星背景 - WallpaperAccess",
    "url": "https://wallpaperaccess.com/stellaris",
    "visits": 2,
@@ -1172,14 +1180,6 @@
    "folder": "收藏夹栏",
    "title": "YouTube 视频下载器 - 支持 Shorts | TapSave",
    "url": "https://www.tapsave.net/zh/youtube/",
-   "visits": 1,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "小红书去水印 - 小红书视频无水印下载",
-   "url": "https://www.hellotik.app/zh/rednote",
    "visits": 1,
    "category": "📦 软件与工具站",
    "is_local": false
