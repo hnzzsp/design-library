@@ -978,7 +978,7 @@
    "folder": "收藏夹栏",
    "title": "小红书",
    "url": "https://www.xiaohongshu.com/explore",
-   "visits": 2109,
+   "visits": 2143,
    "category": "📺 社媒与日常",
    "is_local": false
   },
@@ -1066,6 +1066,30 @@
   },
   {
    "folder": "收藏夹栏",
+   "title": "Awwwards - 网站奖 - 最佳网页设计趋势",
+   "url": "https://www.awwwards.com/",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Framer Gallery: Explore the best websites built with Framer",
+   "url": "https://www.framer.com/community/gallery/",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Framer: Free website builder and AI design agent",
+   "url": "https://www.framer.com/",
+   "visits": 6,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "Pacdora - 最大的样机和刀版模板平台",
    "url": "https://www.pacdora.cn/?referrer=360_pacdora_pp&utm_compaign=richang_pp&utm_source=360_pacdora_pp&utm_medium=cpc&qhclickid=7639d06ffa6c623e",
    "visits": 6,
@@ -1082,24 +1106,8 @@
   },
   {
    "folder": "收藏夹栏",
-   "title": "Awwwards - 网站奖 - 最佳网页设计趋势",
-   "url": "https://www.awwwards.com/",
-   "visits": 4,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
    "title": "FORMAT · 图片转排版",
    "url": "https://app-b6b0a172acc744909405a9e844ef2936.apps.vibex.cn/?inviteCode=162ce0ae#convert",
-   "visits": 3,
-   "category": "📦 软件与工具站",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Framer Gallery: Explore the best websites built with Framer",
-   "url": "https://www.framer.com/community/gallery/",
    "visits": 3,
    "category": "📦 软件与工具站",
    "is_local": false
