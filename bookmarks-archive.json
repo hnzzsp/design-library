@@ -528,7 +528,7 @@
    "folder": "收藏夹栏",
    "title": "TRAE · The Real AI Engineer",
    "url": "https://www.trae.cn/",
-   "visits": 24,
+   "visits": 30,
    "category": "⚡ AI 助手与生产力",
    "is_local": false
   }
@@ -646,7 +646,7 @@
    "folder": "收藏夹栏",
    "title": "个人空间",
    "url": "https://i.chaoxing.com/base?ws=1&t=1788746102572",
-   "visits": 171,
+   "visits": 176,
    "category": "🎓 学习规划与个人项目",
    "is_local": false
   },
@@ -978,7 +978,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 1247,
+   "visits": 1268,
    "category": "📺 社媒与日常",
    "is_local": false
   }
@@ -1005,6 +1005,14 @@
    "title": "云产品免费体验馆_云产品免费试用_个人云产品试用-腾讯云",
    "url": "https://cloud.tencent.com/act/pro/free?from_scene=register",
    "visits": 44,
+   "category": "📦 软件与工具站",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Minecraft 图标库 · 红河素材站",
+   "url": "https://honghemc.cn/app/index.html?ver=26.3&cat=50.+Icons",
+   "visits": 43,
    "category": "📦 软件与工具站",
    "is_local": false
   },
