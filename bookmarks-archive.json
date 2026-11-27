@@ -412,6 +412,22 @@
  "🤖 AI 创作与生成工具": [
   {
    "folder": "收藏夹栏",
+   "title": "Tripo Studio · AI 3D 生成",
+   "url": "https://studio.tripo3d.com/workspace/generate",
+   "visits": 24,
+   "category": "🤖 AI 创作与生成工具",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
+   "title": "Tripo Studio —— 你的下一站 AI 3D 工作台",
+   "url": "https://studio.tripo3d.com/?utm_channel=ad&utm_source=sanliuling&utm_medium=cpc&utm_campaign=__planid__&utm_adgroup=__groupid__&utm_creative=__keywordid__&utm_term=__keyword__&utm_data=ocpc_ps_convert&qhclickid=a8edaa251f4626b2&category=featured&model_type=all&recommended=recommended&use_case=all",
+   "visits": 24,
+   "category": "🤖 AI 创作与生成工具",
+   "is_local": false
+  },
+  {
+   "folder": "收藏夹栏",
    "title": "AI-agenPPT Skill｜设计经验 tenerating polished HTML slide decks: editorial magazine and Swiss layouts, image prompts, social covers, and a WebGL/low-power presentation runtime. · GitHub",
    "url": "https://github.com/op7418/guizang-ppt-skill",
    "visits": 22,
@@ -454,14 +470,6 @@
    "folder": "收藏夹栏 / AI时代",
    "title": "PV Tool - 日式PV Visual生成",
    "url": "https://pv.pixjam.cn/",
-   "visits": 0,
-   "category": "🤖 AI 创作与生成工具",
-   "is_local": false
-  },
-  {
-   "folder": "收藏夹栏",
-   "title": "Tripo Studio · AI 3D 生成",
-   "url": "https://studio.tripo3d.com/workspace/generate",
    "visits": 0,
    "category": "🤖 AI 创作与生成工具",
    "is_local": false
@@ -572,7 +580,7 @@
    "folder": "其他收藏夹 / 新建文件夹",
    "title": "空白邮票素材 - 搜索 图片",
    "url": "https://cn.bing.com/images/search?view=detailV2&ccid=7hcCi%2FY%2B&id=F2786E71A72001E1224EF71945698E6D99B1A463&thid=OIP.7hcCi_Y-38kx-djXyR6UZQAAAA&mediaurl=https%3A%2F%2Fpngpai.com%2Fpai_img%2Fsml%2F584bc1bf-c5c3-4611-9120-bcf9cbadbb35.png&exph=461&expw=350&q=%E7%A9%BA%E7%99%BD%E9%82%AE%E7%A5%A8%E7%B4%A0%E6%9D%90&FORM=IRPRST&ck=67A19F045224BBD3186960A3834CCF63&selectedIndex=136&itb=1&cw=1375&ch=637&ajaxhist=0&ajaxserp=0",
-   "visits": 499,
+   "visits": 502,
    "category": "📷 图片与素材",
    "is_local": false
   },
@@ -978,7 +986,7 @@
    "folder": "收藏夹栏",
    "title": "B站",
    "url": "https://www.bilibili.com/",
-   "visits": 1449,
+   "visits": 1469,
    "category": "📺 社媒与日常",
    "is_local": false
   }
